@@ -1,0 +1,17 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: auto minmax(auto, 1000px) auto; /* Center column is content, outer columns are margins */
+  gap: 20px;
+}
+
+.gridContent {
+  grid-column: 2; /* Ensure the content is placed in the middle column */
+}
+
+.module {
+  /* background-color: #8d1919; */
+  margin: 8px;
+  padding: 16px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--text-color-primary-300);
+}

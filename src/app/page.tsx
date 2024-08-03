@@ -1,41 +1,16 @@
-// /app/course/page.js
-
-import { getCourseChapters } from '@/helpers/file-helpers';
-import { get } from 'http';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Course Overview',
-};
+Link;
 
-interface ChapterType {
-  chapterSlug: string;
-  modules: {
-    slug: string;
-    title: string;
-  }[];
-}
-
-export default async function CourseOverview() {
-  const chapters = await getCourseChapters();
-
+function Page() {
   return (
-    <div>
-      <h1>Course Overview</h1>
-      {chapters.map((chapter: ChapterType) => (
-        <div key={chapter.chapterSlug}>
-          <h2>{chapter.chapterSlug}</h2>
-          <ul>
-            {chapter.modules.map((module) => (
-              <li key={module.slug}>
-                <Link href={`/course/${chapter.chapterSlug}/${module.slug}`}>
-                  {module.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="m-5">LandingPage of the Course Platform</div>
+      <Link className="bg-emerald-300 rounded-md p-2 mx-5" href={'/course'}>
+        To the Course
+      </Link>
+    </>
   );
 }
+
+export default Page;

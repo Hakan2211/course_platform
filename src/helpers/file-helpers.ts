@@ -16,69 +16,75 @@ import type { Heading, Root } from 'mdast';
 type Frontmatter = {
   title: string;
   order: number;
+  parent: string | null;
+  moduleBadge?: string;
+  moduleDescription?: string;
   [key: string]: any;
 };
 
-type Module = {
+type Lesson = {
   slug: string;
   title: string;
   order: number;
+  parent: string | null;
+  moduleBadge?: string;
+  moduleDescription?: string;
 };
 
-type Chapter = {
-  chapterSlug: string;
-  modules: Module[];
+type Module = {
+  moduleSlug: string;
+  lessons: Lesson[];
 };
 
-export async function getCourseChapters(): Promise<Chapter[]> {
-  const chapterNames = await readDirectory('/content');
+export async function getCourseModules(): Promise<Module[]> {
+  const moduleNames = await readDirectory('/content');
 
-  const chapters: Chapter[] = [];
+  const modules: Module[] = [];
 
-  for (let chapterName of chapterNames) {
-    const moduleNames = await readDirectory(`/content/${chapterName}`);
+  for (let moduleName of moduleNames) {
+    const lessonNames = await readDirectory(`/content/${moduleName}`);
 
-    const modules: Module[] = [];
+    const lessons: Lesson[] = [];
 
-    for (let moduleName of moduleNames) {
-      const rawContent = await readFile(
-        `/content/${chapterName}/${moduleName}`
-      );
+    for (let lessonName of lessonNames) {
+      const rawContent = await readFile(`/content/${moduleName}/${lessonName}`);
 
       const { data: frontmatter } = matter(rawContent);
 
-      modules.push({
-        slug: `${moduleName.replace('.mdx', '')}`,
+      lessons.push({
+        slug: `${lessonName.replace('.mdx', '')}`,
         title: frontmatter.title,
         order: frontmatter.order,
+        parent: frontmatter.parent || null,
+        moduleBadge: frontmatter.moduleBadge,
+        moduleDescription: frontmatter.moduleDescription,
       });
     }
 
-    chapters.push({
-      chapterSlug: chapterName,
-      modules: modules.sort((m1, m2) => m1.order - m2.order),
+    modules.push({
+      moduleSlug: moduleName,
+      // lessons: lessons.sort((l1, l2) => l1.order - l2.order),
+      lessons: lessons,
     });
   }
 
-  return chapters.sort((c1, c2) =>
-    c1.chapterSlug.localeCompare(c2.chapterSlug)
-  );
+  return modules.sort((m1, m2) => m1.moduleSlug.localeCompare(m2.moduleSlug));
 }
 
-type LoadModuleContentResult = {
+type LoadLessonContentResult = {
   frontmatter: Frontmatter;
   content: string;
   headings: { depth: number; text: string; id: string }[];
   mdxSource: any;
 } | null;
 
-export const loadModuleContent = React.cache(async function loadModuleContent(
-  chapterSlug: string,
-  moduleSlug: string
-): Promise<LoadModuleContentResult> {
+export const loadLessonContent = React.cache(async function loadLessonContent(
+  moduleSlug: string,
+  lessonSlug: string
+): Promise<LoadLessonContentResult> {
   let rawContent;
   try {
-    rawContent = await readFile(`/content/${chapterSlug}/${moduleSlug}.mdx`);
+    rawContent = await readFile(`/content/${moduleSlug}/${lessonSlug}.mdx`);
   } catch (error) {
     return null;
   }
@@ -88,6 +94,9 @@ export const loadModuleContent = React.cache(async function loadModuleContent(
   const typedFrontmatter: Frontmatter = {
     title: frontmatter.title,
     order: frontmatter.order,
+    parent: frontmatter.parent || null,
+    moduleBadge: frontmatter.moduleBadge,
+    moduleDescription: frontmatter.moduleDescription,
     ...frontmatter,
   };
 
