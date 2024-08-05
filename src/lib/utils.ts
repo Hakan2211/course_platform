@@ -16,3 +16,12 @@ export function slugify(text: string) {
     .replace(/^-+/, '') // Trim - from start of text
     .replace(/-+$/, ''); // Trim - from end of text
 }
+
+const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};
+
+export const formatModuleSlug = (slug: string) => {
+  const formattedSlug = slug.replace(/^\d{2}-/, '');
+  return formattedSlug.split('-').map(capitalizeFirstLetter).join(' ');
+};

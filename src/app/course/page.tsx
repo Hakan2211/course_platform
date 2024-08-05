@@ -1,6 +1,7 @@
 import { getCourseModules } from '@/helpers/file-helpers';
 import Link from 'next/link';
 import styles from './course.module.css';
+import { formatModuleSlug } from '@/lib/utils';
 
 export const metadata = {
   title: 'Course Overview',
@@ -17,15 +18,6 @@ interface ModuleType {
     moduleDescription?: string;
   }[];
 }
-
-const capitalizeFirstLetter = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-};
-
-const formatModuleSlug = (slug: string) => {
-  const formattedSlug = slug.replace(/^\d{2}-/, '');
-  return capitalizeFirstLetter(formattedSlug);
-};
 
 export default async function CourseOverview() {
   const modules = await getCourseModules();
