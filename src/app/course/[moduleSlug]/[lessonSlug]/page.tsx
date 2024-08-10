@@ -3,6 +3,7 @@ import { loadLessonContent, getCourseModules } from '@/helpers/file-helpers';
 import styles from './lesson.module.css';
 import Sidebar from '@/components/layout/sidebar';
 import LessonsHeader from '@/components/layout/lessonsHeader';
+import COMPONENT_MAP from '@/helpers/mdx-components-map';
 
 export const generateStaticParams = async () => {
   const modules = await getCourseModules();
@@ -60,8 +61,8 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
           className={`${styles.content_grid} text-[var(--text-color-primary-800)] md:mr-4 px-2 md:px-16 pt-16 pb-24 border border-[var(--text-color-primary-500)] rounded-lg  bg-[var(--bg-color)]`}
         >
           <div className={`${styles.content_area}`}>
-            <h1>{frontmatter.title}</h1>
-            <MDXRemote source={content} />
+            <h1 className="mb-10">{frontmatter.title}</h1>
+            <MDXRemote source={content} components={COMPONENT_MAP} />
           </div>
         </div>
       </main>

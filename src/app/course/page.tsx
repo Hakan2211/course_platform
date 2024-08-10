@@ -36,7 +36,7 @@ export default async function CourseOverview() {
                     {module.lessons[0].moduleBadge}
                   </span>
                 )}
-                <h2 className="font-semibold text-lg pb-4 text-[var(--text-color-primary-800)]">
+                <h2 className="font-semibold mt-0 text-lg pb-4 text-[var(--text-color-primary-800)]">
                   {formatModuleSlug(module.moduleSlug)}
                 </h2>
                 {module.lessons[0]?.moduleDescription && (
