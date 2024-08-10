@@ -25,7 +25,7 @@ function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
       />
     </aside>
   ) : (
-    <aside className={`${styles.sidebar} bg-[var(--bg-color)] pl-4 pr-8 `}>
+    <aside className={`${styles.sidebar}  bg-[var(--bg-color)] pl-4 pr-8 `}>
       <header className="h-[3rem] flex items-center mb-4">
         <Link href={'/course'}>
           <span>

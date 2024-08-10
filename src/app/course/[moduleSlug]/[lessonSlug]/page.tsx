@@ -4,6 +4,7 @@ import styles from './lesson.module.css';
 import Sidebar from '@/components/layout/sidebar';
 import LessonsHeader from '@/components/layout/lessonsHeader';
 import COMPONENT_MAP from '@/helpers/mdx-components-map';
+import TableOfContents from '@/components/layout/tableOfContents/tableOfContents';
 
 export const generateStaticParams = async () => {
   const modules = await getCourseModules();
@@ -37,7 +38,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
     return <div>Lesson not found</div>;
   }
 
-  const { frontmatter, content } = lessonContent;
+  const { frontmatter, content, headings } = lessonContent;
   const modules = await getCourseModules();
   const currentModule = modules.find(
     (module) => module.moduleSlug === moduleSlug
@@ -45,7 +46,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
   const lessons = currentModule?.lessons || [];
 
   return (
-    <div className={`${styles.lessons_grid} h-[100dvh] bg-[var(--bg-color)]`}>
+    <div className={`${styles.lessons_grid}  bg-[var(--bg-color)]`}>
       <Sidebar
         moduleBadge={frontmatter.moduleBadge}
         moduleSlug={moduleSlug}
@@ -66,8 +67,10 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
           </div>
         </div>
       </main>
-      <aside className={`${styles.table_of_contents} bg-blue-300`}>
-        <div className={`bg-blue-300`}>Table of contents</div>
+      <aside className={`${styles.table_of_contents} `}>
+        <div className={``}>
+          <TableOfContents headings={headings} />
+        </div>
       </aside>
     </div>
   );

@@ -1,0 +1,47 @@
+.sidenav {
+  position: fixed;
+  top: 250px;
+  display: flex;
+}
+
+/* .sidenav_contents {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease, visibility 0.5s;
+} */
+
+/* .animate {
+  visibility: visible;
+  opacity: 1;
+} */
+
+@media (max-width: 768px) {
+  .sidenav_contents {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.tocItem {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.tocItem.fadeIn {
+  animation: fadeIn 1s ease-out forwards;
+  animation-delay: var(--animation-delay, 0s);
+}
