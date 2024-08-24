@@ -46,7 +46,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
   const lessons = currentModule?.lessons || [];
 
   return (
-    <div className={`${styles.lessons_grid}  bg-[var(--bg-color)]`}>
+    <div className={`${styles.lessons_grid} gap-4  bg-[var(--bg-color)]`}>
       <Sidebar
         moduleBadge={frontmatter.moduleBadge}
         moduleSlug={moduleSlug}
@@ -59,7 +59,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
           lessons={lessons}
         />
         <div
-          className={`${styles.content_grid} text-[var(--text-color-primary-800)] md:mr-4 px-2 md:px-16 pt-16 pb-24 border border-[var(--text-color-primary-500)] rounded-lg  bg-[var(--bg-color)]`}
+          className={`${styles.content_grid} text-[var(--text-color-primary-800)] md:mr-2 md:ml-2 px-2 md:px-16 pt-16 pb-24 border border-[var(--text-color-primary-500)] rounded-lg  bg-[var(--bg-color)]`}
         >
           <div className={`${styles.content_area}`}>
             <h1 className="mb-10">{frontmatter.title}</h1>

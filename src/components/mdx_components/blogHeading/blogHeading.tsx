@@ -45,10 +45,6 @@ const BlogHeading: React.FC<BlogHeadingProps> = ({
   const textContent = getNodeText(children);
   const id = headingToId(textContent) || 'unknown-heading';
 
-  // Debugging log to check if IDs are generated correctly
-  console.log(`Rendering heading: ${textContent}, ID: ${id}`);
-  console.log(`Hello World`);
-
   return (
     <Component id={id ?? 'unknown'} className={className} {...delegated}>
       {children}

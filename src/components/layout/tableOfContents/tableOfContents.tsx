@@ -69,7 +69,7 @@ function TableOfContents({ headings }: TableOfContentsProps) {
       <div
         className={`${styles.sidenav_contents} sm:hidden xl:flex xl:flex-col`}
       >
-        <nav className="rounded-lg px-1">
+        <nav className="rounded-lg">
           <ul>
             {headings.map((heading, index) => {
               const slugifiedId = slugify(heading.id || heading.text);
@@ -88,7 +88,7 @@ function TableOfContents({ headings }: TableOfContentsProps) {
                     letterSpacing: '0.3px',
                     paddingTop: `${heading.depth === 2 ? '10px' : '8px'}`,
                     paddingBottom: `${heading.depth === 2 ? '10px' : '8px'}`,
-                    paddingLeft: `${heading.depth === 2 ? '10px' : '8px'}`,
+                    paddingLeft: `${heading.depth === 2 ? '3px' : '1px'}`,
                     animationDelay: `${0.5 + index * 0.5}s`,
                   }}
                 >
