@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { GeistSans } from 'geist/font/sans';
 import { DARK_TOKENS, LIGHT_TOKENS } from '@/lib/constants';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,7 +24,10 @@ export default function RootLayout({
           : (LIGHT_TOKENS as React.CSSProperties)
       }
     >
-      <body className={GeistSans.className}>{children}</body>
+      <body className={GeistSans.className}>
+        {children}
+        <Toaster richColors position="top-center" />
+      </body>
     </html>
   );
 }
