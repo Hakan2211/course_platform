@@ -24,7 +24,7 @@ export default async function CourseOverview() {
 
   return (
     <div
-      className={`${styles.gridContainer} bg-[var(--bg-color)] tracking-[0.3px] h-[100dvh]`}
+      className={`${styles.gridContainer} bg-[var(--bg-color)] tracking-[0.3px] min-h-[100%]`}
     >
       <div className={styles.gridContent}>
         {modules.map((module: ModuleType) => (
@@ -51,11 +51,11 @@ export default async function CourseOverview() {
               <ul className="md:w-[50%] md:pl-[8px]">
                 {module.lessons.map((lesson) => (
                   <Link
+                    key={lesson.slug}
                     className=""
                     href={`/course/${module.moduleSlug}/${lesson.slug}`}
                   >
                     <li
-                      key={lesson.slug}
                       className={`text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
                         lesson.parent ? 'pl-8 text-sm' : ''
                       }`}
