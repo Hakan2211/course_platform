@@ -5,6 +5,8 @@ import Sidebar from '@/components/layout/sidebar';
 import LessonsHeader from '@/components/layout/lessonsHeader';
 import COMPONENT_MAP from '@/helpers/mdx-components-map';
 import TableOfContents from '@/components/layout/tableOfContents/tableOfContents';
+import { ProgressButton } from '@/components/progress/ProgressButton';
+import { LessonStatus } from '@/components/progress/LessonStatus';
 
 export const generateStaticParams = async () => {
   const modules = await getCourseModules();
@@ -54,6 +56,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
         moduleSlug={moduleSlug}
         lessons={lessons}
       />
+
       <main className={`${styles.content}`}>
         <LessonsHeader
           moduleBadge={frontmatter.moduleBadge}
@@ -68,6 +71,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
             <MDXRemote source={content} components={COMPONENT_MAP} />
           </div>
         </div>
+        <ProgressButton moduleSlug={moduleSlug} lessonSlug={lessonSlug} />
       </main>
       <aside className={`${styles.table_of_contents} `}>
         <div className={``}>

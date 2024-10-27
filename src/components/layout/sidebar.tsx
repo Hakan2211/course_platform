@@ -6,6 +6,7 @@ import SideBarSheet from './sidebarSheet';
 import HomeIcon from '../icons/homeIcon';
 import Link from 'next/link';
 import { formatModuleSlug } from '@/lib/utils';
+import { LessonStatus } from '../progress/LessonStatus';
 
 type SidebarProps = {
   moduleBadge?: string;
@@ -49,8 +50,15 @@ function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
                   lesson.parent ? 'pl-8 text-sm' : ''
                 }`}
               >
-                <Link href={`/course/${moduleSlug}/${lesson.slug}`}>
-                  {lesson.title}
+                <Link
+                  className="flex justify-between items-center"
+                  href={`/course/${moduleSlug}/${lesson.slug}`}
+                >
+                  <span className="pr-2">{lesson.title}</span>
+                  <LessonStatus
+                    moduleSlug={moduleSlug}
+                    lessonSlug={lesson.slug}
+                  />
                 </Link>
               </li>
             ))}

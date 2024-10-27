@@ -2,6 +2,7 @@ import { getCourseModules } from '@/helpers/file-helpers';
 import Link from 'next/link';
 import styles from './course.module.css';
 import { formatModuleSlug } from '@/lib/utils';
+import { LessonStatus } from '@/components/progress/LessonStatus';
 
 export const metadata = {
   title: 'Course Overview',
@@ -56,11 +57,15 @@ export default async function CourseOverview() {
                     href={`/course/${module.moduleSlug}/${lesson.slug}`}
                   >
                     <li
-                      className={`text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
+                      className={`flex justify-between items-center text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
                         lesson.parent ? 'pl-8 text-sm' : ''
                       }`}
                     >
-                      {lesson.title}
+                      <span>{lesson.title}</span>{' '}
+                      <LessonStatus
+                        moduleSlug={module.moduleSlug}
+                        lessonSlug={lesson.slug}
+                      />
                     </li>
                   </Link>
                 ))}
