@@ -1,6 +1,7 @@
 'use client';
 import useWindowSize from '@/hooks/useWindowSize';
 import SideBarSheet from './sidebarSheet';
+import { LessonsNav } from './lessonsNav';
 
 type SidebarProps = {
   moduleBadge?: string;
@@ -12,8 +13,8 @@ function LessonsHeader({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
   const { width } = useWindowSize();
   const effectiveWidth = width ?? 0;
   return effectiveWidth > 768 ? (
-    <header className="bg-[var(--bg-color)] text-[var(--text-color-primary-800)] h-[3rem] flex items-center justify-end">
-      <nav>Header Icons and Buttons</nav>
+    <header className="bg-[var(--bg-color)] text-[var(--text-color-primary-800)] h-[3rem] pr-4 flex items-center justify-end">
+      <LessonsNav />
     </header>
   ) : (
     <header className="bg-[var(--bg-color)] text-[var(--text-color-primary-800)] h-[3rem] flex  justify-start">
@@ -25,7 +26,7 @@ function LessonsHeader({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
         />
       </div>
       <div className="flex items-center">
-        <nav className="">Header Icons and Buttons</nav>
+        <LessonsNav />
       </div>
     </header>
   );
