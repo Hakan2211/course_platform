@@ -24,7 +24,15 @@ const useScrollSpy = (
   const observer = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    const rootMargin = `0px 0px -80% 0px`;
+    if (observer.current) {
+      observer.current.disconnect();
+    }
+
+    const {
+      root = null,
+      rootMargin = '0px 0px -80% 0px', // Adjust based on your layout
+      threshold = 0.1,
+    } = options;
 
     observer.current = new IntersectionObserver(
       (entries) => {
@@ -43,9 +51,9 @@ const useScrollSpy = (
         }
       },
       {
-        root: options.root || null,
+        root,
         rootMargin,
-        threshold: 0.1,
+        threshold,
       }
     );
 
@@ -60,7 +68,7 @@ const useScrollSpy = (
         observer.current.disconnect();
       }
     };
-  }, [elements, options.root]);
+  }, [elements, options.root, options.rootMargin, options.threshold]);
 
   return activeIndex;
 };

@@ -7,7 +7,7 @@ import COMPONENT_MAP from '@/helpers/mdx-components-map';
 import TableOfContents from '@/components/layout/tableOfContents/tableOfContents';
 import { ProgressButton } from '@/components/progress/ProgressButton';
 import { LessonStatus } from '@/components/progress/LessonStatus';
-
+import { NextLessonButton } from '@/components/progress/NextLessonButton';
 export const generateStaticParams = async () => {
   const modules = await getCourseModules();
 
@@ -42,14 +42,40 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
 
   const { frontmatter, content, headings } = lessonContent;
   const modules = await getCourseModules();
-  const currentModule = modules.find(
+  const currentModuleIndex = modules.findIndex(
     (module) => module.moduleSlug === moduleSlug
   );
+  const currentModule = modules[currentModuleIndex];
   const lessons = currentModule?.lessons || [];
+
+  const currentLessonIndex = lessons.findIndex(
+    (lesson) => lesson.slug === lessonSlug
+  );
+
+  let nextItem = null;
+
+  if (currentLessonIndex < lessons.length - 1) {
+    // Next lesson in the same module
+    nextItem = {
+      type: 'lesson' as const,
+      moduleSlug,
+      lessonSlug: lessons[currentLessonIndex + 1].slug,
+    };
+  } else if (currentModuleIndex < modules.length - 1) {
+    // First lesson of the next module
+    const nextModule = modules[currentModuleIndex + 1];
+    if (nextModule.lessons.length > 0) {
+      nextItem = {
+        type: 'module' as const,
+        moduleSlug: nextModule.moduleSlug,
+        lessonSlug: nextModule.lessons[0].slug,
+      };
+    }
+  }
 
   return (
     <div
-      className={`${styles.lessons_grid} gap-4  bg-[var(--bg-color)] min-h-[100%] `}
+      className={`${styles.lessons_grid} gap-12 bg-[var(--bg-color)] min-h-[100%] `}
     >
       <Sidebar
         moduleBadge={frontmatter.moduleBadge}
@@ -71,7 +97,14 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
             <MDXRemote source={content} components={COMPONENT_MAP} />
           </div>
         </div>
-        <ProgressButton moduleSlug={moduleSlug} lessonSlug={lessonSlug} />
+        <div className="flex gap-4">
+          <ProgressButton moduleSlug={moduleSlug} lessonSlug={lessonSlug} />
+          <NextLessonButton
+            moduleSlug={moduleSlug}
+            lessonSlug={lessonSlug}
+            nextItem={nextItem}
+          />
+        </div>
       </main>
       <aside className={`${styles.table_of_contents} `}>
         <div className={``}>

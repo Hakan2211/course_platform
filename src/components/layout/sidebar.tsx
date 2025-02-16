@@ -26,7 +26,7 @@ function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
       />
     </aside>
   ) : (
-    <aside className={`${styles.sidebar}  bg-[var(--bg-color)] pl-4 pr-8 `}>
+    <aside className={`${styles.sidebar}  bg-[var(--bg-color)] pl-4 pr-8`}>
       <div className="fixed">
         <header className="h-[3rem] flex items-center mb-4">
           <Link href={'/course'}>
@@ -41,24 +41,26 @@ function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
           </span>
           {formatModuleSlug(moduleSlug)}
         </h2>
-        <div className={``}>
+        <div className="">
           <ul>
             {lessons.map((lesson) => (
               <li
                 key={lesson.slug}
-                className={`text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
+                className={`w-full min-w-[330px] text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
                   lesson.parent ? 'pl-8 text-sm' : ''
                 }`}
               >
                 <Link
-                  className="flex justify-between items-center"
+                  className="w-full flex justify-between items-center gap-4"
                   href={`/course/${moduleSlug}/${lesson.slug}`}
                 >
-                  <span className="pr-2">{lesson.title}</span>
-                  <LessonStatus
-                    moduleSlug={moduleSlug}
-                    lessonSlug={lesson.slug}
-                  />
+                  <span className="flex-1">{lesson.title}</span>
+                  <span className="flex-shrink-0">
+                    <LessonStatus
+                      moduleSlug={moduleSlug}
+                      lessonSlug={lesson.slug}
+                    />
+                  </span>
                 </Link>
               </li>
             ))}

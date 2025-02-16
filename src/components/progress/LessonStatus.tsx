@@ -14,7 +14,7 @@ export function LessonStatus({ moduleSlug, lessonSlug }: LessonStatusProps) {
   const status = getLessonStatus(moduleSlug, lessonSlug);
 
   if (status === 'completed') {
-    return <CheckCircleIcon className="w-5 h-5 text-green-500" />;
+    return <CheckCircleIcon className="w-5 h-5 text-[var(--module-badge)]" />;
   }
 
   return <CircleIcon className="w-5 h-5 text-gray-300" />;

@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useEffect, useState, useRef, MouseEvent } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  MouseEvent,
+  useLayoutEffect,
+} from 'react';
 import styles from './tableOfContents.module.css';
 import { slugify } from '@/lib/utils';
 import useScrollSpy from './hooks/useScrollSpy';
@@ -44,6 +50,27 @@ function TableOfContents({ headings }: TableOfContentsProps) {
     threshold: 0,
     rootMargin: '0px 0px 0px 0px',
   });
+
+  useLayoutEffect(() => {
+    const updatedHeadings = headings.map((heading) => {
+      const generatedId = heading.id || slugify(heading.text);
+      return {
+        ...heading,
+        id: generatedId,
+      };
+    });
+
+    elementRefs.current = updatedHeadings.map((heading) => {
+      const elementId = heading.id; // Use the ID directly
+      const element = document.getElementById(elementId);
+      console.log(`Searching for ID: ${elementId}`, element); // Log each search
+      return element;
+    });
+  }, [headings]);
+
+  useEffect(() => {
+    console.log('Active Index:', activeIndex);
+  }, [activeIndex]);
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>, id: string) {
     event.preventDefault();

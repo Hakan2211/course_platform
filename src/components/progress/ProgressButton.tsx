@@ -23,8 +23,8 @@ export function ProgressButton({
   return (
     <Button
       onClick={handleClick}
-      variant={status === 'completed' ? 'outline' : 'default'}
-      className="mt-8 bg-slate-500"
+      variant={status === 'completed' ? 'completedButton' : 'notStartedButton'}
+      className="my-8 ml-2"
     >
       {status === 'completed' ? 'Mark as Incomplete' : 'Mark as Complete'}
     </Button>

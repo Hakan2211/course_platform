@@ -1,7 +1,21 @@
+/* .sidenav {
+  position: fixed;
+  top: 250px;
+  display: flex;
+} */
+
 .sidenav {
   position: fixed;
   top: 250px;
   display: flex;
+  max-width: 100%;
+  min-width: 250px;
+  padding-right: 10px;
+}
+
+.sidenav_contents {
+  width: 100%;
+  cursor: pointer;
 }
 
 /* .sidenav_contents {
@@ -39,6 +53,7 @@
 .tocItem {
   opacity: 0;
   transform: translateY(20px);
+  padding: 0px 20px;
 }
 
 .tocItem.fadeIn {

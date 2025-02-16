@@ -1,12 +1,26 @@
-.lessons_grid {
+/* .lessons_grid {
   display: grid;
   grid-template-columns: auto 19rem 1400px 16rem auto;
   margin: 0 auto;
+} */
+.lessons_grid {
+  display: grid;
+  grid-template-columns: minmax(0, auto) 19rem minmax(0, 1400px) 16rem minmax(
+      0,
+      auto
+    );
+  max-width: 100vw;
 }
+
 @media screen and (min-width: 1920px) {
   .lessons_grid {
     display: grid;
-    grid-template-columns: auto 19rem 1400px 16rem auto;
+    .lessons_grid {
+      grid-template-columns: minmax(0, auto) 19rem minmax(0, 1400px) 16rem minmax(
+          0,
+          auto
+        );
+    }
   }
   .sidebar {
     grid-column: 2/3;
