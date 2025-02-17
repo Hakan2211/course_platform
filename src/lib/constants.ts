@@ -5,7 +5,7 @@ export const COLOR_THEME_COOKIE_NAME = 'color-theme';
 
 export const LIGHT_COLOR = {
   '--bg-color': '#f8fafc',
-  '--module-badge': '#04625F',
+  '--module-badge': '#bf980d',
   '--module-badge-hover': '#068985',
   '--canvas-bg-color': '#E0E1E0',
   '--popover': '#1a202c',
@@ -48,7 +48,7 @@ export const LIGHT_COLOR = {
 
 export const DARK_COLOR = {
   '--bg-color': '#0E131B',
-  '--module-badge': '#2896A4',
+  '--module-badge': '#bf980d',
   '--module-badge-2': '#1C6973',
   '--module-badge-hover': '#057672',
   '--canvas-bg-color': '#0E121B',

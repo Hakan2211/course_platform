@@ -21,7 +21,8 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         completedButton:
           'bg-[var(--module-badge)] hover:brightness-90 text-white',
-        notStartedButton: 'bg-slate-600 hover:bg-slate-500 text-white',
+        notStartedButton:
+          'bg-[var(--popover-text)] hover:brightness-125 text-white',
       },
       size: {
         default: 'h-9 px-4 py-2',

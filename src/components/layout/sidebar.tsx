@@ -31,7 +31,7 @@ function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
         <header className="h-[3rem] flex items-center mb-4">
           <Link href={'/course'}>
             <span>
-              <HomeIcon className="w-6 h-6 text-[var(--text-color-primary-800)]" />
+              <HomeIcon className="w-6 h-6 text-[var(--text-color-primary-800)] hover:text-yellow-600 transition-colors duration-300 " />
             </span>
           </Link>
         </header>

@@ -1,6 +1,8 @@
 import UserIcon from '../icons/userIcon';
 import NotesIcon from '../icons/notesIcon';
 import LibraryIcon from '../icons/libraryIcon';
+import { AccountMenu } from './accountMenu';
+import Link from 'next/link';
 
 export function LessonsNav() {
   return (
@@ -10,10 +12,12 @@ export function LessonsNav() {
           <LibraryIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300" />
         </li>
         <li className="cursor-pointer">
-          <NotesIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300" />
+          <Link href="/course/notes">
+            <NotesIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300" />
+          </Link>
         </li>
         <li className="cursor-pointer">
-          <UserIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300 " />
+          <AccountMenu />
         </li>
       </ul>
     </nav>
