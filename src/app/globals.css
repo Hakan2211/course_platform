@@ -93,3 +93,8 @@ h3 {
   margin-top: 1.75em;
   margin-bottom: 24px;
 }
+
+::selection {
+  background-color: var(--module-badge);
+  color: var(--text-color-primary-800);
+}

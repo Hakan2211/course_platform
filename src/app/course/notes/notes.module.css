@@ -1,0 +1,75 @@
+/* .lessons_grid {
+  display: grid;
+  grid-template-columns: auto 19rem 1400px 16rem auto;
+  margin: 0 auto;
+} */
+.notes_grid {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1400px) minmax(0, auto);
+  max-width: 100vw;
+}
+
+@media screen and (min-width: 1920px) {
+  .notes_grid {
+    display: grid;
+    .notes_grid {
+      grid-template-columns: minmax(0, auto) minmax(0, 1400px) minmax(0, auto);
+    }
+  }
+
+  .content {
+    grid-column: 2/3;
+  }
+}
+@media screen and (min-width: 1200px) and (max-width: 1919px) {
+  .notes_grid {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+  }
+  .table_of_contents {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .notes_grid {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+  }
+  .table_of_contents {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .notes_grid {
+    display: grid;
+    grid-template-columns: 4px 1fr 4px;
+  }
+  .table_of_contents {
+    display: none;
+  }
+  .sidebar {
+    display: none;
+  }
+  .content {
+    grid-column: 2;
+  }
+}
+
+.content_grid {
+  display: grid;
+  grid-template-columns: 16px min(100%, 1400px) 16px;
+}
+
+.content_area {
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}

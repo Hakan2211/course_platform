@@ -63,14 +63,10 @@ function TableOfContents({ headings }: TableOfContentsProps) {
     elementRefs.current = updatedHeadings.map((heading) => {
       const elementId = heading.id; // Use the ID directly
       const element = document.getElementById(elementId);
-      console.log(`Searching for ID: ${elementId}`, element); // Log each search
+      // Log each search
       return element;
     });
   }, [headings]);
-
-  useEffect(() => {
-    console.log('Active Index:', activeIndex);
-  }, [activeIndex]);
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>, id: string) {
     event.preventDefault();

@@ -8,6 +8,8 @@ import TableOfContents from '@/components/layout/tableOfContents/tableOfContents
 import { ProgressButton } from '@/components/progress/ProgressButton';
 import { LessonStatus } from '@/components/progress/LessonStatus';
 import { NextLessonButton } from '@/components/progress/NextLessonButton';
+import SelectText from '@/components/notes/SelectText';
+
 export const generateStaticParams = async () => {
   const modules = await getCourseModules();
 
@@ -28,9 +30,7 @@ type LessonDetailProps = {
 
 export default async function LessonDetail({ params }: LessonDetailProps) {
   const { moduleSlug, lessonSlug } = params;
-  console.log(
-    `Loading content for module: ${moduleSlug}, lesson: ${lessonSlug}`
-  );
+
   const lessonContent = await loadLessonContent(moduleSlug, lessonSlug);
 
   if (!lessonContent) {
@@ -95,6 +95,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
           <div className={`${styles.content_area}`}>
             <h1 className="mb-10">{frontmatter.title}</h1>
             <MDXRemote source={content} components={COMPONENT_MAP} />
+            <SelectText moduleSlug={moduleSlug} lessonSlug={lessonSlug} />
           </div>
         </div>
         <div className="flex gap-4">

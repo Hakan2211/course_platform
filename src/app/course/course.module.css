@@ -1,11 +1,39 @@
 .gridContainer {
   display: grid;
-  grid-template-columns: auto minmax(auto, 1000px) auto; /* Center column is content, outer columns are margins */
-  gap: 20px;
+  grid-template-columns: minmax(0, auto) 19rem minmax(0, 1400px) 16rem minmax(
+      0,
+      auto
+    );
+  max-width: 100vw;
 }
 
 .gridContent {
-  grid-column: 2; /* Ensure the content is placed in the middle column */
+  grid-column: 3/4;
+  padding: 2rem;
+}
+
+@media screen and (max-width: 1919px) {
+  .gridContainer {
+    grid-template-columns: 19rem 1fr;
+  }
+  .gridContent {
+    grid-column: 2;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .gridContainer {
+    grid-template-columns: 4rem 1fr;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: 8px 1fr 8px;
+  }
+  .gridContent {
+    grid-column: 2;
+  }
 }
 
 .module {

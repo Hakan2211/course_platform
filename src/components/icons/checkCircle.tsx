@@ -19,8 +19,6 @@ const CheckCircleIcon: React.FC<CheckCircleIconProps> = ({
     stroke={color}
     strokeWidth="2"
     strokeLinecap="round"
-    strokeLinejoin="round"
-    className="feather feather-check-circle"
     {...props}
   >
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
