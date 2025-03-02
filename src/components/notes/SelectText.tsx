@@ -15,6 +15,8 @@ import {
   DialogFooter,
 } from '../ui/dialog';
 import { createNote } from '@/lib/notesCrud';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface SelectTextProps {
   moduleSlug: string;
@@ -30,6 +32,7 @@ export default function SelectText({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const selectionRef = useRef<string>();
+  const router = useRouter();
 
   function onSelectStart() {
     setSelection(undefined);
@@ -86,10 +89,11 @@ export default function SelectText({
       setIsDialogOpen(false);
       setSelection(undefined);
       selectionRef.current = undefined;
-      //    toast.success('Note saved successfully'); // Optional: show success message
+      router.refresh();
+      toast.success('Note saved successfully'); // Optional: show success message
     } catch (error) {
       console.error('Error saving note:', error);
-      //    toast.error('Failed to save note'); // Optional: show error message
+      toast.error('Failed to save note'); // Optional: show error message
     } finally {
       setIsLoading(false);
     }

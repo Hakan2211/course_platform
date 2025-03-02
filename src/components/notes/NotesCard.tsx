@@ -13,6 +13,7 @@ import { Note } from '@/lib/notesCrud';
 import { deleteNote } from '@/lib/notesCrud';
 import { useRouter } from 'next/navigation';
 import { parseModuleSlug, parseLessonSlug } from '@/lib/utils';
+import { toast } from 'sonner';
 
 type NotesCardProps = {
   note: Note;
@@ -30,6 +31,7 @@ export default function NotesCard({ note }: NotesCardProps) {
   const router = useRouter();
   const handleDelete = async () => {
     await deleteNote(note.id);
+    toast.success('Note deleted successfully');
     router.refresh();
   };
 
