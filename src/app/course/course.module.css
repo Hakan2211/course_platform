@@ -15,9 +15,10 @@
 @media screen and (max-width: 1919px) {
   .gridContainer {
     grid-template-columns: 19rem 1fr;
+    justify-content: center; /* This centers the grid tracks inside the container */
   }
   .gridContent {
-    grid-column: 2;
+    grid-column: 1/3;
   }
 }
 
