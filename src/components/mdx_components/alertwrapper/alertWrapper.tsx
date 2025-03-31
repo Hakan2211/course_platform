@@ -10,19 +10,19 @@ import InfoIcon from '@/components/icons/infoIcon';
 import TriangleAlertIcon from '@/components/icons/warningIcon';
 import ShieldAlertIcon from '@/components/icons/dangerIcon';
 
-// --- Base Styles with Apple-Inspired Refinement ---
+// --- Refined Base Styles with Apple-Like Sophistication ---
 const alertVariants = cva(
-  'relative w-full overflow-hidden rounded-3xl border border-opacity-20 p-6 shadow-xl backdrop-blur-2xl bg-opacity-80',
+  'relative w-full overflow-hidden rounded-3xl border border-opacity-10 p-6 shadow-2xl backdrop-blur-xl bg-opacity-90 transition-all duration-300',
   {
     variants: {
       variant: {
-        info: 'bg-gradient-to-br from-blue-500/10 via-blue-300/5 to-blue-200/20 border-blue-400/20 text-blue-900 dark:from-blue-600/15 dark:via-blue-900/10 dark:to-blue-100/20 dark:text-blue-200',
+        info: 'bg-gradient-to-br from-blue-500/20 via-blue-400/10 to-blue-300/20 border-blue-500/25 text-blue-400/60 dark:from-blue-700/25 dark:via-blue-900/15 dark:to-transparent dark:text-blue-100',
         success:
-          'bg-gradient-to-br from-green-500/10 via-green-300/5 to-green-200/20 border-green-400/20 text-green-900 dark:from-green-600/15 dark:via-green-900/10 dark:to-green-100/20 dark:text-green-200',
+          'bg-gradient-to-br from-green-500/20 via-green-400/10 to-green-300/20 border-green-500/25 text-green-400/60 dark:from-green-700/25 dark:via-green-900/15 dark:to-transparent dark:text-green-100',
         warning:
-          'bg-gradient-to-br from-yellow-500/15 via-yellow-300/5 to-yellow-200/20 border-yellow-400/25 text-yellow-900 dark:from-yellow-600/20 dark:via-yellow-900/10 dark:to-yellow-100/20 dark:text-yellow-200',
+          'bg-gradient-to-br from-yellow-500/25 via-yellow-400/10 to-yellow-300/20 border-yellow-500/30 text-yellow-400/60 dark:from-yellow-700/30 dark:via-yellow-900/15 dark:to-transparent dark:text-yellow-100',
         danger:
-          'bg-gradient-to-br from-red-500/10 via-red-300/5 to-red-200/20 border-red-400/20 text-red-900 dark:from-red-600/15 dark:via-red-900/10 dark:to-red-100/20 dark:text-red-200',
+          'bg-gradient-to-br from-red-500/20 via-red-400/10 to-red-300/20 border-red-500/25 text-red-400/60 dark:from-red-700/25 dark:via-red-900/15 dark:to-transparent dark:text-red-100',
       },
     },
     defaultVariants: {
@@ -31,19 +31,19 @@ const alertVariants = cva(
   }
 );
 
-// --- Icon Container with Glossy, Metallic Finish ---
+// --- Luxurious Icon Container with Bloom and Metallic Sheen ---
 const iconContainerVariants = cva(
-  'absolute z-10 flex h-10 w-10 items-center justify-center rounded-full border border-opacity-40 shadow-lg backdrop-blur-md', // Slightly refined base styles
+  'absolute z-10 flex h-10 w-10 items-center justify-center rounded-full border border-opacity-30 shadow-md backdrop-blur-lg bg-opacity-95 transition-transform duration-300',
   {
     variants: {
       variant: {
-        info: 'bg-gradient-to-br from-blue-400/90 via-blue-600/80 to-blue-800/70 text-white border-blue-500/50',
+        info: 'bg-gradient-to-br from-blue-500 to-blue-700 text-white border-blue-400/40',
         success:
-          'bg-gradient-to-br from-green-400/90 via-green-600/80 to-green-800/70 text-white border-green-500/50',
+          'bg-gradient-to-br from-green-500 to-green-700 text-white border-green-400/40',
         warning:
-          'bg-gradient-to-br from-yellow-400/90 via-yellow-600/80 to-yellow-800/70 text-white border-yellow-500/50',
+          'bg-gradient-to-br from-yellow-500 to-yellow-700 text-white border-yellow-400/40',
         danger:
-          'bg-gradient-to-br from-red-400/90 via-red-600/80 to-red-800/70 text-white border-red-500/50',
+          'bg-gradient-to-br from-red-500 to-red-700 text-white border-red-400/40',
       },
     },
     defaultVariants: {
@@ -70,42 +70,42 @@ interface AlertProps
   variant: 'info' | 'success' | 'warning' | 'danger';
 }
 
-// --- Enhanced Framer Motion Animations ---
-const alertMotionVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 120,
-      damping: 18,
-      mass: 0.6,
-      opacity: { duration: 0.5, ease: 'circOut' },
-      y: { duration: 0.6, ease: [0.25, 0.8, 0.3, 1] },
-      scale: { duration: 0.6, ease: [0.25, 0.8, 0.3, 1] },
-    },
-  },
-};
+// --- Enhanced Framer Motion Animations with Elegance ---
+// const alertMotionVariants = {
+//   hidden: { opacity: 0, y: 30, scale: 0.92 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     scale: 1,
+//     transition: {
+//       type: 'spring',
+//       stiffness: 150,
+//       damping: 20,
+//       mass: 0.5,
+//       opacity: { duration: 0.6, ease: 'easeOut' },
+//       y: { duration: 0.7, ease: [0.16, 1, 0.3, 1] }, // Smooth bezier curve
+//       scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+//     },
+//   },
+// };
 
-const iconMotionVariants = {
-  hidden: { scale: 0, opacity: 0, rotate: -30 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    rotate: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 200,
-      damping: 15,
-      mass: 0.4,
-      delay: 0.15,
-    },
-  },
-};
+// const iconMotionVariants = {
+//   hidden: { scale: 0, opacity: 0, rotate: -45 },
+//   visible: {
+//     scale: 1,
+//     opacity: 1,
+//     rotate: 0,
+//     transition: {
+//       type: 'spring',
+//       stiffness: 250,
+//       damping: 18,
+//       mass: 0.3,
+//       delay: 0.2,
+//     },
+//   },
+// };
 
-// --- The Refined Alert Component ---
+// --- The Luxurious Alert Component ---
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant, children, ...props }, ref) => {
     const IconComponent = alertIcons[variant];
@@ -116,47 +116,68 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         ref={ref}
         initial="hidden"
         animate="visible"
-        variants={alertMotionVariants}
-        className={cn(alertVariants({ variant }), 'relative my-8', className)}
+        // variants={alertMotionVariants}
+        className={cn(
+          alertVariants({ variant }),
+          'relative my-8 hover:shadow-3xl',
+          className
+        )}
         role="alert"
         {...props}
       >
-        {/* Icon Positioned on the Left with Glossy/Metallic Finish */}
+        {/* Icon with Bloom Effect and Metallic Finish */}
         <motion.div
-          variants={iconMotionVariants}
-          className={cn(
-            iconContainerVariants({ variant }),
-            'left-4 -translate-y-1/2' // Centered vertically on the left
-          )}
+          //   variants={iconMotionVariants}
+          className={cn(iconContainerVariants({ variant }), ' hover:scale-110')}
           aria-hidden="true"
-          style={{
-            boxShadow:
-              'inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15)', // Glossy highlight + shadow
-            backgroundBlendMode: 'overlay', // Enhances the metallic sheen
-          }}
+          style={
+            {
+              boxShadow:
+                'inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 6px 20px rgba(0, 0, 0, 0.2), 0 0 15px var(--glow-color)', // Glossy + bloom
+              '--glow-color':
+                variant === 'info'
+                  ? 'rgba(59, 130, 246, 0.5)'
+                  : variant === 'success'
+                  ? 'rgba(34, 197, 94, 0.5)'
+                  : variant === 'warning'
+                  ? 'rgba(234, 179, 8, 0.5)'
+                  : 'rgba(239, 68, 68, 0.5)',
+            } as React.CSSProperties
+          }
         >
-          <Icon className="h-6 w-6" />
+          <Icon className="h-7 w-7 drop-shadow-md" />
         </motion.div>
 
-        {/* Content Area with Adjusted Padding */}
-        <div className="ml-14 pt-2 pr-4">{children}</div>
+        {/* Content Area with Polished Spacing */}
+        <div className="ml-16 pt-3 pr-5">{children}</div>
 
-        {/* Subtle Glow Effect in the Background */}
+        {/* Radiant Background Glow */}
         <motion.div
-          className="absolute inset-0 -z-10 rounded-3xl"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="absolute inset-0 -z-10 rounded-3xl pointer-events-none"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.2, scale: 1 }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
           style={{
-            background: `radial-gradient(circle at 20% 20%, ${
+            background: `radial-gradient(circle at 10% 30%, ${
               variant === 'info'
-                ? 'rgba(59, 130, 246, 0.3)'
+                ? 'rgba(59, 130, 246, 0.4)'
                 : variant === 'success'
-                ? 'rgba(34, 197, 94, 0.3)'
+                ? 'rgba(34, 197, 94, 0.4)'
                 : variant === 'warning'
-                ? 'rgba(234, 179, 8, 0.3)'
-                : 'rgba(239, 68, 68, 0.3)'
-            }, transparent 70%)`,
+                ? 'rgba(234, 179, 8, 0.4)'
+                : 'rgba(239, 68, 68, 0.4)'
+            }, transparent 80%)`,
+            filter: 'blur(20px)',
+          }}
+        />
+
+        {/* Subtle Reflective Overlay */}
+        <div
+          className="absolute inset-0 rounded-3xl -z-5 opacity-20"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 50%)',
+            pointerEvents: 'none',
           }}
         />
       </motion.div>
@@ -165,7 +186,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
 );
 Alert.displayName = 'Alert';
 
-// --- Enhanced AlertTitle ---
+// --- Refined AlertTitle with Typographic Elegance ---
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -173,7 +194,7 @@ const AlertTitle = React.forwardRef<
   <h5
     ref={ref}
     className={cn(
-      'mb-1 font-medium text-[1.1em] leading-tight tracking-wide text-opacity-95',
+      'mb-2 font-semibold text-[1.3em] leading-tight tracking-tight text-opacity-95 drop-shadow-sm',
       className
     )}
     {...props}
@@ -181,7 +202,7 @@ const AlertTitle = React.forwardRef<
 ));
 AlertTitle.displayName = 'AlertTitle';
 
-// --- Enhanced AlertDescription ---
+// --- Polished AlertDescription ---
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -189,7 +210,7 @@ const AlertDescription = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'text-[0.9em] leading-relaxed opacity-85 tracking-wide text-[var(--text-color-primary-800)]',
+      'text-[0.95em] leading-relaxed opacity-90 tracking-wide text-[var(--text-color-primary-800)]',
       className
     )}
     {...props}
