@@ -48,6 +48,19 @@ This is the first module of Chapter 1. Here, we will cover the basics.
         </AlertDescription>
       </Alert>
 
+<CanvasWrapper enableEnvironment={false} height="550px">
+
+  <Suspense
+    fallback={
+      <div className="flex h-full items-center justify-center bg-muted">
+        <p>Loading 3D View...</p>
+      </div>
+    }
+  >
+    <TestScene />
+  </Suspense>
+</CanvasWrapper>
+
 ## Float
 
 Some content for section 1.1.

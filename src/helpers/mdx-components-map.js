@@ -6,6 +6,14 @@ import {
   AlertTitle,
   AlertDescription,
 } from '@/components/mdx_components/alertwrapper/alertWrapper';
+import { CanvasWrapper } from '@/components/mdx_components/canvas3d/canvasWrapper';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+const TestScene = dynamic(
+  () => import('@/components/mdx_components/3d_lessons/example/TestScene'),
+  { ssr: false }
+);
 
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
@@ -16,6 +24,9 @@ const COMPONENT_MAP = {
   Alert,
   AlertTitle,
   AlertDescription,
+  CanvasWrapper,
+  TestScene,
+  Suspense,
 };
 
 export default COMPONENT_MAP;
