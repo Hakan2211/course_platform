@@ -1,6 +1,5 @@
 'use client';
 import { useRef } from 'react';
-
 import { useFrame } from '@react-three/fiber';
 import { MeshWobbleMaterial, Box } from '@react-three/drei';
 import * as THREE from 'three';
@@ -8,7 +7,7 @@ import * as THREE from 'three';
 export function MyCoolModelScene() {
   const meshRef = useRef<THREE.Mesh>(null!);
 
-  useFrame((_state, delta) => {
+  useFrame((state: any, delta: number) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += delta * 0.5;
     }

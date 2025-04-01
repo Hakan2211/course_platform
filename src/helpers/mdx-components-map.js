@@ -10,8 +10,16 @@ import { CanvasWrapper } from '@/components/mdx_components/canvas3d/canvasWrappe
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
+import VideoTest from '@/components/mdx_components/videoPlayer/videoTest';
+import { VideoPlayerUI } from '@/components/mdx_components/videoPlayer/videoPlayerUI';
+
 const TestScene = dynamic(
   () => import('@/components/mdx_components/3d_lessons/example/TestScene'),
+  { ssr: false }
+);
+
+const VideoPlayer = dynamic(
+  () => import('@/components/mdx_components/videoPlayer/videoPlayer'),
   { ssr: false }
 );
 
@@ -27,6 +35,9 @@ const COMPONENT_MAP = {
   CanvasWrapper,
   TestScene,
   Suspense,
+  VideoPlayer,
+  VideoPlayerUI,
+  VideoTest,
 };
 
 export default COMPONENT_MAP;
