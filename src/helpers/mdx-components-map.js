@@ -9,6 +9,10 @@ import {
 import { CanvasWrapper } from '@/components/mdx_components/canvas3d/canvasWrapper';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import {
+  ImageGallery,
+  ImageGalleryItem,
+} from '@/components/mdx_components/imageGallery/imageGallery';
 
 import VideoTest from '@/components/mdx_components/videoPlayer/videoTest';
 import { VideoPlayerUI } from '@/components/mdx_components/videoPlayer/videoPlayerUI';
@@ -38,6 +42,8 @@ const COMPONENT_MAP = {
   VideoPlayer,
   VideoPlayerUI,
   VideoTest,
+  ImageGallery,
+  ImageGalleryItem,
 };
 
 export default COMPONENT_MAP;
