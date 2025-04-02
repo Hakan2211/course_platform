@@ -14,8 +14,15 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogClose, // Import DialogClose
+} from '@/components/ui/dialog';
+import CloseIcon from '@/components/icons/closeIcon';
 
-// Interface definitions (unchanged)
+// --- Interfaces & Context (unchanged) ---
 interface ImageItemProps {
   src: string;
   alt: string;
@@ -119,7 +126,7 @@ const Minimap: React.FC = () => {
 };
 Minimap.displayName = 'Minimap';
 
-// --- Refined ImageGallery ---
+// --- Refined ImageGallery with Dialog ---
 const ImageGallery = React.forwardRef<HTMLDivElement, ImageGalleryProps>(
   ({ children, className, ...props }, ref) => {
     const [activeIndex, setActiveIndexState] = useState(0);
@@ -150,6 +157,7 @@ const ImageGallery = React.forwardRef<HTMLDivElement, ImageGalleryProps>(
     };
 
     if (items.length === 0) {
+      // ... (no changes needed for the empty state)
       return (
         <div
           ref={ref}
@@ -167,6 +175,7 @@ const ImageGallery = React.forwardRef<HTMLDivElement, ImageGalleryProps>(
     const currentItem = items[activeIndex];
 
     const variants = {
+      // ... (variants unchanged)
       enter: (direction: number) => ({
         x: direction > 0 ? 60 : -60,
         opacity: 0,
@@ -208,7 +217,7 @@ const ImageGallery = React.forwardRef<HTMLDivElement, ImageGalleryProps>(
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            {/* Metallic Overlay */}
+            {/* Metallic Overlay (unchanged) */}
             <div
               className="absolute inset-0 rounded-3xl -z-10 pointer-events-none"
               style={{
@@ -218,47 +227,78 @@ const ImageGallery = React.forwardRef<HTMLDivElement, ImageGalleryProps>(
               }}
             />
 
-            {/* Image Display */}
-            <div className="relative w-full aspect-[16/9] overflow-hidden">
-              <div className="absolute inset-0 shadow-[inset_0_8px_16px_rgba(0,0,0,0.4)] pointer-events-none z-10"></div>
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-20 pointer-events-none z-5"
-                animate={{ x: ['-100%', '200%'] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-              />
-              <AnimatePresence initial={false} custom={direction}>
+            {/* --- START: Dialog Integration --- */}
+            <Dialog>
+              {/* Image Display Area - Now wrapped by DialogTrigger */}
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                {/* Effects layers (unchanged) */}
+                <div className="absolute inset-0 shadow-[inset_0_8px_16px_rgba(0,0,0,0.4)] pointer-events-none z-10"></div>
                 <motion.div
-                  key={activeIndex}
-                  custom={direction}
-                  variants={variants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: 'spring', stiffness: 450, damping: 45 },
-                    opacity: { duration: 0.35 },
-                    scale: { duration: 0.5 },
-                    rotateY: { duration: 0.4 },
-                  }}
-                  className="absolute inset-0 flex items-center justify-center"
-                >
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-20 pointer-events-none z-5"
+                  animate={{ x: ['-100%', '200%'] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+                />
+
+                {/* AnimatePresence and Image */}
+                <AnimatePresence initial={false} custom={direction}>
+                  {/* Use DialogTrigger around the clickable animated div */}
+                  <DialogTrigger asChild>
+                    <motion.div
+                      key={activeIndex}
+                      custom={direction}
+                      variants={variants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: 'spring', stiffness: 450, damping: 45 },
+                        opacity: { duration: 0.35 },
+                        scale: { duration: 0.5 },
+                        rotateY: { duration: 0.4 },
+                      }}
+                      className="absolute inset-0 flex items-center justify-center cursor-zoom-in" // Added cursor
+                    >
+                      <Image
+                        src={currentItem.src}
+                        alt={currentItem.alt}
+                        fill
+                        className="object-cover" // Keep as cover for the gallery view
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1280px"
+                        priority={activeIndex === 0}
+                      />
+                    </motion.div>
+                  </DialogTrigger>
+                </AnimatePresence>
+              </div>
+
+              {/* Dialog Content for Full Size Image */}
+              <DialogContent className="max-w-[90vw] md:max-w-[80vw] lg:max-w-5xl xl:max-w-6xl h-[85vh] p-2 sm:p-4 bg-black/80 backdrop-blur-md border-gray-700/50 flex items-center justify-center">
+                {/* Close Button */}
+                <DialogClose className="absolute right-3 top-3 sm:right-4 sm:top-4 z-50 rounded-full p-1.5 bg-gray-800/60 text-gray-300 hover:bg-gray-700/80 hover:text-white transition-all opacity-80 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-black/50">
+                  <CloseIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <span className="sr-only">Close</span>
+                </DialogClose>
+
+                {/* Full Size Image Container */}
+                <div className="relative w-full h-full">
                   <Image
                     src={currentItem.src}
-                    alt={currentItem.alt}
+                    alt={`Full size view: ${currentItem.alt}`}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1280px"
-                    priority={activeIndex === 0}
+                    className="object-contain" // Use contain for full view
+                    sizes="90vw" // Adjust sizes appropriately
                   />
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+            {/* --- END: Dialog Integration --- */}
 
-            {/* Refined Content Area */}
+            {/* Refined Content Area (unchanged) */}
             {(currentItem.title ||
               currentItem.description ||
               currentItem.badges?.length) && (
               <div className="px-12 py-10 text-center bg-gradient-to-b from-gray-900/70 to-black/60 backdrop-blur-md">
+                {/* ... title, description, badges rendering (no changes needed here) ... */}
                 {currentItem.title && (
                   <motion.h3
                     initial={{ opacity: 0, y: 20 }}
@@ -309,7 +349,7 @@ const ImageGallery = React.forwardRef<HTMLDivElement, ImageGalleryProps>(
             )}
           </motion.div>
 
-          {/* Minimap */}
+          {/* Minimap (unchanged) */}
           {items.length > 1 && <Minimap />}
         </div>
       </ImageGalleryContext.Provider>
