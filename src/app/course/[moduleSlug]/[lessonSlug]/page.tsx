@@ -80,6 +80,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
       <Sidebar
         moduleBadge={frontmatter.moduleBadge}
         moduleSlug={moduleSlug}
+        lessonSlug={lessonSlug}
         lessons={lessons}
       />
 

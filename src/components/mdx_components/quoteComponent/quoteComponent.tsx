@@ -1,13 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const quoteVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, translateY: '40px' },
   visible: {
     opacity: 1,
-    y: 0,
+    translateY: '0px',
     transition: { duration: 0.9, ease: [0.2, 0.85, 0.4, 1.01] },
   },
 };
@@ -38,15 +38,27 @@ export default function QuoteComponent({
   quote: string;
   author: string;
 }) {
+  const [isViewAnimationComplete, setIsViewAnimationComplete] = useState(false);
+
   return (
     <motion.figure
       initial="hidden"
       whileInView="visible"
-      whileHover="hover"
+      // *** Conditionally apply whileHover ***
+      whileHover={isViewAnimationComplete ? 'hover' : undefined}
       viewport={{ once: true, amount: 0.3 }}
-      variants={{ ...quoteVariants, ...cardVariants }}
+      variants={{ ...quoteVariants, ...cardVariants }} // Pass all variants
+      // *** Add callback to detect when 'visible' animation ends ***
+      onAnimationComplete={(definition) => {
+        // Check if the completed animation was the 'visible' one
+        if (definition === 'visible') {
+          setIsViewAnimationComplete(true);
+        }
+      }}
       className="relative max-w-2xl my-16 px-10 py-12 bg-gradient-to-br from-gray-900/90 to-zinc-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl overflow-hidden"
+      style={{ willChange: 'transform, opacity' }}
     >
+      {/* Border Div */}
       <motion.div
         className="absolute inset-0 rounded-3xl -z-10"
         variants={borderVariants}
@@ -73,6 +85,7 @@ export default function QuoteComponent({
         }}
       />
 
+      {/* Quotation Mark */}
       <motion.span
         className="absolute top-4 left-6 text-7xl text-white/20 select-none"
         initial={{ opacity: 0, rotate: -10 }}
@@ -83,6 +96,7 @@ export default function QuoteComponent({
         “
       </motion.span>
 
+      {/* Content */}
       <blockquote className="relative z-10">
         <p className="font-sans text-2xl font-light italic text-gray-200 leading-snug tracking-tight text-balance">
           {quote}

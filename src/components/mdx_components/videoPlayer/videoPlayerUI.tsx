@@ -137,6 +137,13 @@ const VideoPlayerUI = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
         setIsLoading(false);
       };
 
+      const handleError = (e: Event) => {
+        console.error('Video Error:', video.error, e);
+        setIsLoading(false);
+        // Optionally set an error state to display a message
+        alert('Error loading video');
+      };
+
       video.addEventListener('loadedmetadata', setVideoData);
       video.addEventListener('canplay', handleCanPlay);
       video.addEventListener('timeupdate', setVideoTime);
@@ -148,6 +155,7 @@ const VideoPlayerUI = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
       video.addEventListener('seeked', () => setIsSeeking(false));
       video.addEventListener('waiting', handleWaiting);
       video.addEventListener('playing', handlePlaying);
+      video.addEventListener('error', handleError);
 
       if (video.readyState >= 1) setVideoData();
       setVolume(video.volume);
@@ -172,6 +180,7 @@ const VideoPlayerUI = React.forwardRef<HTMLDivElement, VideoPlayerProps>(
         video.removeEventListener('seeked', () => setIsSeeking(false));
         video.removeEventListener('waiting', handleWaiting);
         video.removeEventListener('playing', handlePlaying);
+        video.removeEventListener('error', handleError);
         document.removeEventListener(
           'fullscreenchange',
           handleFullscreenChange

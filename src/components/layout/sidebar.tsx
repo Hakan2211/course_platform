@@ -11,10 +11,16 @@ import { LessonStatus } from '../progress/LessonStatus';
 type SidebarProps = {
   moduleBadge?: string;
   moduleSlug: string;
+  lessonSlug: string;
   lessons: { slug: string; title: string; parent: string | null }[];
 };
 
-function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
+function Sidebar({
+  moduleBadge,
+  moduleSlug,
+  lessonSlug,
+  lessons,
+}: SidebarProps) {
   const { width } = useWindowSize();
   const effectiveWidth = width ?? 0;
   return effectiveWidth < 1199 && effectiveWidth > 768 ? (
@@ -22,6 +28,7 @@ function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
       <SideBarSheet
         moduleBadge={moduleBadge}
         moduleSlug={moduleSlug}
+        lessonSlug={lessonSlug}
         lessons={lessons}
       />
     </aside>
@@ -46,8 +53,12 @@ function Sidebar({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
             {lessons.map((lesson) => (
               <li
                 key={lesson.slug}
-                className={`w-full min-w-[330px] text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
+                className={`w-full min-w-[330px] text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-gradient-to-r from-gray-950/90 to-black/90 transition-colors duration-200 ${
                   lesson.parent ? 'pl-8 text-sm' : ''
+                } ${
+                  lesson.slug === lessonSlug
+                    ? 'bg-[var(--text-color-primary-300)]'
+                    : ''
                 }`}
               >
                 <Link

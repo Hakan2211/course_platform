@@ -15,10 +15,16 @@ import { formatModuleSlug } from '@/lib/utils';
 type SidebarProps = {
   moduleBadge?: string;
   moduleSlug: string;
+  lessonSlug: string;
   lessons: { slug: string; title: string; parent: string | null }[];
 };
 
-function SideBarSheet({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
+function SideBarSheet({
+  moduleBadge,
+  moduleSlug,
+  lessonSlug,
+  lessons,
+}: SidebarProps) {
   return (
     <Sheet>
       <SheetTrigger className="text-[var(--text-color-primary-800)] flex justify-center items-center w-[100%] mt-3">
@@ -57,6 +63,10 @@ function SideBarSheet({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
                 key={lesson.slug}
                 className={`text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
                   lesson.parent ? 'pl-8 text-sm' : ''
+                } ${
+                  lesson.slug === lessonSlug
+                    ? 'bg-[var(--text-color-primary-300)] font-medium'
+                    : ''
                 }`}
               >
                 <Link href={`/course/${moduleSlug}/${lesson.slug}`}>
