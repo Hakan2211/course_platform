@@ -1,8 +1,17 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
+import { useAuth } from '@/context/auth/AuthContext';
 
 type LessonProgress = {
+  id: string;
+  user_id: string;
   module_slug: string;
   lesson_slug: string;
   status: 'not_started' | 'in_progress' | 'completed';
@@ -21,6 +30,7 @@ type ProgressContextType = {
     moduleSlug: string,
     lessonSlug: string
   ) => LessonProgress['status'];
+  refetchProgress: () => Promise<void>;
 };
 
 const ProgressContext = createContext<ProgressContextType | undefined>(
@@ -30,14 +40,28 @@ const ProgressContext = createContext<ProgressContextType | undefined>(
 export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [progress, setProgress] = useState<LessonProgress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { user, refreshSession } = useAuth();
 
-  useEffect(() => {
-    fetchProgress();
-  }, []);
+  const fetchProgress = useCallback(async () => {
+    if (!user) {
+      setProgress([]);
+      setIsLoading(false);
+      return;
+    }
 
-  const fetchProgress = async () => {
     try {
-      const response = await fetch('/api/progress');
+      setIsLoading(true);
+      const response = await fetch('/api/progress', {
+        credentials: 'include', // Ensure cookies are sent
+      });
+
+      if (response.status === 401) {
+        // Try to refresh session first
+        console.warn('Authentication required, trying to refresh session...');
+        await refreshSession();
+        return;
+      }
+
       if (response.ok) {
         const data = await response.json();
         // Ensure data.progress is an array
@@ -57,19 +81,45 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user, refreshSession]);
+
+  useEffect(() => {
+    // Only fetch progress if user is authenticated
+    if (user) {
+      // Add a small delay to ensure cookie is properly set after authentication
+      const timer = setTimeout(() => {
+        fetchProgress();
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      setIsLoading(false);
+      setProgress([]);
+    }
+  }, [user, fetchProgress]);
 
   const updateProgress = async (
     moduleSlug: string,
     lessonSlug: string,
     status: LessonProgress['status']
   ) => {
+    if (!user) {
+      console.warn('User not authenticated for progress update');
+      return;
+    }
+
     try {
       const response = await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Ensure cookies are sent
         body: JSON.stringify({ moduleSlug, lessonSlug, status }),
       });
+
+      if (response.status === 401) {
+        console.warn('Authentication required, trying to refresh session...');
+        await refreshSession();
+        return;
+      }
 
       if (response.ok) {
         const data = await response.json();
@@ -105,7 +155,13 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ProgressContext.Provider
-      value={{ progress, isLoading, updateProgress, getLessonStatus }}
+      value={{
+        progress,
+        isLoading,
+        updateProgress,
+        getLessonStatus,
+        refetchProgress: fetchProgress,
+      }}
     >
       {children}
     </ProgressContext.Provider>

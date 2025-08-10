@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import jwt from 'jsonwebtoken';
+import { SignJWT } from 'jose';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -37,16 +37,15 @@ export async function GET(req: NextRequest) {
     }
 
     // Generate JWT token
-    const jwtToken = jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-        // Add a timestamp to ensure uniqueness
-        iat: Math.floor(Date.now() / 1000),
-      },
-      process.env.JWT_SECRET!,
-      { expiresIn: '365d' }
-    );
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+    const jwtToken = await new SignJWT({
+      userId: user.id,
+      email: user.email,
+    })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('365d')
+      .sign(secret);
 
     // Create the response first
     const response = NextResponse.redirect(
@@ -63,6 +62,8 @@ export async function GET(req: NextRequest) {
       path: '/',
       maxAge: 60 * 60 * 24 * 365, // 1 year in seconds
     });
+
+    console.log('Magic link verification successful for user:', user.email);
 
     // Clear the magic link token
     await supabase
