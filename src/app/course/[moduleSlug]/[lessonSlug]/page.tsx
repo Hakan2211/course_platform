@@ -89,6 +89,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
           moduleBadge={frontmatter.moduleBadge}
           moduleSlug={moduleSlug}
           lessons={lessons}
+          lessonSlug={lessonSlug}
         />
         <div
           className={`${styles.content_grid} text-[var(--text-color-primary-800)] md:mr-2 md:ml-2 px-2 md:px-16 pt-16 pb-24 border border-[var(--text-color-primary-300)] rounded-lg  bg-[var(--bg-color)]`}

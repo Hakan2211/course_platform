@@ -6,10 +6,16 @@ import { LessonsNav } from './lessonsNav';
 type SidebarProps = {
   moduleBadge?: string;
   moduleSlug: string;
+  lessonSlug: string;
   lessons: { slug: string; title: string; parent: string | null }[];
 };
 
-function LessonsHeader({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
+function LessonsHeader({
+  moduleBadge,
+  moduleSlug,
+  lessons,
+  lessonSlug,
+}: SidebarProps) {
   const { width } = useWindowSize();
   const effectiveWidth = width ?? 0;
   return effectiveWidth > 768 ? (
@@ -23,6 +29,7 @@ function LessonsHeader({ moduleBadge, moduleSlug, lessons }: SidebarProps) {
           lessons={lessons}
           moduleBadge={moduleBadge}
           moduleSlug={moduleSlug}
+          lessonSlug={lessonSlug}
         />
       </div>
       <div className="flex items-center">

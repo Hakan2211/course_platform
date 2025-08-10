@@ -7,6 +7,12 @@ import HomeIcon from '../icons/homeIcon';
 import Link from 'next/link';
 import { formatModuleSlug } from '@/lib/utils';
 import { LessonStatus } from '../progress/LessonStatus';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 type SidebarProps = {
   moduleBadge?: string;
@@ -36,11 +42,20 @@ function Sidebar({
     <aside className={`${styles.sidebar}  bg-[var(--bg-color)] pl-4 pr-8`}>
       <div className="fixed">
         <header className="h-[3rem] flex items-center mb-4">
-          <Link href={'/course'}>
-            <span>
-              <HomeIcon className="w-6 h-6 text-[var(--text-color-primary-800)] hover:text-yellow-600 transition-colors duration-300 " />
-            </span>
-          </Link>
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link href={'/course'}>
+                  <span className="">
+                    <HomeIcon className="w-6 h-6 text-[var(--text-color-primary-800)] hover:text-yellow-600 transition-colors duration-300" />
+                  </span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Home</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </header>
         <h2 className="flex flex-col mb-6 text-xl font-semibold text-[var(--text-color-primary-800)] ">
           <span className="text-[var(--text-color-primary-600)] font-normal text-base">
