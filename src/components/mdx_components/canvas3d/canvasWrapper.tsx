@@ -51,7 +51,7 @@ export function CanvasWrapper({
   return (
     <div
       className={cn(
-        'relative w-full overflow-hidden rounded-2xl border-2 border-[#182538] bg-[#131a26] shadow-sm'
+        'relative w-full overflow-hidden rounded-2xl border-2 border-[#182538] bg-[#131a26] shadow-sm my-8'
       )}
       style={{ height }}
       {...rest}

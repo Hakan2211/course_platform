@@ -20,21 +20,50 @@ import EnvironmentWrapper from '@/components/mdx_components/2d_environment/envir
 import FramerMotionTest from '@/components/mdx_components/2d_environment/framerMotionTest';
 import P5Example from '@/components/mdx_components/2d_environment/p5Sketch/p5Example';
 import { InteractiveDemo } from '@/components/mdx_components/2d_environment/p5Sketch/interactiveSplit';
+import TradingPyramid from '@/components/mdx_components/2d_environment/TradingPyramid';
+import TradingCycleLoop from '@/components/mdx_components/2d_environment/TradingCycleLoop';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  GridList,
+  GridListItem,
+} from '@/components/mdx_components/gridList/GridList';
+import {
+  InfoGrid,
+  InfoGridItem,
+} from '@/components/mdx_components/gridList/InfoGrid';
+import { Highlight } from '@/components/mdx_components/highlight/Highlight';
+import {
+  TrendingUp,
+  LandPlot,
+  Repeat,
+  FunctionSquare,
+  Package,
+  CircleDollarSign,
+  Car,
+  Home,
+  Briefcase,
+  Droplets,
+  Building,
+  Building2,
+  BarChart,
+  Bot,
+  Scale,
+  Target,
+  Users,
+  Waves,
+  Globe,
+  GraduationCap,
+} from 'lucide-react';
 
 const TestScene = dynamic(
   () => import('@/components/mdx_components/3d_lessons/example/TestScene'),
-  { ssr: false }
-);
-
-const TradingFloorViz = dynamic(
-  () =>
-    import('@/components/mdx_components/3d_lessons/module1/tradingFloorViz'),
-  { ssr: false }
-);
-
-const TradingFloorViz2 = dynamic(
-  () =>
-    import('@/components/mdx_components/3d_lessons/module1/tradingFloorViz2'),
   { ssr: false }
 );
 
@@ -43,23 +72,28 @@ const VideoPlayer = dynamic(
   { ssr: false }
 );
 
-const AssetTowers = dynamic(
-  () => import('@/components/mdx_components/3d_lessons/module1/assetTowers'),
-  { ssr: false }
-);
 const AssetSpheres = dynamic(
   () => import('@/components/mdx_components/3d_lessons/module1/assetSpheres'),
   { ssr: false }
 );
 
-const CurrencyFlowMap = dynamic(
+const MarketSizes = dynamic(
   () =>
-    import('@/components/mdx_components/3d_lessons/module1/currencyFlowMap'),
+    import('@/components/mdx_components/3d_lessons/marketSizes/marketSizes'),
   { ssr: false }
 );
 
-const TimeComparisonViz = dynamic(
-  () => import('@/components/mdx_components/3d_lessons/module1/timeComparison'),
+const MarketDynamics = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/marketDynamics/marketDynamics'
+    ),
+  { ssr: false }
+);
+
+const EquitiesNested = dynamic(
+  () =>
+    import('@/components/mdx_components/3d_lessons/marketSizes/EquitiesNested'),
   { ssr: false }
 );
 
@@ -84,12 +118,43 @@ const COMPONENT_MAP = {
   FramerMotionTest,
   P5Example,
   InteractiveDemo,
-  TradingFloorViz,
-  TradingFloorViz2,
-  AssetTowers,
+  TradingPyramid,
+  TradingCycleLoop,
   AssetSpheres,
-  CurrencyFlowMap,
-  TimeComparisonViz,
+  MarketSizes,
+  MarketDynamics,
+  EquitiesNested,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  GridList,
+  GridListItem,
+  InfoGrid,
+  InfoGridItem,
+  Highlight,
+  TrendingUp,
+  LandPlot,
+  Repeat,
+  FunctionSquare,
+  Package,
+  CircleDollarSign,
+  Car,
+  Home,
+  Briefcase,
+  Droplets,
+  Building,
+  Building2,
+  BarChart,
+  Bot,
+  Scale,
+  Target,
+  Users,
+  Waves,
+  Globe,
+  GraduationCap,
 };
 
 export default COMPONENT_MAP;
