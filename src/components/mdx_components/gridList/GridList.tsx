@@ -96,7 +96,7 @@ export const GridList = ({
   const gridContent = (
     <div
       className={cn(
-        'grid grid-cols-1 gap-4 my-8 w-full md:gap-6 md:grid-cols-2 lg:grid-cols-3',
+        'grid grid-cols-1 gap-4 my-8 w-full md:gap-6 md:grid-cols-2 lg:grid-cols-2',
         layoutClassName,
         className
       )}

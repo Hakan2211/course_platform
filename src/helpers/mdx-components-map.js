@@ -39,6 +39,7 @@ import {
   InfoGridItem,
 } from '@/components/mdx_components/gridList/InfoGrid';
 import { Highlight } from '@/components/mdx_components/highlight/Highlight';
+import { CustomLink } from '@/components/mdx_components/customLink/CustomLink';
 import {
   TrendingUp,
   LandPlot,
@@ -97,6 +98,22 @@ const EquitiesNested = dynamic(
   { ssr: false }
 );
 
+const ShareCakeSlicer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/shareCakeSlicer/ShareCakeSlicer'
+    ),
+  { ssr: false }
+);
+
+const InteractiveFloat = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/interactiveFloat/InteractiveFloat'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -124,6 +141,8 @@ const COMPONENT_MAP = {
   MarketSizes,
   MarketDynamics,
   EquitiesNested,
+  ShareCakeSlicer,
+  InteractiveFloat,
   Table,
   TableBody,
   TableCell,
@@ -135,6 +154,7 @@ const COMPONENT_MAP = {
   InfoGrid,
   InfoGridItem,
   Highlight,
+  CustomLink,
   TrendingUp,
   LandPlot,
   Repeat,
