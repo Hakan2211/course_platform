@@ -114,6 +114,30 @@ const InteractiveFloat = dynamic(
   { ssr: false }
 );
 
+const IntroductionContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/IntroductionContainer'
+    ),
+  { ssr: false }
+);
+
+const ParticleModelContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/ParticleModelContainer'
+    ),
+  { ssr: false }
+);
+
+const EnergyAndMotionContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/EnergyAndMotionContainer'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -143,6 +167,9 @@ const COMPONENT_MAP = {
   EquitiesNested,
   ShareCakeSlicer,
   InteractiveFloat,
+  IntroductionContainer,
+  ParticleModelContainer,
+  EnergyAndMotionContainer,
   Table,
   TableBody,
   TableCell,
