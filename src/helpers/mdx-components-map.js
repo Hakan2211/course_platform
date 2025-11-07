@@ -147,6 +147,14 @@ const EquilibriumAndPressureContainer = dynamic(
   { ssr: false }
 );
 
+const BattleInsideBoxContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/BattleInsideBoxContainer'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -181,6 +189,7 @@ const COMPONENT_MAP = {
   ParticleModelContainer,
   EnergyAndMotionContainer,
   EquilibriumAndPressureContainer,
+  BattleInsideBoxContainer,
   Table,
   TableBody,
   TableCell,
