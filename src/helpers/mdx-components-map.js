@@ -20,6 +20,7 @@ import EnvironmentWrapper from '@/components/mdx_components/2d_environment/envir
 import FramerMotionTest from '@/components/mdx_components/2d_environment/framerMotionTest';
 import P5Example from '@/components/mdx_components/2d_environment/p5Sketch/p5Example';
 import { InteractiveDemo } from '@/components/mdx_components/2d_environment/p5Sketch/interactiveSplit';
+import { CompressionExpansion } from '@/components/mdx_components/2d_environment/p5Sketch/compressionExpansion';
 import TradingPyramid from '@/components/mdx_components/2d_environment/TradingPyramid';
 import TradingCycleLoop from '@/components/mdx_components/2d_environment/TradingCycleLoop';
 import {
@@ -167,6 +168,7 @@ const COMPONENT_MAP = {
   FramerMotionTest,
   P5Example,
   InteractiveDemo,
+  CompressionExpansion,
   TradingPyramid,
   TradingCycleLoop,
   AssetSpheres,

@@ -16,7 +16,7 @@ const EquilibriumAndPressureContainer = () => {
         enableControls={true}
         height="600px"
         cameraSettings={{
-          position: [-12, 4, -12],
+          position: [0, 6, -25],
           fov: 50,
         }}
       >

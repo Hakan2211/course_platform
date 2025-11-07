@@ -93,13 +93,22 @@ function calculateTargetPosition(
   }
 
   if (particle.isSideline) {
-    // Sideline particles stay outside the box
-    const angle = (particleIndex / totalParticles) * Math.PI * 2;
-    const radius = boxSize * SIDELINE_DISTANCE;
+    // Sideline particles stay outside the box in cube formation to the left (negative x-axis) and offset on z-axis
+    const redGreenCount = Math.floor(totalParticles * 0.8);
+    const sidelineCount = totalParticles - redGreenCount;
+    const sidelineIndex = particleIndex - redGreenCount;
+    const cubeSize = Math.ceil(Math.cbrt(sidelineCount));
+    const x = (sidelineIndex % cubeSize) - cubeSize / 2;
+    const y = Math.floor((sidelineIndex / cubeSize) % cubeSize) - cubeSize / 2;
+    const z = Math.floor(sidelineIndex / (cubeSize * cubeSize)) - cubeSize / 2;
+    const spacing = boxSize * 0.3;
+    const xOffset = -boxSize * SIDELINE_DISTANCE * 1.5; // Position further to the left (negative x-axis)
+    const zOffset = boxSize * SIDELINE_DISTANCE * 0.3; // Smaller offset on z-axis
+
     return new THREE.Vector3(
-      Math.cos(angle) * radius,
-      (Math.random() - 0.5) * boxSize * 2,
-      Math.sin(angle) * radius
+      xOffset + x * spacing, // Positioned further to the left (negative x)
+      y * spacing, // Centered on y-axis
+      zOffset + z * spacing // Small offset on z-axis
     );
   }
 
@@ -250,13 +259,22 @@ export function EquilibriumAndPressure3D({
       let type: ParticleType;
 
       if (isSideline) {
-        // Sideline particles start outside the box
-        const angle = ((i - redGreenCount) / sidelineCount) * Math.PI * 2;
-        const radius = boxSize * SIDELINE_DISTANCE;
+        // Sideline particles arranged in a cube formation to the left (negative x-axis) and offset on z-axis
+        const sidelineIndex = i - redGreenCount;
+        const cubeSize = Math.ceil(Math.cbrt(sidelineCount)); // Cube root to get dimensions
+        const x = (sidelineIndex % cubeSize) - cubeSize / 2;
+        const y =
+          Math.floor((sidelineIndex / cubeSize) % cubeSize) - cubeSize / 2;
+        const z =
+          Math.floor(sidelineIndex / (cubeSize * cubeSize)) - cubeSize / 2;
+        const spacing = boxSize * 0.3; // Spacing between particles
+        const xOffset = -boxSize * SIDELINE_DISTANCE * 1.5; // Position further to the left (negative x-axis)
+        const zOffset = boxSize * SIDELINE_DISTANCE * 0.3; // Smaller offset on z-axis
+
         position = new THREE.Vector3(
-          Math.cos(angle) * radius,
-          (Math.random() - 0.5) * boxSize * 2,
-          Math.sin(angle) * radius
+          xOffset + x * spacing, // Positioned further to the left (negative x)
+          y * spacing, // Centered on y-axis
+          zOffset + z * spacing // Small offset on z-axis
         );
         type = 0; // Gray
       } else {
@@ -322,13 +340,20 @@ export function EquilibriumAndPressure3D({
           // Reset sideline particles if step goes back
           if (shouldBeSideline && !particle.isSideline && step < 2) {
             const sidelineCount = prevParticles.length - redGreenCount;
-            const halfSize = boxSize * 0.8;
-            const angle = ((idx - redGreenCount) / sidelineCount) * Math.PI * 2;
-            const radius = boxSize * SIDELINE_DISTANCE;
+            const sidelineIndex = idx - redGreenCount;
+            const cubeSize = Math.ceil(Math.cbrt(sidelineCount));
+            const x = (sidelineIndex % cubeSize) - cubeSize / 2;
+            const y =
+              Math.floor((sidelineIndex / cubeSize) % cubeSize) - cubeSize / 2;
+            const z =
+              Math.floor(sidelineIndex / (cubeSize * cubeSize)) - cubeSize / 2;
+            const spacing = boxSize * 0.3;
+            const xOffset = -boxSize * SIDELINE_DISTANCE * 1.5; // Position further to the left (negative x-axis)
+            const zOffset = boxSize * SIDELINE_DISTANCE * 0.3; // Smaller offset on z-axis
             const sidelinePosition = new THREE.Vector3(
-              Math.cos(angle) * radius,
-              (Math.random() - 0.5) * boxSize * 2,
-              Math.sin(angle) * radius
+              xOffset + x * spacing, // Positioned further to the left (negative x)
+              y * spacing, // Centered on y-axis
+              zOffset + z * spacing // Small offset on z-axis
             );
             return {
               ...particle,
@@ -388,12 +413,20 @@ export function EquilibriumAndPressure3D({
           const shouldBeSideline = idx >= redGreenCount;
 
           if (shouldBeSideline) {
-            const angle = ((idx - redGreenCount) / sidelineCount) * Math.PI * 2;
-            const radius = boxSize * SIDELINE_DISTANCE;
+            const sidelineIndex = idx - redGreenCount;
+            const cubeSize = Math.ceil(Math.cbrt(sidelineCount));
+            const x = (sidelineIndex % cubeSize) - cubeSize / 2;
+            const y =
+              Math.floor((sidelineIndex / cubeSize) % cubeSize) - cubeSize / 2;
+            const z =
+              Math.floor(sidelineIndex / (cubeSize * cubeSize)) - cubeSize / 2;
+            const spacing = boxSize * 0.3;
+            const xOffset = -boxSize * SIDELINE_DISTANCE * 1.5; // Position further to the left (negative x-axis)
+            const zOffset = boxSize * SIDELINE_DISTANCE * 0.3; // Smaller offset on z-axis
             const sidelinePosition = new THREE.Vector3(
-              Math.cos(angle) * radius,
-              (Math.random() - 0.5) * boxSize * 2,
-              Math.sin(angle) * radius
+              xOffset + x * spacing, // Positioned further to the left (negative x)
+              y * spacing, // Centered on y-axis
+              zOffset + z * spacing // Small offset on z-axis
             );
             return {
               ...particle,
@@ -453,19 +486,37 @@ export function EquilibriumAndPressure3D({
         const halfSize = boxSize * 0.8;
         const currentSpreadCenter = spreadZoneOffsetRef.current; // Use ref for current value
 
-        sidelineParticles.slice(0, entryCount).forEach(({ particle, idx }) => {
-          // Enter in the middle area (spread zone) first
-          updated[idx] = {
-            ...particle,
-            type: 2, // Green buyer
-            isSideline: false,
-            targetPosition: new THREE.Vector3(
-              (Math.random() * 2 - 1) * halfSize * 0.8,
-              currentSpreadCenter + (Math.random() * 2 - 1) * halfSize * 0.1, // Middle area
-              (Math.random() * 2 - 1) * halfSize * 0.8
-            ),
-          };
-        });
+        sidelineParticles
+          .slice(0, entryCount)
+          .forEach(({ particle, idx }, entryIdx) => {
+            // Calculate entry position in spread zone with staggered timing
+            const entryProgress = entryIdx / entryCount; // 0 to 1
+            const spreadZoneHeight = halfSize * 0.2;
+
+            // Create a smooth flow path: start from sideline position, flow into spread zone
+            // Use entryProgress to stagger the entry for visual flow effect
+            const targetX = (Math.random() * 2 - 1) * halfSize * 0.8;
+            const targetY =
+              currentSpreadCenter +
+              (Math.random() * 2 - 1) * spreadZoneHeight * 0.4;
+            const targetZ = (Math.random() * 2 - 1) * halfSize * 0.8;
+
+            updated[idx] = {
+              ...particle,
+              type: 2, // Green buyer
+              isSideline: false,
+              // Keep current position initially, will lerp to target smoothly
+              targetPosition: new THREE.Vector3(targetX, targetY, targetZ),
+              // Add entry delay based on position for flow effect
+              velocity: new THREE.Vector3(
+                (targetX - particle.position.x) * 0.5,
+                (targetY - particle.position.y) * 0.5,
+                (targetZ - particle.position.z) * 0.5
+              )
+                .normalize()
+                .multiplyScalar(2), // Direction toward target
+            };
+          });
 
         // Calculate new spread zone offset (push it much higher - more dramatic)
         const newSpreadOffset = currentSpreadCenter + halfSize * 0.6; // Move spread zone up significantly
@@ -511,12 +562,20 @@ export function EquilibriumAndPressure3D({
 
           // If this particle should be sideline, restore it to sideline state
           if (shouldBeSideline) {
-            const angle = ((idx - redGreenCount) / sidelineCount) * Math.PI * 2;
-            const radius = boxSize * SIDELINE_DISTANCE;
+            const sidelineIndex = idx - redGreenCount;
+            const cubeSize = Math.ceil(Math.cbrt(sidelineCount));
+            const x = (sidelineIndex % cubeSize) - cubeSize / 2;
+            const y =
+              Math.floor((sidelineIndex / cubeSize) % cubeSize) - cubeSize / 2;
+            const z =
+              Math.floor(sidelineIndex / (cubeSize * cubeSize)) - cubeSize / 2;
+            const spacing = boxSize * 0.3;
+            const xOffset = -boxSize * SIDELINE_DISTANCE * 1.5; // Position further to the left (negative x-axis)
+            const zOffset = boxSize * SIDELINE_DISTANCE * 0.3; // Smaller offset on z-axis
             const sidelinePosition = new THREE.Vector3(
-              Math.cos(angle) * radius,
-              (Math.random() - 0.5) * boxSize * 2,
-              Math.sin(angle) * radius
+              xOffset + x * spacing, // Positioned further to the left (negative x)
+              y * spacing, // Centered on y-axis
+              zOffset + z * spacing // Small offset on z-axis
             );
             return {
               ...particle,
@@ -639,13 +698,51 @@ export function EquilibriumAndPressure3D({
             );
           }
 
-          // Handle sideline particles entering the box (when converted)
+          // Handle sideline particles entering the box (when converted) - smooth flow animation
           if (!particle.isSideline && step >= 2 && enableSidelineEntry) {
             // Check if particle is far from box (was sideline, now entering)
-            const distanceFromCenter = particle.position.length();
-            if (distanceFromCenter > boxSize * 0.9) {
-              // Move toward target position faster when entering
-              const lerpFactor = 0.1; // Faster movement when entering
+            const distanceFromTarget = particle.position.distanceTo(
+              particle.targetPosition
+            );
+            const distanceFromBox = Math.sqrt(
+              Math.abs(particle.position.x) ** 2 +
+                Math.abs(particle.position.z) ** 2
+            ); // Distance from box center on x and z axes
+
+            if (distanceFromBox > boxSize * 0.6) {
+              // Still far from box - use velocity-based movement for visible flow
+              // Smooth easing: faster at start, slower as it approaches
+              const speedMultiplier =
+                Math.min(1, distanceFromBox / (boxSize * 0.8)) * 4;
+              particle.position.add(
+                particle.velocity
+                  .clone()
+                  .multiplyScalar(delta * speedMultiplier)
+              );
+
+              // Update velocity to point toward target with smooth easing
+              const direction = particle.targetPosition
+                .clone()
+                .sub(particle.position)
+                .normalize();
+              const targetSpeed = Math.min(3, distanceFromTarget * 0.5); // Speed based on distance
+              particle.velocity.lerp(
+                direction.multiplyScalar(targetSpeed),
+                delta * 3
+              );
+            } else if (distanceFromBox > boxSize * 0.3) {
+              // Approaching box - smooth transition
+              const lerpFactor = 0.12;
+              particle.position.lerp(particle.targetPosition, lerpFactor);
+              // Update velocity for smooth deceleration
+              const direction = particle.targetPosition
+                .clone()
+                .sub(particle.position)
+                .normalize();
+              particle.velocity.lerp(direction.multiplyScalar(1), delta * 4);
+            } else {
+              // Close to box - smooth lerp to target
+              const lerpFactor = 0.1;
               particle.position.lerp(particle.targetPosition, lerpFactor);
             }
           }
@@ -701,16 +798,8 @@ export function EquilibriumAndPressure3D({
 
           // Keep particles within bounds (or outside for sideline)
           if (particle.isSideline) {
-            // Sideline particles can move freely outside
-            const minDist = boxSize * SIDELINE_DISTANCE * 0.8;
-            const maxDist = boxSize * SIDELINE_DISTANCE * 1.2;
-            const distance = particle.position.length();
-            if (distance < minDist || distance > maxDist) {
-              const direction = particle.position.clone().normalize();
-              particle.position.copy(
-                direction.multiplyScalar((minDist + maxDist) / 2)
-              );
-            }
+            // Sideline particles stay in cube formation - keep them in place
+            // They'll move when converted to buyers
           } else {
             // Keep inside box
             if (Math.abs(particle.position.x) > halfSize) {
@@ -1103,6 +1192,34 @@ export function EquilibriumAndPressure3D({
             </div>
           </Html>
         </group>
+      )}
+
+      {/* Sideline Liquidity Label */}
+      {showSidelineParticles && (
+        <Html
+          position={[
+            -boxSize * SIDELINE_DISTANCE * 1.5,
+            0,
+            boxSize * SIDELINE_DISTANCE * 0.3,
+          ]}
+          center
+          style={{ pointerEvents: 'none' }}
+        >
+          <div
+            style={{
+              color: 'white',
+              background: 'rgba(100, 100, 100, 0.8)',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              border: '2px solid #999999',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Sideline Liquidity
+          </div>
+        </Html>
       )}
 
       {/* Price bar - positioned at spread zone center, fluctuates within spread zone */}
