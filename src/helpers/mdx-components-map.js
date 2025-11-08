@@ -155,6 +155,30 @@ const BattleInsideBoxContainer = dynamic(
   { ssr: false }
 );
 
+const VolumeAnatomyContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/VolumeAnatomyContainer'
+    ),
+  { ssr: false }
+);
+
+const VolumeAnatomy2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/VolumeAnatomy2DContainer'
+    ),
+  { ssr: false }
+);
+
+const VPALens2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/VPALens2DContainer'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -190,6 +214,9 @@ const COMPONENT_MAP = {
   EnergyAndMotionContainer,
   EquilibriumAndPressureContainer,
   BattleInsideBoxContainer,
+  VolumeAnatomyContainer,
+  VolumeAnatomy2DContainer,
+  VPALens2DContainer,
   Table,
   TableBody,
   TableCell,
