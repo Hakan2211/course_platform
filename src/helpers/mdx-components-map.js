@@ -32,6 +32,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@/components/ui/accordion';
+import {
   GridList,
   GridListItem,
 } from '@/components/mdx_components/gridList/GridList';
@@ -41,6 +47,7 @@ import {
 } from '@/components/mdx_components/gridList/InfoGrid';
 import { Highlight } from '@/components/mdx_components/highlight/Highlight';
 import { CustomLink } from '@/components/mdx_components/customLink/CustomLink';
+import { Math } from '@/components/mdx_components/math/Math';
 import {
   TrendingUp,
   LandPlot,
@@ -179,6 +186,14 @@ const VPALens2DContainer = dynamic(
   { ssr: false }
 );
 
+const ProfileShapeExplorer2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/ProfileShapeExplorer2DContainer'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -217,18 +232,24 @@ const COMPONENT_MAP = {
   VolumeAnatomyContainer,
   VolumeAnatomy2DContainer,
   VPALens2DContainer,
+  ProfileShapeExplorer2DContainer,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
   GridList,
   GridListItem,
   InfoGrid,
   InfoGridItem,
   Highlight,
   CustomLink,
+  Math,
   TrendingUp,
   LandPlot,
   Repeat,

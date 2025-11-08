@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import 'katex/dist/katex.min.css';
 import { GeistSans } from 'geist/font/sans';
 import { DARK_TOKENS, LIGHT_TOKENS } from '@/lib/constants';
 import { Toaster } from 'sonner';

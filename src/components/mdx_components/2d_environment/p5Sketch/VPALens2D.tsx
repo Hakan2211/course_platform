@@ -27,6 +27,8 @@ interface VPALens2DProps {
   showInsights: boolean;
   onHoverReadingChange?: (text: string | null) => void;
   totalBars?: number;
+  onStepChange?: (nextStep: number) => void;
+  dualView?: boolean;
 }
 
 const DEFAULT_BARS = 40;
@@ -208,21 +210,41 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
   showInsights,
   onHoverReadingChange,
   totalBars = DEFAULT_BARS,
+  onStepChange,
+  dualView = false,
 }) => {
   const patternRef = useRef<VPAPattern>(pattern);
   const modeRef = useRef<VPAMode>(mode);
   const stepRef = useRef<number>(step);
   const showInsightsRef = useRef<boolean>(showInsights);
   const hoverTextRef = useRef<string | null>(null);
+  const onStepChangeRef = useRef<typeof onStepChange>(onStepChange);
+
+  // Cinematic/transition refs
+  const currentZoomRef = useRef<number>(1);
+  const targetZoomRef = useRef<number>(1);
+  const lastModeRef = useRef<VPAMode>(mode);
+  const lastStepSeenRef = useRef<number>(step);
+  const stepAnimRef = useRef<number>(1); // 0->1 slide-in for last candle
+  const narrationTextRef = useRef<string | null>(null);
+  const narrationLifeRef = useRef<number>(0); // frames
 
   useEffect(() => {
     patternRef.current = pattern;
   }, [pattern]);
   useEffect(() => {
     modeRef.current = mode;
+    // Update zoom target when mode changes
+    lastModeRef.current = modeRef.current;
+    targetZoomRef.current =
+      mode === 'micro' ? 1.0 : mode === 'macro' ? 0.94 : 0.88;
   }, [mode]);
   useEffect(() => {
     stepRef.current = step;
+    if (step > lastStepSeenRef.current) {
+      stepAnimRef.current = 0; // trigger slide-in animation
+      lastStepSeenRef.current = step;
+    }
   }, [step]);
   useEffect(() => {
     showInsightsRef.current = showInsights;
@@ -230,6 +252,9 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
   useEffect(() => {
     if (onHoverReadingChange) onHoverReadingChange(hoverTextRef.current);
   }, [onHoverReadingChange]);
+  useEffect(() => {
+    onStepChangeRef.current = onStepChange;
+  }, [onStepChange]);
 
   const sequenceCacheKey = useMemo(
     () => `${pattern}-${totalBars}`,
@@ -241,12 +266,14 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
       let candles: Candle[] = [];
       let cachedKey = '';
       let hoverIndex: number | null = null;
+      let lastFrameStepObserved = stepRef.current;
 
       const getLeftWidth = () => Math.floor(parentEl.clientWidth);
       const getTopHeight = () => Math.floor(parentEl.clientHeight);
 
       const chartPadding = 40;
-      const priceAreaHeightRatio = 0.7; // price area: 70%, volume: 30%
+      const basePriceAreaRatio = dualView ? 0.55 : 0.7; // dualView gives larger volume view
+      const timelineHeight = 20;
 
       function ensureSequence() {
         const key = `${patternRef.current}-${DEFAULT_BARS}`;
@@ -281,7 +308,7 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
         switch (patternRef.current) {
           case 'accumulation':
             p.fill(50, 200, 120, 35);
-            p.rect(x1, y1 + h * (1 - priceAreaHeightRatio) * 0.3, w, h * 0.5);
+            p.rect(x1, y1 + h * (1 - basePriceAreaRatio) * 0.3, w, h * 0.5);
             p.fill(160, 255, 200, 160);
             p.text('Smart Money Accumulating', x1 + 10, y1 + 20);
             break;
@@ -309,6 +336,14 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
       p.setup = () => {
         p.createCanvas(getLeftWidth(), getTopHeight());
         p.textFont('sans-serif');
+        // Initialize zoom target on first render
+        targetZoomRef.current =
+          modeRef.current === 'micro'
+            ? 1.0
+            : modeRef.current === 'macro'
+            ? 0.94
+            : 0.88;
+        currentZoomRef.current = targetZoomRef.current;
       };
 
       p.mouseMoved = () => {
@@ -318,7 +353,7 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
         const chartH = p.height;
         const padding = chartPadding;
         const areaW = chartW - padding * 2;
-        const areaH = chartH - padding * 2;
+        const areaH = chartH - padding * 2 - timelineHeight;
 
         if (
           p.mouseX < leftX + padding ||
@@ -358,19 +393,80 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
         if (onHoverReadingChange) onHoverReadingChange(hoverTextRef.current);
       };
 
+      const handleTimelineSeek = (
+        mouseX: number,
+        chartX: number,
+        chartW: number
+      ) => {
+        if (!onStepChangeRef.current) return;
+        const rel = clamp((mouseX - chartX) / chartW, 0, 1);
+        const target = Math.max(1, Math.round(rel * candles.length));
+        onStepChangeRef.current(target);
+      };
+
+      p.mousePressed = () => {
+        const padding = chartPadding;
+        const chartX = padding;
+        const chartY = padding;
+        const chartW = p.width - padding * 2;
+        const chartH = p.height - padding * 2 - timelineHeight;
+        const timelineY = chartY + chartH + 6;
+        if (p.mouseY >= timelineY && p.mouseY <= timelineY + timelineHeight) {
+          ensureSequence();
+          handleTimelineSeek(p.mouseX, chartX, chartW);
+        }
+      };
+
+      p.mouseDragged = () => {
+        const padding = chartPadding;
+        const chartX = padding;
+        const chartY = padding;
+        const chartW = p.width - padding * 2;
+        const chartH = p.height - padding * 2 - timelineHeight;
+        const timelineY = chartY + chartH + 6;
+        if (p.mouseY >= timelineY && p.mouseY <= timelineY + timelineHeight) {
+          ensureSequence();
+          handleTimelineSeek(p.mouseX, chartX, chartW);
+        }
+      };
+
       p.windowResized = () => {
         p.resizeCanvas(getLeftWidth(), getTopHeight());
       };
 
       p.draw = () => {
         ensureSequence();
-        p.background(18, 20, 28);
+
+        // Animated background gradient (mode-based)
+        const t = p.millis() / 1000;
+        const pulse = 0.5 + 0.5 * Math.sin((t / 0.8) * p.TWO_PI);
+        let cTop: p5.Color;
+        let cBottom: p5.Color;
+        if (modeRef.current === 'micro') {
+          cTop = p.color('#0b1020');
+          cBottom = p.color('#0f1840');
+        } else if (modeRef.current === 'macro') {
+          cTop = p.color('#0c1f26');
+          cBottom = p.color('#19394d');
+        } else {
+          cTop = p.color('#1e222a');
+          cBottom = p.color('#2a2e37');
+        }
+        const mix = 0.1 + 0.15 * pulse;
+        const gTop = p.lerpColor(cTop, cBottom, mix);
+        const gBottom = p.lerpColor(cTop, cBottom, 0.9 - mix * 0.4);
+        for (let y = 0; y < p.height; y++) {
+          const f = y / p.height;
+          const cLine = p.lerpColor(gTop, gBottom, f);
+          p.stroke(cLine);
+          p.line(0, y, p.width, y);
+        }
 
         const padding = chartPadding;
         const chartX = padding;
         const chartY = padding;
         const chartW = p.width - padding * 2;
-        const chartH = p.height - padding * 2;
+        const chartH = p.height - padding * 2 - timelineHeight;
 
         // Frame
         p.noFill();
@@ -387,6 +483,21 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
           chartX + chartW / 2,
           chartY - 24
         );
+
+        // Smooth zoom transition
+        currentZoomRef.current = lerp(
+          currentZoomRef.current,
+          targetZoomRef.current,
+          0.08
+        );
+        const zoomCenterX = chartX + chartW / 2;
+        const zoomCenterY = chartY + chartH / 2;
+
+        // Begin zoomed drawing context
+        p.push();
+        p.translate(zoomCenterX, zoomCenterY);
+        p.scale(currentZoomRef.current);
+        p.translate(-zoomCenterX, -zoomCenterY);
 
         // Visible range / zoom
         const visible = getVisibleWindow(
@@ -407,9 +518,9 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
           maxVolume = Math.max(maxVolume, c.volume);
         });
         const pricePadding = (maxPrice - minPrice || 1) * 0.08;
-        const priceAreaH = chartH * priceAreaHeightRatio;
+        const priceAreaH = chartH * basePriceAreaRatio;
         const priceStartY = chartY;
-        const volumeAreaH = chartH * (1 - priceAreaHeightRatio);
+        const volumeAreaH = chartH * (1 - basePriceAreaRatio);
         const volumeStartY = chartY + priceAreaH;
 
         // Grid
@@ -435,6 +546,14 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
           const volH =
             (c.volume / Math.max(maxVolume, 0.0001)) * (volumeAreaH * 0.9);
           const isUp = c.close >= c.open;
+          // shadow/reflection
+          p.fill(0, 0, 0, 50);
+          p.rect(
+            x + 1,
+            volumeStartY + volumeAreaH - volH + 2,
+            candleW * 0.8,
+            volH
+          );
           p.fill(isUp ? 100 : 255, isUp ? 255 : 100, 120, 170);
           p.rect(x, volumeStartY + volumeAreaH - volH, candleW * 0.8, volH);
         });
@@ -443,7 +562,18 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
         let lastLabelY = chartY + 8;
         slice.forEach((c, i) => {
           const globalIndex = visible.start + i;
-          const xCenter = chartX + i * candleW + candleW / 2;
+          // Slide-in animation for the newest candle
+          if (stepRef.current !== lastFrameStepObserved) {
+            stepAnimRef.current = 0;
+            lastFrameStepObserved = stepRef.current;
+          } else {
+            stepAnimRef.current = Math.min(1, stepAnimRef.current + 0.08);
+          }
+          const slideOffset =
+            globalIndex === stepRef.current - 1
+              ? (1 - stepAnimRef.current) * (candleW * 0.9)
+              : 0;
+          const xCenter = chartX + i * candleW + candleW / 2 + slideOffset;
           const isUp = c.close >= c.open;
 
           const norm = (price: number) =>
@@ -456,6 +586,18 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
           const lowY = norm(c.low);
           const openY = norm(c.open);
           const closeY = norm(c.close);
+
+          // faint glow/shadow under candle
+          p.noStroke();
+          p.fill(0, 0, 0, 60);
+          const shadowW = candleW * 0.55;
+          p.rect(
+            xCenter - shadowW / 2 + 1,
+            Math.min(openY, closeY) + 1,
+            shadowW,
+            Math.max(2, Math.abs(closeY - openY)) + 2,
+            2
+          );
 
           p.stroke(isUp ? 100 : 255, isUp ? 255 : 100, 120);
           p.strokeWeight(1.5);
@@ -471,7 +613,7 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
           p.noStroke();
           p.rect(xCenter - bodyW / 2, bodyTop, bodyW, bodyH);
 
-          // Divergence / Agreement line between body center and volume top
+          // Effort-Result "energy bridge": pulsing arc between body center and volume top
           if (i > 0 && showInsightsRef.current) {
             const prev = slice[i - 1];
             const prevBody = Math.abs(prev.close - prev.open);
@@ -484,9 +626,74 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
               volumeStartY +
               volumeAreaH -
               (c.volume / Math.max(maxVolume, 0.0001)) * (volumeAreaH * 0.9);
-            p.stroke(agree ? p.color(120, 255, 160) : p.color(255, 120, 120));
-            p.strokeWeight(1.5);
-            p.line(xCenter, bodyTop + bodyH / 2, xCenter, volTopY);
+
+            // strength drives thickness and glow
+            const strength = clamp(
+              (Math.abs(bodyChange) + Math.abs(volChange)) /
+                (Math.max(prevBody, 1) + Math.max(prev.volume, 1) * 0.1),
+              0,
+              1
+            );
+            const baseColor = agree
+              ? p.color(120, 255, 160, 220)
+              : p.color(255, 120, 120, 220);
+            const centerY = bodyTop + bodyH / 2;
+            const cp1x = xCenter + candleW * 0.6;
+            const cp1y = (centerY + volTopY) / 2 - 12;
+            const thickness = 1 + 3 * strength + pulse * 1.2;
+
+            p.noFill();
+            for (let g = 3; g >= 1; g--) {
+              const alpha = 70 * (g / 3) + 40 * pulse;
+              const cGlow = p.color(
+                p.red(baseColor),
+                p.green(baseColor),
+                p.blue(baseColor),
+                alpha
+              );
+              p.stroke(cGlow);
+              p.strokeWeight(thickness * (g / 3));
+              p.bezier(
+                xCenter,
+                centerY,
+                cp1x,
+                cp1y,
+                xCenter - candleW * 0.6,
+                cp1y,
+                xCenter,
+                volTopY
+              );
+            }
+
+            // Micro icons above candle
+            const cx = xCenter;
+            const cy = highY - 8;
+            let microColor: p5.Color = p.color(180, 200, 255);
+            let microText = '';
+            if (agree && bodyChange > 0 && volChange > 0) {
+              microColor = p.color(120, 255, 160);
+              microText = '+Effort +Result';
+            } else if (volChange > 0 && bodyChange <= 0) {
+              microColor = p.color(255, 180, 120);
+              microText = 'Effort↑ Result↓';
+            } else if (volChange < 0 && bodyChange > 0) {
+              microColor = p.color(120, 180, 255);
+              microText = 'Effort↓ Result↑';
+            }
+            // Special-case absorption (high effort, tiny body)
+            if (volRatio > 0.7 && bodyH < 6) {
+              microColor = p.color(255, 120, 120);
+              microText = 'Absorption';
+            }
+            if (globalIndex === stepRef.current - 1) {
+              p.noStroke();
+              p.fill(microColor);
+              p.ellipse(cx, cy, 6, 6);
+              p.fill(240);
+              p.textSize(10);
+              p.textAlign(p.LEFT, p.CENTER);
+              p.text(microText, cx + 6, cy);
+            }
           }
 
           // Labels for effort vs result
@@ -500,6 +707,9 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
               const y = lastLabelY;
               p.text(info.label, chartX + 10, y);
               lastLabelY = y + 16;
+              // Start narration
+              narrationTextRef.current = info.label;
+              narrationLifeRef.current = 90; // ~1.5s at 60fps
             }
           }
         });
@@ -531,6 +741,25 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
           }
         }
 
+        // Narration overlay (top-center) fade in/out
+        if (narrationLifeRef.current > 0 && narrationTextRef.current) {
+          const life = narrationLifeRef.current;
+          const alpha = life > 70 ? (90 - life) * 8 : life * 6;
+          p.noStroke();
+          p.fill(22, 22, 32, Math.min(200, 80 + alpha * 0.5));
+          const text = narrationTextRef.current;
+          p.textSize(13);
+          const tw = p.textWidth(text) + 20;
+          const th = 26;
+          const tx = chartX + chartW / 2 - tw / 2;
+          const ty = chartY - 34;
+          p.rect(tx, ty, tw, th, 6);
+          p.fill(245, 245, 220, Math.min(255, 120 + alpha));
+          p.textAlign(p.CENTER, p.CENTER);
+          p.text(text, tx + tw / 2, ty + th / 2);
+          narrationLifeRef.current -= 1;
+        }
+
         // Axis labels
         p.fill(180);
         p.textSize(10);
@@ -544,6 +773,35 @@ export const VPALens2D: React.FC<VPALens2DProps> = ({
           );
           p.text(val.toFixed(1), chartX - 6, y);
         }
+
+        // End zoomed context
+        p.pop();
+
+        // Timeline navigator (sparkline)
+        const timelineY = chartY + chartH + 6;
+        const tlH = timelineHeight - 6;
+        p.noStroke();
+        p.fill(30, 35, 50, 180);
+        p.rect(chartX, timelineY, chartW, tlH, 6);
+        // sparkline
+        p.stroke(140, 180, 255, 220);
+        p.noFill();
+        p.beginShape();
+        for (let i = 0; i < candles.length; i++) {
+          const c = candles[i];
+          const x = chartX + (i / Math.max(candles.length - 1, 1)) * chartW;
+          const y =
+            timelineY + tlH - (c.volume / Math.max(maxVolume, 0.0001)) * tlH;
+          p.vertex(x, y);
+        }
+        p.endShape();
+        // current step marker
+        const stepX =
+          chartX +
+          ((stepRef.current - 1) / Math.max(candles.length - 1, 1)) * chartW;
+        p.stroke(255, 255, 255, 220);
+        p.strokeWeight(2);
+        p.line(stepX, timelineY, stepX, timelineY + tlH);
       };
     },
     [sequenceCacheKey]

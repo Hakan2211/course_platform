@@ -57,6 +57,7 @@ const VPALens2DContainer: React.FC = () => {
   const [playing, setPlaying] = useState<boolean>(false);
   const [showInsights, setShowInsights] = useState<boolean>(true);
   const [hoverReading, setHoverReading] = useState<string | null>(null);
+  const [dualView, setDualView] = useState<boolean>(false);
   const playRef = useRef(playing);
   const stepRef = useRef(step);
 
@@ -97,6 +98,8 @@ const VPALens2DContainer: React.FC = () => {
               showInsights={showInsights}
               onHoverReadingChange={setHoverReading}
               totalBars={TOTAL_BARS}
+              onStepChange={(n) => setStep(n)}
+              dualView={dualView}
             />
           </div>
 
@@ -211,6 +214,11 @@ const VPALens2DContainer: React.FC = () => {
                   checked={showInsights}
                   onChange={setShowInsights}
                   label="Toggle Insights"
+                />
+                <ToggleRow
+                  checked={dualView}
+                  onChange={setDualView}
+                  label="Dual View Mode"
                 />
               </div>
 
