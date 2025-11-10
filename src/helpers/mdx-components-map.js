@@ -114,6 +114,14 @@ const ShareCakeSlicer = dynamic(
   { ssr: false }
 );
 
+const VolumeRotation3D = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/VolumeRotationContainer'
+    ),
+  { ssr: false }
+);
+
 const InteractiveFloat = dynamic(
   () =>
     import(
@@ -194,6 +202,30 @@ const ProfileShapeExplorer2DContainer = dynamic(
   { ssr: false }
 );
 
+const CryptoEquitiesRotationContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/CryptoEquitiesRotationContainer'
+    ),
+  { ssr: false }
+);
+
+const EconomicCycleRotationContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/EconomicCycleRotationContainer'
+    ),
+  { ssr: false }
+);
+
+const MarketStatesVisualizerContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/MarketStatesVisualizerContainer'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -230,9 +262,13 @@ const COMPONENT_MAP = {
   EquilibriumAndPressureContainer,
   BattleInsideBoxContainer,
   VolumeAnatomyContainer,
+  VolumeRotation3D,
   VolumeAnatomy2DContainer,
   VPALens2DContainer,
   ProfileShapeExplorer2DContainer,
+  CryptoEquitiesRotationContainer,
+  EconomicCycleRotationContainer,
+  MarketStatesVisualizerContainer,
   Table,
   TableBody,
   TableCell,
