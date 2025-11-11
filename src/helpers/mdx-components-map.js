@@ -235,6 +235,14 @@ const MarketStatesVisualizerContainer = dynamic(
   { ssr: false }
 );
 
+const FalseVsFailedBreakout2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/FalseVsFailedBreakout2DContainer'
+    ),
+  { ssr: false }
+);
+
 const TrendArchitectureContainer = dynamic(
   () =>
     import(
@@ -295,6 +303,7 @@ const COMPONENT_MAP = {
   CryptoEquitiesRotationContainer,
   EconomicCycleRotationContainer,
   MarketStatesVisualizerContainer,
+  FalseVsFailedBreakout2DContainer,
   TrendArchitectureContainer,
   SupportResistanceMemoryContainer,
   Table,

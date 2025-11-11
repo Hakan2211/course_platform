@@ -146,8 +146,6 @@ And once they identify where the liquidity is...
 
 **They go hunting.**
 
-{/* <LiquidityPoolVisualizerContainer /> */}
-
 <LiquidityHuntContainer />
 
 ## The Anatomy of a Liquidity Hunt
@@ -252,146 +250,151 @@ too hurt and confused to re-enter.
 <Alert variant="info">
   <AlertDescription>
     The false breakdown was not a failed move.
-    <br />
-    It was the necessary setup for the real move.
-    <br />
-    The predator needed liquidity. So they manufactured it.
+    <br /> It was the necessary setup for the real move.
+    <br /> The predator needed liquidity. So they manufactured it.
   </AlertDescription>
 </Alert>
 
-{/* <LiquidityHuntStagesContainer /> */}
+<Accordion type="single" collapsible>
+  <AccordionItem value="btc-example">
+    <AccordionTrigger>Real-World Example: Bitcoin, May 19, 2021</AccordionTrigger>
+    <AccordionContent>
+      Let's examine one of the most brutal liquidity hunts in recent crypto history.
 
-## Real-World Example: Bitcoin, May 19, 2021
+      ### The Setup
 
-Let's examine one of the most brutal liquidity hunts in recent crypto history.
+      **Context:**
 
-### The Setup
+      → Bitcoin had been in a volatile consolidation between $42,000 - $44,000 for 10 days<br/>
+      → Support at $42,000 had been tested 4 times and held each time<br/>
+      → Sentiment was fragile after a larger decline from $64,000<br/>
+      → Leverage in the system was extremely high<br/>
 
-**Context:**
+      **The Liquidity Pool:**
 
-→ Bitcoin had been in a volatile consolidation between $42,000 - $44,000 for 10 days<br/>
-→ Support at $42,000 had been tested 4 times and held each time<br/>
-→ Sentiment was fragile after a larger decline from $64,000<br/>
-→ Leverage in the system was extremely high<br/>
+      Everyone could see $42,000 was critical support.
 
-**The Liquidity Pool:**
+      Which meant stops were densely clustered at $41,800 - $41,900 — just below the "obvious" level.
 
-Everyone could see $42,000 was critical support.
+      Thousands of long positions, billions in notional value, all protected by stops in the same narrow zone.
 
-Which meant stops were densely clustered at $41,800 - $41,900 — just below the "obvious" level.
+      **Perfect hunting ground.**
 
-Thousands of long positions, billions in notional value, all protected by stops in the same narrow zone.
+      ### The Execution
 
-**Perfect hunting ground.**
+      **03:12 UTC — The Strike**
 
-### The Execution
+      A coordinated wave of market sell orders hits the book.
 
-**03:12 UTC — The Strike**
+      Price punches through $42,000 like it's tissue paper.
 
-A coordinated wave of market sell orders hits the book.
+      Within 3 minutes, Bitcoin is at $41,700.
 
-Price punches through $42,000 like it's tissue paper.
+      **The cascade begins:**
 
-Within 3 minutes, Bitcoin is at $41,700.
+      → 15,000+ BTC of sell-stop liquidations trigger<br/>
+      → Panic spreads across social media — "Support broken! $30K incoming!"<br/>
+      → Retail shorts pile in, convinced the bottom is falling out<br/>
+      → More long stops trigger in waves<br/>
 
-**The cascade begins:**
+      **The Absorption:**
 
-→ 15,000+ BTC of sell-stop liquidations trigger<br/>
-→ Panic spreads across social media — "Support broken! $30K incoming!"<br/>
-→ Retail shorts pile in, convinced the bottom is falling out<br/>
-→ More long stops trigger in waves<br/>
+      But watch what happens at $41,700.
 
-**The Absorption:**
+      Price **stalls**.
 
-But watch what happens at $41,700.
+      For 9 full minutes, massive sell volume hits the tape — but price doesn't cascade further.
 
-Price **stalls**.
+      It bounces between $41,650 - $41,750, absorbing wave after wave of selling.
 
-For 9 full minutes, massive sell volume hits the tape — but price doesn't cascade further.
+      **Someone is buying it all.**
 
-It bounces between $41,650 - $41,750, absorbing wave after wave of selling.
+      Hidden iceberg orders are devouring every contract that panicked sellers are throwing at them.
 
-**Someone is buying it all.**
+      **03:21 UTC — The Reversal**
 
-Hidden iceberg orders are devouring every contract that panicked sellers are throwing at them.
+      Selling pressure suddenly evaporates.
 
-**03:21 UTC — The Reversal**
+      Aggressive buying floods in.
 
-Selling pressure suddenly evaporates.
+      Within 15 minutes, Bitcoin is back above $43,000.
 
-Aggressive buying floods in.
+      Within an hour, it's at $44,500.
 
-Within 15 minutes, Bitcoin is back above $43,000.
+      The shorts who entered at $42,000-$41,700? **Liquidated.**
 
-Within an hour, it's at $44,500.
+      The longs who got stopped out at $41,800? **Out of the market, watching in disbelief.**
 
-The shorts who entered at $42,000-$41,700? **Liquidated.**
+      ### The Aftermath
 
-The longs who got stopped out at $41,800? **Out of the market, watching in disbelief.**
+      Over the next 3 weeks, Bitcoin rallied from $41,700 to $64,000.
 
-### The Aftermath
+      **The $41,700 wick wasn't the trend reversing.**
 
-Over the next 3 weeks, Bitcoin rallied from $41,700 to $64,000.
+      **It was institutions accumulating at the best possible price.**
 
-**The $41,700 wick wasn't the trend reversing.**
+      The cost to engineer the hunt: approximately $10-15 million in aggressive selling.
 
-**It was institutions accumulating at the best possible price.**
+      The liquidity harvested: over $1.2 billion in liquidations and stop-losses.
 
-The cost to engineer the hunt: approximately $10-15 million in aggressive selling.
+      The positions accumulated: enough to fuel a rally that doubled price.
 
-The liquidity harvested: over $1.2 billion in liquidations and stop-losses.
+      **This wasn't luck. It wasn't random. It was engineering.**
 
-The positions accumulated: enough to fuel a rally that doubled price.
+      {/* <RealWorldHuntContainer chartData="bitcoin-may-19-2021" /> */}
+    </AccordionContent>
 
-**This wasn't luck. It wasn't random. It was engineering.**
+  </AccordionItem>
+  <AccordionItem value="eth-example">
+    <AccordionTrigger>Real-World Example 2: Ethereum, November 9, 2022</AccordionTrigger>
+    <AccordionContent>
+      ### The Setup
 
-{/* <RealWorldHuntContainer chartData="bitcoin-may-19-2021" /> */}
+      **Context:**
 
-## Real-World Example 2: Ethereum, November 9, 2022
+      → ETH consolidating at $1,550 - $1,650 for 6 days post-FTX collapse<br/>
+      → Resistance at $1,650 tested 3 times<br/>
+      → Market psychology: "Dead cat bounce, lower lows coming"<br/>
 
-### The Setup
+      **The Liquidity Pool:**
 
-**Context:**
+      Shorts were piled up with stops just above $1,650.
 
-→ ETH consolidating at $1,550 - $1,650 for 6 days post-FTX collapse<br/>
-→ Resistance at $1,650 tested 3 times<br/>
-→ Market psychology: "Dead cat bounce, lower lows coming"<br/>
+      Breakout buyers had orders sitting at $1,655-$1,660.
 
-**The Liquidity Pool:**
+      **Classic setup for an upside hunt.**
 
-Shorts were piled up with stops just above $1,650.
+      ### The Execution
 
-Breakout buyers had orders sitting at $1,655-$1,660.
+      **14:23 UTC — The Fake Breakout**
 
-**Classic setup for an upside hunt.**
+      Price spikes to $1,672 on heavy volume.
 
-### The Execution
+      Breakout traders enter long. Short stops trigger. "Bullish reversal!" the charts scream.
 
-**14:23 UTC — The Fake Breakout**
+      For 18 minutes, price hovers at $1,665-$1,675.
 
-Price spikes to $1,672 on heavy volume.
+      Then it collapses.
 
-Breakout traders enter long. Short stops trigger. "Bullish reversal!" the charts scream.
+      By 14:55 UTC, ETH is at $1,580.
 
-For 18 minutes, price hovers at $1,665-$1,675.
+      Every breakout buyer is underwater or stopped out.
 
-Then it collapses.
+      Every short who got squeezed out is watching in rage as price returns exactly where they had been positioned.
 
-By 14:55 UTC, ETH is at $1,580.
+      **The Aftermath:**
 
-Every breakout buyer is underwater or stopped out.
+      Price consolidated back in the $1,550-$1,650 range for another 4 days...
+      ...then legitimately broke out to $1,280 (downward).
 
-Every short who got squeezed out is watching in rage as price returns exactly where they had been positioned.
+      **The upside spike was bait.**
 
-**The Aftermath:**
+      It collected liquidity from shorts (via stops) and from breakout chasers (via entries),
+      providing institutions the liquidity to distribute their positions before the real leg down.
+    </AccordionContent>
 
-Price consolidated back in the $1,550-$1,650 range for another 4 days...
-...then legitimately broke out to $1,280 (downward).
-
-**The upside spike was bait.**
-
-It collected liquidity from shorts (via stops) and from breakout chasers (via entries),
-providing institutions the liquidity to distribute their positions before the real leg down.
+  </AccordionItem>
+</Accordion>
 
 {/* <RealWorldHuntContainer chartData="ethereum-nov-2022" /> */}
 
@@ -615,6 +618,8 @@ Critical distinction that will save you countless losses:
   </TableBody>
 </Table>
 <br />
+
+<FalseVsFailedBreakout2DContainer />
 
 Both look similar on a chart _after the fact_. But understanding the _why_ changes everything about how you respond.
 
