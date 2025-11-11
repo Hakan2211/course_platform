@@ -179,6 +179,14 @@ const VolumeAnatomyContainer = dynamic(
   { ssr: false }
 );
 
+const LiquidityHuntContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/LiquidityHuntContainer'
+    ),
+  { ssr: false }
+);
+
 const VolumeAnatomy2DContainer = dynamic(
   () =>
     import(
@@ -279,6 +287,7 @@ const COMPONENT_MAP = {
   EquilibriumAndPressureContainer,
   BattleInsideBoxContainer,
   VolumeAnatomyContainer,
+  LiquidityHuntContainer,
   VolumeRotation3D,
   VolumeAnatomy2DContainer,
   VPALens2DContainer,
