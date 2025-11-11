@@ -48,6 +48,7 @@ import {
 import { Highlight } from '@/components/mdx_components/highlight/Highlight';
 import { CustomLink } from '@/components/mdx_components/customLink/CustomLink';
 import { Math } from '@/components/mdx_components/math/Math';
+import DecisionTree from '@/components/mdx_components/decisionTree/DecisionTree';
 import {
   TrendingUp,
   LandPlot,
@@ -304,6 +305,7 @@ const COMPONENT_MAP = {
   Highlight,
   CustomLink,
   Math,
+  DecisionTree,
   TrendingUp,
   LandPlot,
   Repeat,
