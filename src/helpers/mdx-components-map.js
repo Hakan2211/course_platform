@@ -243,6 +243,22 @@ const FalseVsFailedBreakout2DContainer = dynamic(
   { ssr: false }
 );
 
+const DepthChart2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/DepthChart2DContainer'
+    ),
+  { ssr: false }
+);
+
+const TapeReading2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/TapeReading2DContainer'
+    ),
+  { ssr: false }
+);
+
 const TrendArchitectureContainer = dynamic(
   () =>
     import(
@@ -255,6 +271,22 @@ const SupportResistanceMemoryContainer = dynamic(
   () =>
     import(
       '@/components/mdx_components/3d_lessons/magicMarketBox/SupportResistanceMemoryContainer'
+    ),
+  { ssr: false }
+);
+
+const OrderBook3DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/OrderBook3DContainer'
+    ),
+  { ssr: false }
+);
+
+const ExecutionStrategiesContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/ExecutionStrategiesContainer'
     ),
   { ssr: false }
 );
@@ -304,8 +336,12 @@ const COMPONENT_MAP = {
   EconomicCycleRotationContainer,
   MarketStatesVisualizerContainer,
   FalseVsFailedBreakout2DContainer,
+  DepthChart2DContainer,
+  TapeReadingContainer: TapeReading2DContainer,
   TrendArchitectureContainer,
   SupportResistanceMemoryContainer,
+  OrderBook3DContainer,
+  ExecutionStrategiesContainer,
   Table,
   TableBody,
   TableCell,
