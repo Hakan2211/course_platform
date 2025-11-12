@@ -49,6 +49,7 @@ import { Highlight } from '@/components/mdx_components/highlight/Highlight';
 import { CustomLink } from '@/components/mdx_components/customLink/CustomLink';
 import { Math } from '@/components/mdx_components/math/Math';
 import DecisionTree from '@/components/mdx_components/decisionTree/DecisionTree';
+import ShortInterestDataPanel from '@/components/mdx_components/shortInterestPanel/ShortInterestDataPanel';
 import {
   TrendingUp,
   LandPlot,
@@ -159,6 +160,14 @@ const EquilibriumAndPressureContainer = dynamic(
   () =>
     import(
       '@/components/mdx_components/3d_lessons/magicMarketBox/EquilibriumAndPressureContainer'
+    ),
+  { ssr: false }
+);
+
+const ShortingMechanismContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/ShortingMechanismContainer'
     ),
   { ssr: false }
 );
@@ -325,6 +334,7 @@ const COMPONENT_MAP = {
   ParticleModelContainer,
   EnergyAndMotionContainer,
   EquilibriumAndPressureContainer,
+  ShortingMechanismContainer,
   BattleInsideBoxContainer,
   VolumeAnatomyContainer,
   LiquidityHuntContainer,
@@ -360,6 +370,7 @@ const COMPONENT_MAP = {
   CustomLink,
   Math,
   DecisionTree,
+  ShortInterestDataPanel,
   TrendingUp,
   LandPlot,
   Repeat,
