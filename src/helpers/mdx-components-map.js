@@ -131,6 +131,14 @@ const VolumeRotation3D = dynamic(
   { ssr: false }
 );
 
+const CompressedCycle2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/magicMarketBox/CompressedCycle2DContainer'
+    ),
+  { ssr: false }
+);
+
 const InteractiveFloat = dynamic(
   () =>
     import(
@@ -167,6 +175,14 @@ const EquilibriumAndPressureContainer = dynamic(
   () =>
     import(
       '@/components/mdx_components/3d_lessons/magicMarketBox/EquilibriumAndPressureContainer'
+    ),
+  { ssr: false }
+);
+
+const VerticalEcosystemContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/VerticalEcosystemContainer'
     ),
   { ssr: false }
 );
@@ -341,11 +357,13 @@ const COMPONENT_MAP = {
   ParticleModelContainer,
   EnergyAndMotionContainer,
   EquilibriumAndPressureContainer,
+  VerticalEcosystemContainer,
   ShortingMechanismContainer,
   BattleInsideBoxContainer,
   VolumeAnatomyContainer,
   LiquidityHuntContainer,
   VolumeRotation3D,
+  CompressedCycle2DContainer,
   VolumeAnatomy2DContainer,
   VPALens2DContainer,
   ProfileShapeExplorer2DContainer,
