@@ -292,6 +292,14 @@ const TapeReading2DContainer = dynamic(
   { ssr: false }
 );
 
+const OwnershipDilution2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/OwnershipDilution2DContainer'
+    ),
+  { ssr: false }
+);
+
 const TrendArchitectureContainer = dynamic(
   () =>
     import(
@@ -374,6 +382,7 @@ const COMPONENT_MAP = {
   FalseVsFailedBreakout2DContainer,
   DepthChart2DContainer,
   TapeReadingContainer: TapeReading2DContainer,
+  OwnershipDilution2DContainer,
   TrendArchitectureContainer,
   SupportResistanceMemoryContainer,
   OrderBook3DContainer,

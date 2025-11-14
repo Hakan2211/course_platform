@@ -40,6 +40,10 @@ This is the mathematical reality of dilution. And here's why it matters:
 there are 10 million shares, each share represents $10 of value. Add 5 million new shares (increasing to 15 million total),
 and suddenly each share only represents $6.67 of value — even if nothing about the business fundamentally changed.
 
+Run through that dilution path below — watch how your slice stays the same size while your percentage and value shrink.
+
+<OwnershipDilution2DContainer />
+
 ### The Two-Part Impact on Stock Price
 
 Dilution hits a stock price in two ways:
@@ -602,7 +606,11 @@ When evaluating a company's valuation:
 
 Here's the most valuable formula for anticipating dilution:
 
-<Math>Cash Runway = Cash on Hand ÷ Quarterly Cash Burn</Math>
+<Math>
+  {
+    '\\text{Cash Runway} = \\frac{\\text{Cash on Hand}}{\\text{Quarterly Cash Burn}}'
+  }
+</Math>
 
 **Where to find these numbers:**
 
@@ -1090,7 +1098,11 @@ Not all dilution is created equal. Here's a quantitative framework to assess how
 
 **Formula:**
 
-<Math>Warrant Overhang % = Outstanding Warrants ÷ Current Float × 100</Math>
+<Math>
+  {
+    '\\text{Warrant Overhang \\%} = \\frac{\\text{Outstanding Warrants}}{\\text{Current Float}} \\times 100'
+  }
+</Math>
 
 **Interpretation:**
 
@@ -1114,7 +1126,9 @@ This creates massive resistance to upward movement.
 **Formula:**
 
 <Math>
-  Avg Discount % = Average ((Offering Price - Prior Close) ÷ Prior Close) × 100
+  {
+    '\\text{Avg Discount \\%} = \\left(\\frac{\\text{Offering Price} - \\text{Prior Close}}{\\text{Prior Close}}\\right) \\times 100'
+  }
 </Math>
 
 **Interpretation:**
@@ -1139,7 +1153,11 @@ Future offerings will likely be even more dilutive.
 
 **Formula:**
 
-<Math>Runway (months) = Cash on Hand ÷ (Quarterly Cash Burn ÷ 3)</Math>
+<Math>
+  {
+    '\\text{Runway (months)} = \\frac{\\text{Cash on Hand}}{\\frac{\\text{Quarterly Cash Burn}}{3}}'
+  }
+</Math>
 
 **Interpretation:**
 
