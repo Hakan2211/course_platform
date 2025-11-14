@@ -50,6 +50,7 @@ import { CustomLink } from '@/components/mdx_components/customLink/CustomLink';
 import { Math } from '@/components/mdx_components/math/Math';
 import DecisionTree from '@/components/mdx_components/decisionTree/DecisionTree';
 import ShortInterestDataPanel from '@/components/mdx_components/shortInterestPanel/ShortInterestDataPanel';
+import DilutionChecklist from '@/components/mdx_components/dilutionChecklist/DilutionChecklist';
 const ShadowFloatRiskSimulator = dynamic(
   () =>
     import(
@@ -397,6 +398,7 @@ const COMPONENT_MAP = {
   DecisionTree,
   ShortInterestDataPanel,
   ShadowFloatRiskSimulator,
+  DilutionChecklist,
   TrendingUp,
   LandPlot,
   Repeat,
