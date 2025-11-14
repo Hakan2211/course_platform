@@ -236,6 +236,14 @@ The 424B3 is used to file substantive changes or additions to a previously filed
 A 424B3 is NOT typically used for the final pricing of an offering — that's what the 424B5 is for. But if you see a 424B3,
 it means something significant changed in the company's situation that required updating their registration statement.
 
+### Interactive: Dilution vs. Buybacks
+
+Fire up the new float lab below to _feel_ how capital decisions change the market box in real time.
+
+<DilutionBuybackContainer />
+
+Tap `Dilute` to unleash registered shares from the shelf into the float — watch the float cube expand as supply floods in. Then hit `Buyback` to see the company yank those same particles out of circulation and stack them inside treasury, shrinking the float and concentrating value. Adjust the particle sliders to simulate thin micro-cap floats or thick large-cap structures and rehearse how quickly the balance can swing.
+
 ## The Offering Playbook: Different Methods of Dilution
 
 Now that you understand the filing framework, let's explore how companies actually deploy these offerings.
@@ -566,9 +574,38 @@ The resulting dilution can be catastrophic—30%, 50%, 70%+ over a period of mon
   </AlertDescription>
 </Alert>
 
+### Visualization: The Company Galaxy
+
+We use the same particle-based storytelling from the earlier lessons, but now the box becomes an entire solar system.  
+The **Company Galaxy** ties every dilutive path back to one shared visualization: a pulsing Value Crystal, an orbiting float, dormant shares on the shelf, and a ghost shell that represents future dilution risk.
+
+**Core elements**
+
+- **Value Crystal (center):** Scales and brightens with company value. In good financing events (buybacks, accretive deals) it expands; destructive dilution shrinks and dims it, so you can literally see EPS compression.
+- **Share Particles (orbiting cloud):** Each white/blue particle is an active float share. The orbit radius expands when dilution adds supply and contracts during buybacks. Orbit speed mirrors volume.
+- **Share Dispenser (shelf):** Transparent box that holds registered-but-unissued shares. Three mechanisms are visible:
+  - **Floodgate:** A secondary offering launches a wave of particles straight into the float.
+  - **Tap:** ATMs drip particles into the market in real time.
+  - **Pipeline:** An ELOC/PIPE sends shares through a glowing tube to a financing partner, who then dumps them into the orbit.
+- **Ghost Shell (outer halo):** Semi-transparent particles show warrants, options, and convertibles waiting to dilute. Exercising them collapses that halo inward and lights up the float.
+- **Financing Partner:** A separate node for PIPE/ELOC investors so you can see concentrated counter-party risk.
+
+**Interactive controls**
+
+- `Launch Secondary Offering` releases the floodgate, empties the dispenser, and expands the float rapidly.
+- `Activate ATM Tap` turns on the nozzle so trickles of supply hit the market over time.
+- `Exercise Warrants` drains the ghost shell and converts those particles into real float.
+- `Initiate Buyback` pulls particles back toward the crystal, shrinking the float and brightening the core.
+- `Objective / Shareholder View` toggle: in shareholder view the camera locks to a single share particle, so you feel how your orbit stretches away from the value source as dilution accelerates.
+
+<CompanyGalaxyContainer />
+
 ## The Math of Dilution: Fully Diluted Share Count
 
 Most traders only look at the "Shares Outstanding" number. But that's not the full picture.
+
+Plug a hypothetical offering into the dilution impact lab below to see how an overnight raise
+instantly expands the float, compresses EPS, and chips away at your ownership slice.
 
 **Fully Diluted Shares:**Basic shares PLUS all potential shares from:
 
@@ -601,6 +638,8 @@ When evaluating a company's valuation:
 → Don't use basic shares outstanding<br/>
 → Use fully diluted shares for a realistic picture<br/>
 → This is especially critical for companies with heavy equity compensation or convertible debt<br/>
+
+<DilutionImpact2DContainer />
 
 ## Cash Runway: Predicting the Next Dilution
 
@@ -1226,6 +1265,8 @@ Combine all three metrics:
 
 **A score of 3.4 signals:** "This company is in serious trouble. Heavy dilution is coming,
 and it will be on bad terms. Unless there's a major catalyst, avoid or short."
+
+<ToxicityScorecard2DContainer />
 
 ## Case Study: Recognizing "Good" vs. "Bad" Dilution
 

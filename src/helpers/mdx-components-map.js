@@ -204,6 +204,14 @@ const BattleInsideBoxContainer = dynamic(
   { ssr: false }
 );
 
+const CompanyGalaxyContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/CompanyGalaxyContainer'
+    ),
+  { ssr: false }
+);
+
 const VolumeAnatomyContainer = dynamic(
   () =>
     import(
@@ -300,6 +308,22 @@ const OwnershipDilution2DContainer = dynamic(
   { ssr: false }
 );
 
+const ToxicityScorecard2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/ToxicityScorecard2DContainer'
+    ),
+  { ssr: false }
+);
+
+const DilutionImpact2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/DilutionImpact2DContainer'
+    ),
+  { ssr: false }
+);
+
 const TrendArchitectureContainer = dynamic(
   () =>
     import(
@@ -328,6 +352,14 @@ const ExecutionStrategiesContainer = dynamic(
   () =>
     import(
       '@/components/mdx_components/3d_lessons/magicMarketBox/ExecutionStrategiesContainer'
+    ),
+  { ssr: false }
+);
+
+const DilutionBuybackContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/DilutionBuybackContainer'
     ),
   { ssr: false }
 );
@@ -369,6 +401,7 @@ const COMPONENT_MAP = {
   VerticalEcosystemContainer,
   ShortingMechanismContainer,
   BattleInsideBoxContainer,
+  CompanyGalaxyContainer,
   VolumeAnatomyContainer,
   LiquidityHuntContainer,
   VolumeRotation3D,
@@ -383,10 +416,13 @@ const COMPONENT_MAP = {
   DepthChart2DContainer,
   TapeReadingContainer: TapeReading2DContainer,
   OwnershipDilution2DContainer,
+  ToxicityScorecard2DContainer,
+  DilutionImpact2DContainer,
   TrendArchitectureContainer,
   SupportResistanceMemoryContainer,
   OrderBook3DContainer,
   ExecutionStrategiesContainer,
+  DilutionBuybackContainer,
   Table,
   TableBody,
   TableCell,
