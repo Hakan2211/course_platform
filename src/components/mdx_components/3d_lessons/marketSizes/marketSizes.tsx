@@ -15,6 +15,10 @@ interface MarketData {
   description: string;
 }
 
+const MAX_BOX_HEIGHT = 4;
+const MIN_BOX_HEIGHT_LOG = 0.2;
+const MIN_BOX_HEIGHT_LINEAR = 0.02;
+
 const marketData: MarketData[] = [
   {
     name: 'Equities',
@@ -206,26 +210,22 @@ const MarketSizes: React.FC<MarketSizesProps> = ({
   const maxValue = Math.max(
     ...validMarkets.map((m) => m[scaleType as keyof MarketData] as number)
   );
-  const minValue = Math.min(
-    ...validMarkets.map((m) => m[scaleType as keyof MarketData] as number)
-  );
 
   // Scale function
   const scaleValue = (value: number): number => {
-    const maxHeight = 4; // Maximum box height in 3D space
-    const minHeight = 0.2; // Minimum visible height
-
     if (useLogScale) {
-      // Logarithmic scaling: log10(value) / log10(maxValue) * maxHeight
-      const logValue = Math.log10(Math.max(value, 0.1)); // Prevent log(0)
-      const logMax = Math.log10(maxValue);
-      const normalized = logValue / logMax;
-      return Math.max(normalized * maxHeight, minHeight);
-    } else {
-      // Linear scaling
-      const normalized = (value - minValue) / (maxValue - minValue);
-      return Math.max(normalized * maxHeight, minHeight);
+      // Logarithmic scaling: log10(value) / log10(maxValue) * max height
+      const safeValue = Math.max(value, 0.1); // Prevent log(0)
+      const safeMax = Math.max(maxValue, 0.1);
+      const logValue = Math.log10(safeValue);
+      const logMax = Math.log10(safeMax);
+      const normalized = logMax === 0 ? 1 : logValue / logMax;
+      return Math.max(normalized * MAX_BOX_HEIGHT, MIN_BOX_HEIGHT_LOG);
     }
+
+    // Linear scaling: direct proportion to the largest market
+    const normalized = maxValue > 0 ? Math.max(value, 0) / maxValue : 0;
+    return Math.max(normalized * MAX_BOX_HEIGHT, MIN_BOX_HEIGHT_LINEAR);
   };
 
   // Calculate heights for each market
