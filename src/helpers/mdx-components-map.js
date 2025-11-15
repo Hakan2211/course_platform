@@ -380,6 +380,14 @@ const DilutionBuybackContainer = dynamic(
   { ssr: false }
 );
 
+const OfferingMechanicsContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/OfferingMechanicsContainer'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -441,6 +449,7 @@ const COMPONENT_MAP = {
   OrderBook3DContainer,
   ExecutionStrategiesContainer,
   DilutionBuybackContainer,
+  OfferingMechanicsContainer,
   Table,
   TableBody,
   TableCell,

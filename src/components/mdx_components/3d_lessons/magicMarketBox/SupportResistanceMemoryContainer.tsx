@@ -24,7 +24,7 @@ const SupportResistanceMemoryContainer: React.FC = () => {
           <h3 className="text-base md:text-lg font-semibold text-white">
             Memory Reactivates — Support/Resistance (3D)
           </h3>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             The active box approaches a memory zone — watch the reaction.
           </p>
         </div>
