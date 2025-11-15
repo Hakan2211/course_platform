@@ -132,6 +132,14 @@ const VolumeRotation3D = dynamic(
   { ssr: false }
 );
 
+const VolumeAtPriceContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/VolumeAtPriceContainer'
+    ),
+  { ssr: false }
+);
+
 const CompressedCycle2DContainer = dynamic(
   () =>
     import(
@@ -248,6 +256,14 @@ const ProfileShapeExplorer2DContainer = dynamic(
   () =>
     import(
       '@/components/mdx_components/2d_environment/p5Sketch/ProfileShapeExplorer2DContainer'
+    ),
+  { ssr: false }
+);
+
+const VWAPLaboratory2DContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/2d_environment/p5Sketch/VWAPLaboratory2DContainer'
     ),
   { ssr: false }
 );
@@ -403,12 +419,14 @@ const COMPONENT_MAP = {
   BattleInsideBoxContainer,
   CompanyGalaxyContainer,
   VolumeAnatomyContainer,
+  VolumeAtPriceContainer,
   LiquidityHuntContainer,
   VolumeRotation3D,
   CompressedCycle2DContainer,
   VolumeAnatomy2DContainer,
   VPALens2DContainer,
   ProfileShapeExplorer2DContainer,
+  VWAPLaboratory2DContainer,
   CryptoEquitiesRotationContainer,
   EconomicCycleRotationContainer,
   MarketStatesVisualizerContainer,

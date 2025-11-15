@@ -703,7 +703,7 @@ export default function ShadowFloatRiskSimulator() {
   }, [state.currentPrice, state.entryPrice, state.inPosition]);
 
   return (
-    <div className="mx-auto max-w-[1600px] p-5 text-zinc-200">
+    <div className="mx-auto max-w-[1600px] p-5 text-zinc-200 bg-gradient-to-br from-gray-950/90 via-gray-900/85 to-black/90 border border-gray-700/40 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.65)] backdrop-blur-2xl">
       {/* Header */}
       <div className="mb-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-center backdrop-blur">
         <h1 className="mb-1 text-xl font-bold text-red-400 drop-shadow-[0_0_20px_rgba(248,113,113,0.4)]">
@@ -719,7 +719,7 @@ export default function ShadowFloatRiskSimulator() {
         {/* Left column - Chart & Messages */}
         <div className="flex flex-col gap-4">
           {/* Chart Panel */}
-          <div className="flex flex-col rounded-xl border border-white/10 bg-[rgba(20,20,35,0.9)] p-4">
+          <div className="flex flex-col rounded-xl border border-white/10 bg-gradient-to-br from-slate-950/85 via-slate-900/80 to-gray-900/80 p-4 backdrop-blur">
             <div className="mb-3 flex items-center gap-2 text-base font-bold text-white">
               📈 Live Price Action
             </div>
@@ -761,7 +761,7 @@ export default function ShadowFloatRiskSimulator() {
           </div>
 
           {/* Messages */}
-          <div className="flex h-[300px] flex-col rounded-xl border border-white/10 bg-[rgba(20,20,35,0.9)] p-4">
+          <div className="flex h-[300px] flex-col rounded-xl border border-white/10 bg-gradient-to-br from-slate-950/85 via-slate-900/80 to-gray-900/80 p-4 backdrop-blur">
             <div className="mb-3 flex items-center gap-2 text-base font-bold text-white">
               💬 Trade Log & Violations
             </div>
@@ -777,7 +777,7 @@ export default function ShadowFloatRiskSimulator() {
                     className={
                       'rounded-lg border-l-4 px-2.5 py-1.5 text-xs leading-relaxed ' +
                       (m.type === 'info'
-                        ? 'border-indigo-400 bg-indigo-500/15 text-indigo-200'
+                        ? 'border-cyan-400 bg-cyan-500/15 text-cyan-100'
                         : m.type === 'warning'
                         ? 'border-amber-400 bg-amber-500/15 text-amber-200'
                         : m.type === 'danger'
@@ -796,7 +796,7 @@ export default function ShadowFloatRiskSimulator() {
         {/* Right column - Controls & Status */}
         <div className="flex flex-col gap-4">
           {/* Trade Setup */}
-          <div className="flex flex-col rounded-xl border border-white/10 bg-[rgba(20,20,35,0.9)] p-4">
+          <div className="flex flex-col rounded-xl border border-white/10 bg-gradient-to-br from-slate-950/85 via-slate-900/80 to-gray-900/80 p-4 backdrop-blur">
             <div className="mb-3 flex items-center gap-2 text-base font-bold text-white">
               🎯 Trade Setup
             </div>
@@ -886,8 +886,10 @@ export default function ShadowFloatRiskSimulator() {
               </div>
 
               {/* Risk box */}
-              <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/10 p-2.5 text-[11px] leading-relaxed text-indigo-200">
-                <div className="mb-1 font-semibold">⚡ Risk Calculation:</div>
+              <div className="rounded-lg border border-cyan-500/40 bg-cyan-500/10 p-2.5 text-[11px] leading-relaxed text-cyan-100">
+                <div className="mb-1 font-semibold text-cyan-200">
+                  ⚡ Risk Calculation:
+                </div>
                 <div>
                   Position Size: ${riskCalcs.positionSize.toLocaleString()}
                 </div>
@@ -937,7 +939,7 @@ export default function ShadowFloatRiskSimulator() {
           </div>
 
           {/* Account Status */}
-          <div className="flex flex-1 flex-col rounded-xl border border-white/10 bg-[rgba(20,20,35,0.9)] p-4">
+          <div className="flex flex-1 flex-col rounded-xl border border-white/10 bg-gradient-to-br from-slate-950/85 via-slate-900/80 to-gray-900/80 p-4 backdrop-blur">
             <div className="mb-3 flex items-center gap-2 text-base font-bold text-white">
               📊 Account Status
             </div>

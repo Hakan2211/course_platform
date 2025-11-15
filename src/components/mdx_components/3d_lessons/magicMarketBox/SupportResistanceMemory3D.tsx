@@ -36,7 +36,7 @@ export default function SupportResistanceMemory3D({
     'Support/Resistance',
     {
       scenario: {
-        value: 'breakout' as Scenario,
+        value: 'reversal' as Scenario,
         options: { Breakout: 'breakout', Reversal: 'reversal' },
         label: 'Scenario',
       },

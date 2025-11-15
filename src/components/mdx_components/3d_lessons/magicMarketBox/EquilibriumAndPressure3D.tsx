@@ -1224,17 +1224,33 @@ export function EquilibriumAndPressure3D({
 
       {/* Price bar - positioned at spread zone center, fluctuates within spread zone */}
       {step >= 2 && (
-        <group position={[boxSize * 0.8, priceBarY, -boxSize * 0.8]}>
-          <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[2.0, 0.1, 0.4]} />
+        <group position={[boxSize * 0.45, priceBarY, -boxSize * 0.8]}>
+          <mesh>
+            <boxGeometry args={[boxSize * 1.2, 0.08, 0.2]} />
             <meshStandardMaterial
               color="#4a9eff"
               emissive="#2a7fff"
-              emissiveIntensity={0.5}
+              emissiveIntensity={0.8}
+              transparent
+              opacity={0.95}
+            />
+          </mesh>
+          <mesh>
+            <boxGeometry args={[boxSize * 1.35, 0.18, 0.3]} />
+            <meshStandardMaterial
+              color="#4a9eff"
+              transparent
+              opacity={0.25}
+              emissive="#2a7fff"
+              emissiveIntensity={0.35}
             />
           </mesh>
           {/* Price label */}
-          <Html position={[0, 0, 0]} center style={{ pointerEvents: 'none' }}>
+          <Html
+            position={[boxSize * 0.65, 0, 0]}
+            center
+            style={{ pointerEvents: 'none' }}
+          >
             <div
               style={{
                 color: 'white',
@@ -1245,7 +1261,6 @@ export function EquilibriumAndPressure3D({
                 fontWeight: 'bold',
                 whiteSpace: 'nowrap',
                 textAlign: 'center',
-                marginTop: '-20px',
               }}
             >
               Price

@@ -3,10 +3,9 @@
 import React from 'react';
 import { useCreateStore } from 'leva';
 import { CanvasWrapper } from '@/components/mdx_components/canvas3d/canvasWrapper';
-import EquilibriumAndPressure3D from './EquilibriumAndPressure3D';
+import VolumeAtPrice3D from './VolumeAtPrice3D';
 
-const EquilibriumAndPressureContainer = () => {
-  // Create a scoped Leva store to pass to the 3D component
+const VolumeAtPriceContainer = () => {
   const levaStore = useCreateStore();
 
   return (
@@ -14,16 +13,16 @@ const EquilibriumAndPressureContainer = () => {
       <CanvasWrapper
         enableEnvironment={false}
         enableControls={true}
-        height="600px"
+        height="640px"
         cameraSettings={{
-          position: [0, 1, -20],
-          fov: 50,
+          position: [0, 0, -13],
+          fov: 45,
         }}
       >
-        <EquilibriumAndPressure3D levaStore={levaStore} />
+        <VolumeAtPrice3D levaStore={levaStore} />
       </CanvasWrapper>
     </div>
   );
 };
 
-export default EquilibriumAndPressureContainer;
+export default VolumeAtPriceContainer;

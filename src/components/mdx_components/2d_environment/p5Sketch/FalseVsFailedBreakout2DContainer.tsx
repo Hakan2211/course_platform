@@ -6,11 +6,9 @@ import FalseVsFailedBreakout2D from './FalseVsFailedBreakout2D';
 
 const FalseVsFailedBreakout2DContainer: React.FC = () => {
   return (
-    <div className="relative w-full my-8">
-      <EnvironmentWrapper height="480px">
-        <FalseVsFailedBreakout2D />
-      </EnvironmentWrapper>
-    </div>
+    <EnvironmentWrapper height="480px">
+      <FalseVsFailedBreakout2D />
+    </EnvironmentWrapper>
   );
 };
 

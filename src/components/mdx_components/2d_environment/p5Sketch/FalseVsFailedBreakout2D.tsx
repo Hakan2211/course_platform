@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 type ViewMode = 'candle' | 'line';
 
 export const FalseVsFailedBreakout2D: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('candle');
   const [framesPerTick, setFramesPerTick] = useState<number>(3); // higher = slower
 

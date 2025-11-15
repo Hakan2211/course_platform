@@ -73,6 +73,7 @@ const particleFragmentShader = `
 const COLLISION_DISTANCE = 0.15; // Distance threshold for collision detection
 const DISSOLVE_DURATION = 0.5; // Seconds for dissolve animation
 const BAG_SCALE = 1.8; // How much bigger the bag is than a regular particle
+const VOLUME_BAR_TARGET_COLLISIONS = 1500; // Approx collisions to fill the bar
 
 export function EnergyAndMotion3D({ levaStore }: EnergyAndMotion3DProps) {
   const pointsRef = useRef<THREE.Points>(null);
@@ -383,19 +384,15 @@ export function EnergyAndMotion3D({ levaStore }: EnergyAndMotion3DProps) {
       });
     }
 
-    // Update volume bar height based on collision count
+    // Update volume bar height based on collision count (sublinear growth)
     if (volumeBarRef.current) {
       const groundY = -boxSize * 1.5;
-      const maxHeight = boxSize * 1.5; // Maximum height for the bar
-      const height = Math.min(collisionCount * 0.05, maxHeight); // Scale factor for height
-      const barHeight = Math.max(0.2, height); // Minimum height to keep it visible
+      const target = Math.max(VOLUME_BAR_TARGET_COLLISIONS, 1);
+      const normalized = Math.sqrt(collisionCount / target);
+      const eased = 1 - Math.pow(1 - Math.min(normalized, 1), 2); // ease-out
+      const barHeight = Math.max(0.2, eased * (boxSize * 1.5));
 
-      // Scale the bar (base height is 1, so scale by barHeight)
       volumeBarRef.current.scale.y = barHeight;
-
-      // Position bar so bottom is at ground plane and it grows upward
-      // Since boxGeometry height is 1, and we scale by barHeight,
-      // the actual height is barHeight, so center is at groundY + barHeight/2
       volumeBarRef.current.position.y = groundY + barHeight / 2;
     }
   });

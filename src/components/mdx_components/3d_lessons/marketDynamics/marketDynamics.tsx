@@ -237,11 +237,26 @@ const LiquidityParticles: React.FC<LiquidityParticlesProps> = ({
   const positionsRef = useRef<Float32Array>();
   const velocitiesRef = useRef<Float32Array>();
 
-  const particleCount = useMemo(() => {
-    // Map density 1-5 to 0.6x - 2x baseCount
-    const mult = 0.6 + (densityScore / 5) * 1.4;
-    return Math.max(10, Math.floor(baseCount * mult));
-  }, [baseCount, densityScore]);
+  const densityMultiplier = useMemo(() => {
+    const normalized = Math.max(0, Math.min(1, densityScore / 5));
+    const curved = Math.pow(normalized, 1.35);
+    return 0.35 + curved * 3.15; // ~0.35x for sparse markets up to 3.5x for dense ones
+  }, [densityScore]);
+
+  const particleCount = useMemo(
+    () => Math.max(10, Math.floor(baseCount * densityMultiplier)),
+    [baseCount, densityMultiplier]
+  );
+
+  const speedProfile = useMemo(() => {
+    const normalized = Math.max(0, Math.min(1, speedScore / 5));
+    const curved = Math.pow(normalized, 1.4);
+    return {
+      xy: 0.15 + curved * 1.5, // rotational velocity baseline
+      randomness: 0.4 + curved * 0.8, // spread of speeds
+      vertical: 0.04 + curved * 0.3, // vertical jitter
+    };
+  }, [speedScore]);
 
   const geometry = useMemo(() => {
     const geo = new THREE.BufferGeometry();
@@ -259,19 +274,19 @@ const LiquidityParticles: React.FC<LiquidityParticlesProps> = ({
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
 
-      // Velocity - swirl around Y with some noise
-      const base = 0.2 + (speedScore / 5) * 0.8; // 0.2 - 1.0
-      const angle = Math.atan2(z, x) + (Math.random() - 0.5) * 0.5;
-      const speed = base * (0.5 + Math.random());
+      // Velocity - swirl around Y with more pronounced differences
+      const angle = Math.atan2(z, x) + (Math.random() - 0.5) * 0.35;
+      const speed =
+        speedProfile.xy * (0.4 + Math.random() * speedProfile.randomness);
       velocities[i * 3 + 0] = -Math.sin(angle) * speed;
-      velocities[i * 3 + 1] = (Math.random() - 0.5) * speed * 0.2;
+      velocities[i * 3 + 1] = (Math.random() - 0.5) * speedProfile.vertical;
       velocities[i * 3 + 2] = Math.cos(angle) * speed;
     }
     positionsRef.current = positions;
     velocitiesRef.current = velocities;
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     return geo;
-  }, [particleCount, radius, speedScore]);
+  }, [particleCount, radius, speedProfile]);
 
   const material = useMemo(() => {
     const mat = new THREE.PointsMaterial({

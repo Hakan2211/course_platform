@@ -182,6 +182,19 @@ Acceptance versus rejection at these levels often sets the day’s tone.
   </AlertDescription>
 </Alert>
 
+### Sculpting Volume at Price in 3D
+
+<Alert variant="info">
+  <AlertDescription>
+    Step inside the box to watch how buyer–seller collisions accumulate into a
+    horizontal volume profile. Each impact adds width at that specific price
+    level, so as the value band migrates up or down you’ll see new shelves
+    (HVNs) being carved and thin spots (LVNs) staying narrow.
+  </AlertDescription>
+</Alert>
+
+<VolumeAtPriceContainer />
+
 ## VWAP: The Market’s Cost-Basis Line
 
 While Volume Profile shows where value was found,
@@ -451,6 +464,69 @@ Before taking a trade, ask:<br/>
 4\. Are there nearby LVNs for potential acceleration?<br/>
 5\. Do any Anchored VWAPs provide confluence?<br/>
 6\. Is the day balanced (fade setups) or imbalanced (trend setups)<br/>
+
+<Alert variant="info">
+  <AlertTitle>VWAP Laboratory</AlertTitle>
+  <AlertDescription>
+    Step into an interactive sandbox: inject trades manually, flip between
+    session VWAP and anchored VWAPs from key events, toggle deviation bands, and
+    replay balanced vs. trend-day scenarios from the opening bell.
+  </AlertDescription>
+</Alert>
+
+<Alert variant="warning">
+  <AlertTitle>How to explore it</AlertTitle>
+  <AlertDescription>
+    → 1\. Pick the day type
+    <br />
+    Balanced Day vs Trend Day buttons (top-right). This swaps the synthetic tape
+    to mirror either D-shape rotation or gap-and-go behavior. The description
+    beneath reminds them what regime they’ve selected.
+    <br />
+    → 2\. Control the playback
+    <br />
+    Play / Pause, Rewind & Play, and Step +5 move through the trade stream.
+    <br />
+    The blue progress bar and “Trades processed” label show how far through the
+    day they are.
+    <br />
+    → 3\. Toggle session overlays
+    <br />
+    Session VWAP: show/hide the yellow VWAP line.
+    <br />
+    Std Dev Bands: add/remove the ±1σ and ±2σ envelopes to discuss fair-value
+    vs. extremes.
+    <br />
+    → 4\. Experiment with Anchored VWAPs
+    <br />
+    Each pill (Gap Anchor, VWAP Breakout, Pullback Reset) activates a colored
+    AVWAP starting from that event’s timestamp.
+    <br />
+    The readout beneath the buttons shows whether that anchor has “triggered”
+    yet and what its VWAP value currently is.
+    <br />
+    Great for talking about who’s in profit since the gap, breakout, etc.
+    <br />
+    <br />
+    → 5\. Inject trades
+    <br />
+    Sliders set manual price and volume. When they click Inject Trade, a new dot
+    is added to the tape (orange if manual).
+    <br />
+    Students can see immediately if their trade nudges VWAP or deviation bands—perfect
+    for demonstrating big blocks vs. small prints.
+    <br />
+    → 6\. Interpret the HUD
+    <br />
+    The two bars visualize the accumulating numerator and denominator in the VWAP
+    formula; the text beneath reports session VWAP, last price, and last volume.
+    <br />
+    Encourage students to watch how a large trade far from VWAP bends the numerator
+    bar and pulls price back toward the line.
+  </AlertDescription>
+</Alert>
+
+<VWAPLaboratory2DContainer />
 
 ### Bringing It All Together
 

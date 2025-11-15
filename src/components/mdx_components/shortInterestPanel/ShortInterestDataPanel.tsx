@@ -135,7 +135,7 @@ export default function ShortInterestDataPanel({
   }, [dtcPercent, dtcWidth]);
 
   return (
-    <div className="w-full">
+    <div className="w-full rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-950/90 via-gray-900/85 to-black/90 p-4 shadow-[0_15px_45px_rgba(0,0,0,0.6)]">
       <div className="mb-4 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur">
         <h3 className="text-center text-lg font-semibold text-rose-400">
           📊 Reading the Shadow: Short Interest Data Panel
@@ -148,7 +148,7 @@ export default function ShortInterestDataPanel({
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* Metrics Panel */}
-        <div className="rounded-xl border border-white/10 bg-[rgba(30,30,50,0.8)] p-4 backdrop-blur transition-colors hover:border-rose-400/30">
+        <div className="rounded-xl border border-white/10 bg-gradient-to-br from-slate-950/80 via-slate-900/80 to-gray-900/80 p-4 backdrop-blur transition-colors hover:border-rose-400/30">
           <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-2">
             <div className="text-base font-semibold text-white">
               Shadow Float Metrics
@@ -274,7 +274,7 @@ export default function ShortInterestDataPanel({
         </div>
 
         {/* Risk Panel */}
-        <div className="rounded-xl border border-white/10 bg-[rgba(30,30,50,0.8)] p-4 backdrop-blur transition-colors hover:border-rose-400/30">
+        <div className="rounded-xl border border-white/10 bg-gradient-to-br from-slate-950/80 via-slate-900/80 to-gray-900/80 p-4 backdrop-blur transition-colors hover:border-rose-400/30">
           <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-2">
             <div className="text-base font-semibold text-white">
               Squeeze Risk Assessment
@@ -417,7 +417,7 @@ export default function ShortInterestDataPanel({
       </div>
 
       {/* Controls */}
-      <div className="mt-4 rounded-xl border border-white/10 bg-[rgba(30,30,50,0.8)] p-4 backdrop-blur">
+      <div className="mt-4 rounded-xl border border-white/10 bg-gradient-to-br from-slate-950/80 via-slate-900/80 to-gray-900/80 p-4 backdrop-blur">
         <h4 className="mb-4 text-rose-400">
           🎛️ Interactive Controls - Adjust Variables
         </h4>

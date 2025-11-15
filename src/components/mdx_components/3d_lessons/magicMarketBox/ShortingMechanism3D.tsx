@@ -171,7 +171,7 @@ export default function ShortingMechanism3D({
         label: 'Collision Intensity',
       },
     },
-    { store: levaStore }
+    { store: levaStore, collapsed: true }
   );
 
   const {
@@ -1051,18 +1051,18 @@ export default function ShortingMechanism3D({
           const aP = particlesA[idx];
           const bP = particlesB[idx];
           if (!aP || !bP) return null;
-          // Connect to GREEN in main float
-          if (!(aP.type === 2 || aP.type === 3)) return null;
           const a = getPosA(idx);
           const b = getPosB(idx);
+          const isBuyer = aP.type === 2 || aP.type === 3;
+          const beamColor = isBuyer ? '#9bffb5' : '#ff8f8f';
           return (
             <Line
               key={`beam-${idx}`}
               points={[a, b]}
-              color="gold"
+              color={beamColor}
               lineWidth={1.5}
               transparent
-              opacity={0.8}
+              opacity={0.85}
             />
           );
         })}
