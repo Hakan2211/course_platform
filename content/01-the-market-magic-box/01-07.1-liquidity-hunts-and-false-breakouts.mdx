@@ -631,41 +631,41 @@ Both look similar on a chart _after the fact_. But understanding the _why_ chang
 
 You have three strategic options, each with different risk/reward profiles:
 
-### Option 1: Stay Out of Obvious Traps (Safest)
+### <Highlight variant="accent">Option 1: Stay Out of Obvious Traps (Safest)</Highlight>
 
 The simplest defense: Don't place stops at obvious levels. Don't chase breakouts at commonly-watched resistance/support.
 
-**Implementation:**
+**<Highlight variant="yellow">Implementation:</Highlight>**
 
 → If everyone's watching $50,000 as resistance, don't put your stop at $50,100<br/>
 → Either place stops further away (accepting larger risk per trade)<br/>
 → Or use time-based stops and mental stops instead of hard orders<br/>
 → Wait for a clear retest and hold before entering<br/>
 
-**Pros:**
+**<Highlight variant="blue">Pros:</Highlight>**
 
 → Avoids 90%+ of hunt-related losses<br/>
 → Simple to implement<br/>
 → Lower stress<br/>
 
-**Cons:**
+**<Highlight variant="blue">Cons:</Highlight>**
 
 → Misses some legitimate breakouts<br/>
 → Requires discipline (mental stops are hard)<br/>
 → May require wider risk tolerance<br/>
 
-### Option 2: Wait for Confirmation of Confirmation (Balanced)
+### <Highlight variant="accent">Option 2: Wait for Confirmation of Confirmation (Balanced)</Highlight>
 
 Don't enter on the initial break. Wait for the market to prove the move is real.
 
-**Implementation:**
+**<Highlight variant="yellow">Implementation:</Highlight>**
 
 → Let price break and move 2-3% beyond the level<br/>
 → Watch for a pullback to the broken level<br/>
 → If it holds as new support/resistance, enter on the retest<br/>
 → Use the retest level as your stop<br/>
 
-**Example:**
+**<Highlight variant="blue">Example:</Highlight>**
 
 Price breaks resistance at $47,000.
 
@@ -675,44 +675,44 @@ Price breaks resistance at $47,000.
 → If it holds, enter long at $47,400<br/>
 → Stop at $46,800<br/>
 
-**Pros:**
+**<Highlight variant="blue">Pros:</Highlight>**
 
 → Filters out most false breakouts<br/>
 → Better risk/reward (tighter stops)<br/>
 → Higher probability entries<br/>
 
-**Cons:**
+**<Highlight variant="blue">Cons:</Highlight>**
 
 → Miss explosive moves that don't retrace<br/>
 → Requires patience<br/>
 → Sometimes the retest never comes<br/>
 
-### Option 3: Trade the Hunt Itself (Advanced)
+### <Highlight variant="accent">Option 3: Trade the Hunt Itself (Advanced)</Highlight>
 
 The most aggressive approach: Identify likely hunting zones and **position for the reversal**.
 
-**Implementation:**
+**<Highlight variant="yellow">Implementation:</Highlight>**
 
-**Step 1: Identify the setup**
+**<Highlight variant="green">Step 1: Identify the setup</Highlight>**
 
 → Obvious level tested 3+ times<br/>
 → High social media attention<br/>
 → Clear clustering of probable stops<br/>
 → Price approaching with weakening momentum<br/>
 
-**Step 2: Watch for the hunt signature**
+**<Highlight variant="green">Step 2: Watch for the hunt signature</Highlight>**
 
 → Sharp break through the level<br/>
 → Volume spike but price stalls<br/>
 → Time passes (5-15 min) without follow-through<br/>
 
-**Step 3: Enter counter-trend**
+**<Highlight variant="green">Step 3: Enter counter-trend</Highlight>**
 
 → Enter opposite the hunt direction at the extreme<br/>
 → Tight stop just beyond the wick<br/>
 → Target the opposite side of the range<br/>
 
-**Example:**
+**<Highlight variant="blue">Example:</Highlight>**
 
 Support at $45,000, tested 4 times.
 
@@ -724,13 +724,13 @@ Support at $45,000, tested 4 times.
 → Risk: $300, Reward: $1,500-$1,800<br/>
 → R:R = 1:5 to 1:6<br/>
 
-**Pros:**
+**<Highlight variant="blue">Pros:</Highlight>**
 
 → Exceptional risk/reward when correct<br/>
 → Positions you with the predators, not against them<br/>
 → Can be highly profitable<br/>
 
-**Cons:**
+**<Highlight variant="blue">Cons:</Highlight>**
 
 → Requires experience and precision<br/>
 → Can be wrong (genuine breakdown, not a hunt)<br/>
@@ -741,89 +741,83 @@ Support at $45,000, tested 4 times.
 
 ## Your Decision Framework: Is It a Hunt?
 
-Use this checklist in real-time to assess hunt probability:
+<Checklist
+  title="Hunt Probability Assessment"
+  description="Use this checklist in real-time to assess hunt probability:"
+  items={[
+    { id: 'obvious-level', label: 'Is the level obvious and heavily watched?' },
+    { id: 'tested-3-plus', label: 'Has it been tested 3+ times recently?' },
+    { id: 'stops-clustered', label: 'Are stops likely clustered just beyond?' },
+    { id: 'sharp-spike', label: 'Did price break with a sharp spike?' },
+    {
+      id: 'volume-fading',
+      label: 'Is volume high at the break but fading on continuation?',
+    },
+    {
+      id: 'price-stalling',
+      label: 'Is price stalling despite "confirming" the break?',
+    },
+    {
+      id: 'no-follow-through',
+      label: 'Has it been 10+ minutes without strong follow-through?',
+    },
+  ]}
+  scoreRanges={[
+    { min: 0, max: 2, label: 'Likely a genuine break' },
+    { min: 3, max: 4, label: 'Moderate hunt probability' },
+    {
+      min: 5,
+      max: 7,
+      label: 'High hunt probability — extreme caution or fade',
+    },
+  ]}
+/>
+<br />
 
-□ Is the level obvious and heavily watched?
-□ Has it been tested 3+ times recently?
-□ Are stops likely clustered just beyond?
-□ Did price break with a sharp spike?
-□ Is volume high at the break but fading on continuation?
-□ Is price stalling despite "confirming" the break?
-□ Has it been 10+ minutes without strong follow-through?
-
-Score:
-0-2 checks: Likely a genuine break
-3-4 checks: Moderate hunt probability
-5-7 checks: High hunt probability — extreme caution or fade
-
-The Liquidity Hunt in the 3D Visualization
-
-Imagine watching this unfold in your particle-box visualization:
-
-Phase 1: The Setup
+<Alert variant="info">
+  <AlertTitle>How it would like in our 3D box visualization:</AlertTitle>
+  <AlertDescription>
+<Highlight variant="yellow">Phase 1: The Setup</Highlight><br/>
 Price consolidates in a box around $45,000-$47,000. Particles swirl, energy builds. The lower boundary of the box glows green (support).
-
 But now you see something new:
-
 Just below this box, a faint shimmering zone appears — translucent, pulsing softly.
-
 It's not an old equilibrium zone from memory. It's something else.
-
 It's the kill zone — the liquidity pool.
-
 You can see it because you now know where to look: just below obvious support, where stops cluster.
 
-Phase 2: The Strike
-Suddenly, a concentrated red surge punches downward. The box wall shatters. Price drops below $45,000 into the shimmering zone.
+<Highlight variant="yellow">Phase 2: The Strike</Highlight>
+<br />
+Suddenly, a concentrated red surge punches downward. The box wall shatters.
+Price drops below $45,000 into the shimmering zone. The zone lights up. Orders
+trigger. Particles scatter. Chaos erupts. Red particles (sell orders) flood
+downward like a swarm. But watch closely: amid the chaos, large blue particles
+appear, absorbing the red. They're massive — institutional size — and they
+appear in waves, methodically consuming every red particle. Someone is buying.
 
-The zone lights up.
+<Highlight variant="yellow">Phase 3: The Absorption</Highlight>
+<br />
+Price stops falling at the bottom edge of the liquidity zone. The red swarm
+continues — wave after wave of selling — but those large blue particles keep
+appearing, absorbing everything. The zone glows brighter and brighter as it
+fills with absorbed energy. This is the tell. If it were a real breakdown, the
+red particles would overwhelm the blue and price would cascade lower. But the
+blue particles never stop coming. The zone holds.
 
-Orders trigger. Particles scatter. Chaos erupts.
+<Highlight variant="yellow">Phase 4: The Snap</Highlight>
+<br />
+The red surge suddenly ends. For a moment, everything goes still. Then — a
+massive green explosion erupts from the bottom of the zone. Huge green particles
+(aggressive buy orders) rocket upward. Price blasts back through $45,000. The
+box reforms above the liquidity zone. The shimmering kill zone fades, now
+drained of energy, its liquidity consumed. The hunt is complete.
 
-Red particles (sell orders) flood downward like a swarm.
-
-But watch closely: amid the chaos, large blue particles appear, absorbing the red.
-
-They're massive — institutional size — and they appear in waves, methodically consuming every red particle.
-
-Someone is buying.
-
-Phase 3: The Absorption
-Price stops falling at the bottom edge of the liquidity zone.
-
-The red swarm continues — wave after wave of selling — but those large blue particles keep appearing, absorbing everything.
-
-The zone glows brighter and brighter as it fills with absorbed energy.
-
-This is the tell.
-
-If it were a real breakdown, the red particles would overwhelm the blue and price would cascade lower.
-
-But the blue particles never stop coming. The zone holds.
-
-Phase 4: The Snap
-The red surge suddenly ends.
-
-For a moment, everything goes still.
-
-Then — a massive green explosion erupts from the bottom of the zone.
-
-Huge green particles (aggressive buy orders) rocket upward. Price blasts back through $45,000.
-
-The box reforms above the liquidity zone.
-
-The shimmering kill zone fades, now drained of energy, its liquidity consumed.
-
-The hunt is complete.
-
-Phase 5: The Real Move
+<Highlight variant="yellow">Phase 5: The Real Move</Highlight><br/>
 A new box forms at $46,000-$47,000. Energy is high. Particles surge upward.
-
 Then another box at $48,000-$49,000.
-
 The staircase is building upward — the real trend is launching.
-
 The predator is now long. And price is moving where they want it.
+  </AlertDescription>
+</Alert>
 
 {/* <LiquidityHuntVisualizationContainer /> */}
 
@@ -831,12 +825,12 @@ The predator is now long. And price is moving where they want it.
 
 Your mission for the next week:
 
-**Daily Task (15-20 minutes)**
+**<Highlight variant="yellow">Daily Task (15-20 minutes)</Highlight>**
 
-1\. Open your preferred trading platform (BTC/USD or ETH/USD, 15-minute chart)<br/>
-2\. Scan the last 24 hours and identify any ranges with 3+ equal highs or lows<br/>
-3\. Mark the liquidity pool zone (just beyond the obvious level)<br/>
-4\. Check if price tested that zone:<br/>
+1\. <Highlight variant="blue">Open</Highlight> your preferred <Highlight variant="blue">trading platform</Highlight> (BTC/USD or ETH/USD, 15-minute chart)<br/>
+2\. <Highlight variant="blue">Scan</Highlight> the last 24 hours and identify any ranges with 3+ equal highs or lows<br/>
+3\. <Highlight variant="blue">Mark the liquidity pool zone</Highlight> (just beyond the obvious level)<br/>
+4\. <Highlight variant="blue">Check</Highlight> if price tested that zone:<br/>
 
 → Did it spike into the zone?<br/>
 → Did it stall/reverse quickly?<br/>
@@ -849,7 +843,7 @@ Your mission for the next week:
 → Mark the hunt (if it occurred)<br/>
 → Note the time and price action<br/>
 
-### What to Track
+### <Highlight variant="yellow">What to Track</Highlight>
 
 Keep a journal with these data points for each potential hunt:
 
@@ -864,7 +858,7 @@ Keep a journal with these data points for each potential hunt:
 
 After 20-30 examples, you'll start seeing the pattern so clearly it becomes second nature.
 
-### Bonus Challenge
+### <Highlight variant="yellow">Bonus Challenge</Highlight>
 
 Try to predict a hunt before it happens:
 
