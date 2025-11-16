@@ -110,9 +110,7 @@ export default async function LessonDetail({ params }: LessonDetailProps) {
         </div>
       </main>
       <aside className={`${styles.table_of_contents} `}>
-        <div className={``}>
-          <TableOfContents headings={headings} />
-        </div>
+        <TableOfContents headings={headings} />
       </aside>
     </div>
   );

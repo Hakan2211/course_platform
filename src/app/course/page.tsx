@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styles from './course.module.css';
 import { formatModuleSlug } from '@/lib/utils';
 import { LessonStatus } from '@/components/progress/LessonStatus';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'Course Overview',
@@ -17,6 +18,7 @@ interface ModuleType {
     parent: string | null;
     moduleBadge?: string;
     moduleDescription?: string;
+    moduleImage?: string;
   }[];
 }
 
@@ -30,6 +32,18 @@ export default async function CourseOverview() {
       <div className={styles.gridContent}>
         {modules.map((module: ModuleType) => (
           <div key={module.moduleSlug} className={styles.module}>
+            {module.lessons[0]?.moduleImage && (
+              <div className={styles.moduleImageContainer}>
+                <Image
+                  src={module.lessons[0].moduleImage}
+                  alt={formatModuleSlug(module.moduleSlug)}
+                  width={1200}
+                  height={400}
+                  className="w-full h-auto rounded-lg object-cover"
+                  priority={false}
+                />
+              </div>
+            )}
             <div className="flex flex-col md:flex-row">
               <div className="md:w-[50%] flex flex-col justify-center">
                 {module.lessons[0]?.moduleBadge && (

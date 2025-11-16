@@ -40,7 +40,7 @@ function Sidebar({
     </aside>
   ) : (
     <aside className={`${styles.sidebar}  bg-[var(--bg-color)] pl-4 pr-8`}>
-      <div className="fixed">
+      <div className="sticky top-0 w-full">
         <header className="h-[3rem] flex items-center mb-4">
           <TooltipProvider delayDuration={0}>
             <Tooltip>
@@ -68,7 +68,7 @@ function Sidebar({
             {lessons.map((lesson) => (
               <li
                 key={lesson.slug}
-                className={`w-full min-w-[330px] text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-gradient-to-r from-gray-950/90 to-black/90 transition-colors duration-200 ${
+                className={`w-full  text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-gradient-to-r from-gray-950/90 to-black/90 transition-colors duration-200 ${
                   lesson.parent ? 'pl-8 text-sm' : ''
                 } ${
                   lesson.slug === lessonSlug
@@ -77,10 +77,15 @@ function Sidebar({
                 }`}
               >
                 <Link
-                  className="w-full flex justify-between items-center gap-4"
+                  className="w-full flex justify-between items-center gap-8"
                   href={`/course/${moduleSlug}/${lesson.slug}`}
                 >
-                  <span className="flex-1">{lesson.title}</span>
+                  <span
+                    className="flex-1 min-w-0 whitespace-normal break-words"
+                    title={lesson.title}
+                  >
+                    {lesson.title}
+                  </span>
                   <span className="flex-shrink-0">
                     <LessonStatus
                       moduleSlug={moduleSlug}

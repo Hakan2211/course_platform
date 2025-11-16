@@ -19,6 +19,7 @@ type Frontmatter = {
   parent: string | null;
   moduleBadge?: string;
   moduleDescription?: string;
+  moduleImage?: string;
   [key: string]: any;
 };
 
@@ -29,6 +30,7 @@ type Lesson = {
   parent: string | null;
   moduleBadge?: string;
   moduleDescription?: string;
+  moduleImage?: string;
 };
 
 type Module = {
@@ -58,6 +60,7 @@ export async function getCourseModules(): Promise<Module[]> {
         parent: frontmatter.parent || null,
         moduleBadge: frontmatter.moduleBadge,
         moduleDescription: frontmatter.moduleDescription,
+        moduleImage: frontmatter.moduleImage,
       });
     }
 

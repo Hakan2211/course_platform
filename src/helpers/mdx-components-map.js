@@ -197,6 +197,14 @@ const VerticalEcosystemContainer = dynamic(
   { ssr: false }
 );
 
+const MarketEcosystemContainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/3d_lessons/magicMarketBox/MarketEcosystemContainer'
+    ),
+  { ssr: false }
+);
+
 const ShortingMechanismContainer = dynamic(
   () =>
     import(
@@ -424,6 +432,7 @@ const COMPONENT_MAP = {
   EnergyAndMotionContainer,
   EquilibriumAndPressureContainer,
   VerticalEcosystemContainer,
+  MarketEcosystemContainer,
   ShortingMechanismContainer,
   BattleInsideBoxContainer,
   CompanyGalaxyContainer,
