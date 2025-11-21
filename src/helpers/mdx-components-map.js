@@ -52,6 +52,8 @@ import DecisionTree from '@/components/mdx_components/decisionTree/DecisionTree'
 import ShortInterestDataPanel from '@/components/mdx_components/shortInterestPanel/ShortInterestDataPanel';
 import DilutionChecklist from '@/components/mdx_components/dilutionChecklist/DilutionChecklist';
 import Checklist from '@/components/mdx_components/checklist/Checklist';
+import { FortressCommandCenter } from '@/components/mdx_components/fortressCommandCenter/FortressCommandCenter';
+import { PersonalRiskPlanDownload } from '@/components/mdx_components/downloads/PersonalRiskPlanDownload';
 const ShadowFloatRiskSimulator = dynamic(
   () =>
     import(
@@ -482,6 +484,8 @@ const COMPONENT_MAP = {
   ShadowFloatRiskSimulator,
   DilutionChecklist,
   Checklist,
+  FortressCommandCenter,
+  PersonalRiskPlanDownload,
   TrendingUp,
   LandPlot,
   Repeat,
