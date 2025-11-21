@@ -46,6 +46,8 @@ import {
   InfoGridItem,
 } from '@/components/mdx_components/gridList/InfoGrid';
 import { Highlight } from '@/components/mdx_components/highlight/Highlight';
+import { SurvivalHierarchy } from '@/components/mdx_components/survivalHierarchy/SurvivalHierarchy';
+import { SurvivalCommandments } from '@/components/mdx_components/survivalCommandments/SurvivalCommandments';
 import { CustomLink } from '@/components/mdx_components/customLink/CustomLink';
 import { Math } from '@/components/mdx_components/math/Math';
 import DecisionTree from '@/components/mdx_components/decisionTree/DecisionTree';
@@ -477,6 +479,8 @@ const COMPONENT_MAP = {
   InfoGrid,
   InfoGridItem,
   Highlight,
+  SurvivalHierarchy,
+  SurvivalCommandments,
   CustomLink,
   Math,
   DecisionTree,
