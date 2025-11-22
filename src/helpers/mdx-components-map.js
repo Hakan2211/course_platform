@@ -84,6 +84,10 @@ import {
   Waves,
   Globe,
   GraduationCap,
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  Trophy,
 } from 'lucide-react';
 
 const TestScene = dynamic(
@@ -510,6 +514,10 @@ const COMPONENT_MAP = {
   Waves,
   Globe,
   GraduationCap,
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  Trophy,
 };
 
 export default COMPONENT_MAP;
