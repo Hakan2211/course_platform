@@ -88,6 +88,9 @@ import {
   XCircle,
   AlertTriangle,
   Trophy,
+  Circle,
+  Skull,
+  X,
 } from 'lucide-react';
 
 const TestScene = dynamic(
@@ -518,6 +521,9 @@ const COMPONENT_MAP = {
   XCircle,
   AlertTriangle,
   Trophy,
+  Circle,
+  Skull,
+  X,
 };
 
 export default COMPONENT_MAP;
