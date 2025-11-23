@@ -11,6 +11,7 @@ const highlightVariants = cva('px-1.5 py-0.5 rounded-md font-medium', {
       green:
         'bg-[var(--background-topic-green)] text-[var(--text-color-primary-900)] dark:text-green-200',
       red: 'bg-[var(--background-topic-red)] text-[var(--text-color-primary-900)] dark:text-red-200',
+      black: 'bg-slate-900 text-white dark:text-white',
       accent: 'bg-[var(--module-badge)] text-white',
       info: 'bg-[var(--alert-info)] text-[var(--alert-info-icon)] dark:bg-[var(--alert-info)] dark:text-[var(--alert-info-icon)]',
       success:
