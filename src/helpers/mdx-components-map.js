@@ -423,6 +423,46 @@ const RiskCalculator = dynamic(
   { ssr: false }
 );
 
+const PositionSizingCalculator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/position_sizing/PositionSizingCalculator'
+    ).then((mod) => mod.PositionSizingCalculator),
+  { ssr: false }
+);
+
+const PositionSizeImpactSphere = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/position_sizing/impact_sphere/PositionSizeImpactSphere'
+    ),
+  { ssr: false }
+);
+
+const ATRStopCalculator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/stop_loss/ATRStopCalculator'
+    ).then((mod) => mod.ATRStopCalculator),
+  { ssr: false }
+);
+
+const TrailingStopVisualizer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/stop_loss/TrailingStopVisualizer'
+    ),
+  { ssr: false }
+);
+
+const StopHuntingSimulator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/stop_loss/StopHuntingSimulator/StopHuntingSimulator'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -488,6 +528,11 @@ const COMPONENT_MAP = {
   OfferingMechanicsContainer,
   TraderGraveyard,
   RiskCalculator,
+  PositionSizingCalculator,
+  PositionSizeImpactSphere,
+  ATRStopCalculator,
+  TrailingStopVisualizer,
+  StopHuntingSimulator,
   Table,
   TableBody,
   TableCell,

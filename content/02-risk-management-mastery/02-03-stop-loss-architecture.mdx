@@ -719,6 +719,8 @@ Remember <CustomLink href="02-02-position-sizing-mastery" target="_blank">Lesson
 
 **This is professional-grade stop-loss architecture.**
 
+<ATRStopCalculator />
+
 ### <Highlight variant="accent">PROS AND CONS OF ATR STOPS</Highlight>
 
 **<Highlight variant="green">PROS:</Highlight>**
@@ -983,6 +985,12 @@ After a certain time period, move stop to breakeven or better.
 → Use tighter trails for ranging markets (lock profits quickly)<br/>
 → Consider using ATR-based trails (adapts to volatility)<br/>
 
+### <Highlight variant="accent">EXPERIMENT: WHO WINS THE TRAILING STOP RACE?</Highlight>
+
+Numbers make the case louder than words. Press play, swap scenarios, and watch how a fixed trail, an ATR trail, and a swing-low trail behave when the market behaves, chops, or collapses.
+
+<TrailingStopVisualizer />
+
 ## THE HIDDEN DANGERS: LIQUIDITY TRAPS AND STOP HUNTING
 
 Now for the dark side — the predatory aspects of stop-loss placement that most educators won't tell you.
@@ -1098,6 +1106,14 @@ The goal isn't to never get stopped out. The goal is to:<br/>
 → Survive long enough for your edge to manifest
 
 **Some stop-outs are the price of survival.**
+
+### <Highlight variant="accent">STOP HUNTING WAR GAME</Highlight>
+
+Theory is one thing. Feeling the liquidity battle is another. Step into both sides of the raid:
+pull the trigger as the market maker and see if the economics justify the hunt, then flip to the
+retail side and try to place a stop that survives the ambush.
+
+<StopHuntingSimulator />
 
 ### <Highlight variant="accent">The Liquidity Stop Rule</Highlight>
 
