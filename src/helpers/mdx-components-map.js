@@ -410,6 +410,19 @@ const OfferingMechanicsContainer = dynamic(
   { ssr: false }
 );
 
+const TraderGraveyard = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/graveyard/TraderGraveyard'
+    ),
+  { ssr: false }
+);
+
+const RiskCalculator = dynamic(
+  () => import('@/components/mdx_components/risk_management/RiskCalculator'),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -473,6 +486,8 @@ const COMPONENT_MAP = {
   ExecutionStrategiesContainer,
   DilutionBuybackContainer,
   OfferingMechanicsContainer,
+  TraderGraveyard,
+  RiskCalculator,
   Table,
   TableBody,
   TableCell,
