@@ -463,6 +463,22 @@ const StopHuntingSimulator = dynamic(
   { ssr: false }
 );
 
+const ProfitabilityLandscape = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/profitability_landscape/ProfitabilityLandscape'
+    ),
+  { ssr: false }
+);
+
+const ProfitabilitySimulator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/profitability_landscape/ProfitabilitySimulator'
+    ),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -533,6 +549,8 @@ const COMPONENT_MAP = {
   ATRStopCalculator,
   TrailingStopVisualizer,
   StopHuntingSimulator,
+  ProfitabilityLandscape,
+  ProfitabilitySimulator,
   Table,
   TableBody,
   TableCell,
