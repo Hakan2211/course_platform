@@ -543,6 +543,38 @@ const RiskConstellation = dynamic(
   { ssr: false }
 );
 
+const VolatilityRegimeViz = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/volatility_regimes/VolatilityRegimeViz'
+    ),
+  { ssr: false }
+);
+
+const TailRiskVisualizer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/volatility_regimes/TailRiskVisualizer'
+    ),
+  { ssr: false }
+);
+
+const RevengeSimulator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/psychological_warfare/RevengeSimulator'
+    ),
+  { ssr: false }
+);
+
+const MazeGame = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/psychological_warfare/maze_game/MazeGame'
+    ).then((mod) => mod.MazeGame),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -623,6 +655,10 @@ const COMPONENT_MAP = {
   StreakGenerator,
   PortfolioHeatGame,
   RiskConstellation,
+  VolatilityRegimeViz,
+  TailRiskVisualizer,
+  RevengeSimulator,
+  MazeGame,
   Table,
   TableBody,
   TableCell,
