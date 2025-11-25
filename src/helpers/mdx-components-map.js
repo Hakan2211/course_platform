@@ -479,6 +479,70 @@ const ProfitabilitySimulator = dynamic(
   { ssr: false }
 );
 
+const RUniverse = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/r_universe/RUniverse'
+    ).then((mod) => mod.RUniverse),
+  { ssr: false }
+);
+
+const RDistributionBuilder = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/r_distribution/RDistributionBuilder'
+    ).then((mod) => mod.RDistributionBuilder),
+  { ssr: false }
+);
+
+const MaeMfeScatterPlot = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/mae_mfe/MaeMfeScatterPlot'
+    ),
+  { ssr: false }
+);
+
+const DrawdownCanyon = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/drawdown/DrawdownCanyon'
+    ).then((mod) => mod.DrawdownCanyon),
+  { ssr: false }
+);
+
+const SisyphusScale = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/drawdown/SisyphusScale'
+    ),
+  { ssr: false }
+);
+
+const StreakGenerator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/drawdown/StreakGenerator'
+    ),
+  { ssr: false }
+);
+
+const PortfolioHeatGame = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/portfolio_heat/PortfolioHeatGame'
+    ),
+  { ssr: false }
+);
+
+const RiskConstellation = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/portfolio_heat/RiskConstellation'
+    ).then((mod) => mod.RiskConstellation),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -551,6 +615,14 @@ const COMPONENT_MAP = {
   StopHuntingSimulator,
   ProfitabilityLandscape,
   ProfitabilitySimulator,
+  RUniverse,
+  RDistributionBuilder,
+  MaeMfeScatterPlot,
+  DrawdownCanyon,
+  SisyphusScale,
+  StreakGenerator,
+  PortfolioHeatGame,
+  RiskConstellation,
   Table,
   TableBody,
   TableCell,

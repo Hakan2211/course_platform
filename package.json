@@ -22,7 +22,7 @@
     "@react-three/drei": "^9.97.3",
     "@react-three/fiber": "^8.15.16",
     "@supabase/supabase-js": "^2.45.6",
-    "@types/three": "^0.175.0",
+    "@types/three": "^0.161.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cookie": "^1.0.1",
@@ -52,6 +52,7 @@
     "stripe": "^17.2.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "three": "^0.161.0",
     "unist-util-visit": "^5.0.0",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
