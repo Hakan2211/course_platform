@@ -354,10 +354,18 @@ const RevengeSimulator: React.FC = () => {
           {/* Controls Area */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[180px] shrink-0">
             {/* Setup Card */}
-            <div className="bg-gradient-to-br from-zinc-900/90 to-zinc-900/50 p-5 rounded-xl border border-zinc-800/50 flex flex-col justify-between relative overflow-hidden backdrop-blur-sm">
-              {/* Decorative corner accent */}
+            <div
+              className={`bg-gradient-to-br from-zinc-900/90 to-zinc-900/50 p-5 rounded-xl border-l-4 flex flex-col justify-between relative overflow-hidden backdrop-blur-sm transition-all duration-500 ${
+                state.phase.includes('ACT1')
+                  ? 'border-l-emerald-500 border-r border-t border-b border-zinc-800/50'
+                  : state.phase.includes('ACT2')
+                  ? 'border-l-amber-500 border-r border-t border-b border-zinc-800/50'
+                  : 'border-l-red-500 border-r border-t border-b border-zinc-800/50'
+              }`}
+            >
+              {/* Subtle background glow */}
               <div
-                className={`absolute top-0 right-0 w-24 h-24 rounded-bl-full opacity-20 transition-colors duration-500 ${
+                className={`absolute inset-0 opacity-[0.03] transition-opacity duration-500 ${
                   state.phase.includes('ACT1')
                     ? 'bg-emerald-500'
                     : state.phase.includes('ACT2')
@@ -372,23 +380,23 @@ const RevengeSimulator: React.FC = () => {
                     Active Setup
                   </h3>
                   <span
-                    className={`text-[10px] px-3 py-1.5 rounded-full font-bold tracking-wide border backdrop-blur-sm ${
+                    className={`text-[10px] px-2.5 py-1 rounded-md font-bold tracking-wide shadow-sm ${
                       state.phase.includes('ACT1')
-                        ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                         : state.phase.includes('ACT2')
-                        ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
-                        : 'bg-red-500/15 text-red-400 border-red-500/30'
+                        ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                        : 'bg-red-500/20 text-red-400 border border-red-500/30'
                     }`}
                   >
                     {state.phase.includes('ACT1')
-                      ? '★ GRADE A'
+                      ? 'GRADE A'
                       : state.phase.includes('ACT2')
-                      ? '◆ GRADE B-'
-                      : '✕ GRADE F'}
+                      ? 'GRADE B-'
+                      : 'GRADE F'}
                   </span>
                 </div>
 
-                <div className="flex items-baseline space-x-2 mb-1">
+                <div className="flex items-baseline space-x-2 mb-2">
                   <span className="text-2xl font-mono font-semibold text-zinc-100 tracking-tight">
                     EUR/USD
                   </span>

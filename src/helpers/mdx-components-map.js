@@ -423,6 +423,14 @@ const RiskCalculator = dynamic(
   { ssr: false }
 );
 
+const CoinFlipGame = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/coin_flip_game/CoinFlipGame'
+    ).then((mod) => mod.CoinFlipGame),
+  { ssr: false }
+);
+
 const PositionSizingCalculator = dynamic(
   () =>
     import(
@@ -551,6 +559,14 @@ const VolatilityRegimeViz = dynamic(
   { ssr: false }
 );
 
+const FatTailDistribution = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/risk_management/volatility_regimes/FatTailDistribution'
+    ),
+  { ssr: false }
+);
+
 const TailRiskVisualizer = dynamic(
   () =>
     import(
@@ -640,6 +656,7 @@ const COMPONENT_MAP = {
   OfferingMechanicsContainer,
   TraderGraveyard,
   RiskCalculator,
+  CoinFlipGame,
   PositionSizingCalculator,
   PositionSizeImpactSphere,
   ATRStopCalculator,
@@ -656,6 +673,7 @@ const COMPONENT_MAP = {
   PortfolioHeatGame,
   RiskConstellation,
   VolatilityRegimeViz,
+  FatTailDistribution,
   TailRiskVisualizer,
   RevengeSimulator,
   MazeGame,

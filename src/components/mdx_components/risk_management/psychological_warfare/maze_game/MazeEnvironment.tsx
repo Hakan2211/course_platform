@@ -3,7 +3,7 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Mesh, Color, BackSide, MeshStandardMaterial } from 'three';
-import { Stars, Text, Float } from '@react-three/drei';
+import { Stars, Text, Float, Grid } from '@react-three/drei';
 import { RoomData, GameStatus } from './types';
 
 // Augment JSX namespace to recognize Three.js intrinsic elements
@@ -49,44 +49,55 @@ export const MazeEnvironment: React.FC<MazeEnvironmentProps> = ({
     // Animation Logic based on Trap Type and Status
 
     // 1. Loss Aversion: Walls Closing
-    if (
-      room.visualTrap === 'walls-closing' &&
-      leftWallRef.current &&
-      rightWallRef.current
-    ) {
-      if (gameStatus === 'PLAYING') {
-        // Slowly close walls
-        const speed = 0.5;
-        // Start closer for "Narrow Corridor" feel
-        if (leftWallRef.current.position.x < -1.5) {
-          leftWallRef.current.position.x += delta * speed;
-        }
-        if (rightWallRef.current.position.x > 1.5) {
-          rightWallRef.current.position.x -= delta * speed;
-        }
-      } else if (gameStatus === 'FEEDBACK') {
-        if (choiceResult === false) {
-          // CRUSH
-          if (leftWallRef.current.position.x < -0.5)
-            leftWallRef.current.position.x += delta * 8;
-          if (rightWallRef.current.position.x > 0.5)
-            rightWallRef.current.position.x -= delta * 8;
+    if (room.visualTrap === 'walls-closing') {
+      if (leftWallRef.current && rightWallRef.current) {
+        if (gameStatus === 'PLAYING') {
+          // Slowly close walls
+          const speed = 0.5;
+          // Start closer for "Narrow Corridor" feel
+          if (leftWallRef.current.position.x < -2.5) {
+            leftWallRef.current.position.x += delta * speed;
+          }
+          if (rightWallRef.current.position.x > 2.5) {
+            rightWallRef.current.position.x -= delta * speed;
+          }
+        } else if (gameStatus === 'FEEDBACK') {
+          if (choiceResult === false) {
+            // CRUSH
+            if (leftWallRef.current.position.x < -0.5)
+              leftWallRef.current.position.x += delta * 8;
+            if (rightWallRef.current.position.x > 0.5)
+              rightWallRef.current.position.x -= delta * 8;
+          } else {
+            // Reset / Open up
+            if (leftWallRef.current.position.x > -6)
+              leftWallRef.current.position.x -= delta * 4;
+            if (rightWallRef.current.position.x < 6)
+              rightWallRef.current.position.x += delta * 4;
+          }
         } else {
-          // Reset / Open up
-          if (leftWallRef.current.position.x > -6)
-            leftWallRef.current.position.x -= delta * 4;
-          if (rightWallRef.current.position.x < 6)
-            rightWallRef.current.position.x += delta * 4;
+          // Reset positions for new room (Intro/Game Over)
+          leftWallRef.current.position.x = -6;
+          rightWallRef.current.position.x = 6;
         }
-      } else {
-        // Reset positions for new room (Intro/Game Over)
-        leftWallRef.current.position.x = -6;
-        rightWallRef.current.position.x = 6;
       }
     } else {
-      // For non-wall rooms, keep them wide
-      if (leftWallRef.current) leftWallRef.current.position.x = -8;
-      if (rightWallRef.current) rightWallRef.current.position.x = 8;
+      // For non-wall rooms, keep them wide but visible
+      // We animate them out to a fixed wide position if they were close
+      const targetX = 10; // Wide corridor
+      const speed = 5;
+
+      if (leftWallRef.current) {
+        // Lerp to target
+        if (leftWallRef.current.position.x > -targetX)
+          leftWallRef.current.position.x -= delta * speed;
+        else leftWallRef.current.position.x = -targetX;
+      }
+      if (rightWallRef.current) {
+        if (rightWallRef.current.position.x < targetX)
+          rightWallRef.current.position.x += delta * speed;
+        else rightWallRef.current.position.x = targetX;
+      }
     }
 
     // 2. Overconfidence: Pit
@@ -111,20 +122,20 @@ export const MazeEnvironment: React.FC<MazeEnvironmentProps> = ({
 
   return (
     <group>
-      {/* Dynamic Fog - reduced density to see more */}
+      {/* Dynamic Fog - adjusted for better visibility */}
       <fog
         attach="fog"
         args={[
           room.colorTheme,
-          1, // Near
+          5, // Near
           gameStatus === 'FEEDBACK' && !choiceResult
-            ? 5 // Very dense if failed
-            : 30 / (room.fogDensity * 10), // Further visibility normally
+            ? 10 // Very dense if failed
+            : 40, // Far visibility
         ]}
       />
 
       {/* Lighting */}
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.5} />
       <pointLight
         position={[0, 4, 0]}
         intensity={2}
@@ -134,22 +145,45 @@ export const MazeEnvironment: React.FC<MazeEnvironmentProps> = ({
       />
       <pointLight position={[0, 2, 5]} intensity={1} color="white" />
 
+      {/* Rim light for walls to make them pop */}
+      <pointLight
+        position={[0, 0, -20]}
+        intensity={5}
+        color={themeColor}
+        distance={30}
+      />
+
       {/* Environment Group with Float for 3D feel */}
       <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}>
-        {/* Floor */}
+        {/* Floor with Grid for perspective */}
+        <group position={[0, -2.01, 0]}>
+          <Grid
+            position={[0, 0, 0]}
+            args={[50, 200]}
+            cellSize={2}
+            cellThickness={1}
+            cellColor={new Color(room.colorTheme).multiplyScalar(2)}
+            sectionSize={10}
+            sectionThickness={1.5}
+            sectionColor={new Color(room.colorTheme)}
+            fadeDistance={50}
+            infiniteGrid
+          />
+        </group>
+
         <mesh
           ref={floorRef}
           rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, -2, 0]}
+          position={[0, -2.1, 0]} // Slightly below grid
         >
-          <planeGeometry args={[50, 200]} />
+          <planeGeometry args={[100, 200]} />
           <meshStandardMaterial
             color={
               room.visualTrap === 'pit'
                 ? '#b45309' // Gold-ish brown
                 : room.visualTrap === 'quicksand'
                 ? '#3f2e21'
-                : '#1a1a1a'
+                : '#050505' // Very dark floor normally to let grid shine
             }
             roughness={room.visualTrap === 'mirrors' ? 0.05 : 0.8}
             metalness={room.visualTrap === 'mirrors' ? 0.95 : 0.2}
@@ -164,30 +198,64 @@ export const MazeEnvironment: React.FC<MazeEnvironmentProps> = ({
 
         {/* Left Wall */}
         <mesh ref={leftWallRef} position={[-6, 3, 0]}>
-          <boxGeometry args={[1, 10, 200]} />
+          <boxGeometry args={[1, 12, 200]} />
           <meshStandardMaterial
-            color="#2a2a2a"
-            metalness={room.visualTrap === 'mirrors' ? 0.9 : 0.4}
-            roughness={room.visualTrap === 'mirrors' ? 0.1 : 0.6}
+            color={new Color(room.colorTheme).multiplyScalar(0.2)} // Tint walls slightly with room theme
+            metalness={room.visualTrap === 'mirrors' ? 0.9 : 0.6}
+            roughness={room.visualTrap === 'mirrors' ? 0.1 : 0.4}
           />
+          {/* Add a glowing stripe to the wall */}
+          <mesh position={[0.51, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+            <planeGeometry args={[200, 0.5]} />
+            <meshStandardMaterial
+              color={room.colorTheme}
+              emissive={room.colorTheme}
+              emissiveIntensity={2}
+            />
+          </mesh>
         </mesh>
 
         {/* Right Wall */}
         <mesh ref={rightWallRef} position={[6, 3, 0]}>
-          <boxGeometry args={[1, 10, 200]} />
+          <boxGeometry args={[1, 12, 200]} />
           <meshStandardMaterial
-            color="#2a2a2a"
-            metalness={room.visualTrap === 'mirrors' ? 0.9 : 0.4}
-            roughness={room.visualTrap === 'mirrors' ? 0.1 : 0.6}
+            color={new Color(room.colorTheme).multiplyScalar(0.2)}
+            metalness={room.visualTrap === 'mirrors' ? 0.9 : 0.6}
+            roughness={room.visualTrap === 'mirrors' ? 0.1 : 0.4}
           />
+          {/* Add a glowing stripe to the wall */}
+          <mesh position={[-0.51, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+            <planeGeometry args={[200, 0.5]} />
+            <meshStandardMaterial
+              color={room.colorTheme}
+              emissive={room.colorTheme}
+              emissiveIntensity={2}
+            />
+          </mesh>
         </mesh>
 
+        {/* Pillars for depth perception */}
+        {[-20, -40, -60, -80].map((z) => (
+          <group key={z} position={[0, 0, z]}>
+            {/* Left Pillar */}
+            <mesh position={[-6, 3, 0]}>
+              <boxGeometry args={[2, 12, 2]} />
+              <meshStandardMaterial color="#111" />
+            </mesh>
+            {/* Right Pillar */}
+            <mesh position={[6, 3, 0]}>
+              <boxGeometry args={[2, 12, 2]} />
+              <meshStandardMaterial color="#111" />
+            </mesh>
+          </group>
+        ))}
+
         {/* 3D Text for Room Title floating in distance */}
-        <group position={[0, 1, -10]}>
+        <group position={[0, 1, -15]}>
           <Text
             color={themeColor}
-            fontSize={1.5}
-            maxWidth={12}
+            fontSize={2}
+            maxWidth={8} // Reduced width to prevent clipping
             lineHeight={1}
             letterSpacing={0.05}
             textAlign="center"
