@@ -80,7 +80,7 @@ export const CoinFlipGame = () => {
         <div className="w-full md:w-2/3 h-[500px]">
           <CanvasWrapper
             height="100%"
-            cameraSettings={{ position: [0, 2, 8], fov: 45 }}
+            cameraSettings={{ position: [0, 3, 10], fov: 45 }}
             enableControls={true}
           >
             <GameScene gameState={gameState} currentResult={lastResult} />

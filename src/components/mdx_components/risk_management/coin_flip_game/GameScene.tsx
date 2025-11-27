@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Environment, ContactShadows } from '@react-three/drei';
+import { Environment, ContactShadows, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { Coin } from './Coin';
 import { GameState, CONSTANTS } from './types';
@@ -72,6 +72,18 @@ const BarChart = ({
           emissiveIntensity={0.4}
         />
       </mesh>
+      <Text
+        position={[-1, 3, 1]}
+        rotation={[0, 0, 0]}
+        fontSize={0.25}
+        color="#ffffff"
+        anchorX="center"
+        anchorY="middle"
+        outlineWidth={0.02}
+        outlineColor="#000000"
+      >
+        CAPITAL
+      </Text>
     </group>
   );
 };
