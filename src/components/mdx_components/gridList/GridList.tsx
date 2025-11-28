@@ -14,7 +14,7 @@ const defaultCardStyles = {
 };
 
 export interface GridListItemConfig {
-  title: string;
+  title: ReactNode;
   description?: ReactNode;
   icon?: ReactNode;
   className?: string;
