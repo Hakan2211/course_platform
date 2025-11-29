@@ -93,6 +93,7 @@ import {
   X,
   BellRing,
   Medal,
+  Flag,
 } from 'lucide-react';
 
 const TestScene = dynamic(
@@ -732,6 +733,7 @@ const COMPONENT_MAP = {
   X,
   BellRing,
   Medal,
+  Flag,
 };
 
 export default COMPONENT_MAP;
