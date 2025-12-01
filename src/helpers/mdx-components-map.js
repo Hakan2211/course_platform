@@ -94,6 +94,7 @@ import {
   BellRing,
   Medal,
   Flag,
+  MessageCircleQuestion,
 } from 'lucide-react';
 
 const TestScene = dynamic(
@@ -734,6 +735,7 @@ const COMPONENT_MAP = {
   BellRing,
   Medal,
   Flag,
+  MessageCircleQuestion,
 };
 
 export default COMPONENT_MAP;
