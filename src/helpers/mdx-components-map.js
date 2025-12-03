@@ -76,11 +76,35 @@ const TunnelVisionSimulation = dynamic(
   { ssr: false }
 );
 
+const SignalDecoder = dynamic(
+  () =>
+    import('@/components/mdx_components/cognitive_athlete/SignalDecoder').then(
+      (mod) => mod.default
+    ),
+  { ssr: false }
+);
+
+const VagusHighway = dynamic(
+  () =>
+    import('@/components/mdx_components/cognitive_athlete/VagusHighway').then(
+      (mod) => mod.default
+    ),
+  { ssr: false }
+);
+
 const BreathingPacer = dynamic(
   () =>
     import('@/components/mdx_components/cognitive_athlete/BreathingPacer').then(
       (mod) => mod.default
     ),
+  { ssr: false }
+);
+
+const SomaticMarkersExplorer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/SomaticMarkersExplorer'
+    ).then((mod) => mod.default),
   { ssr: false }
 );
 
@@ -708,7 +732,10 @@ const COMPONENT_MAP = {
   BrainIdentifier,
   AnatomyOfBlowUp,
   TunnelVisionSimulation,
+  SignalDecoder,
+  VagusHighway,
   BreathingPacer,
+  SomaticMarkersExplorer,
   EnvironmentWrapper,
   FramerMotionTest,
   P5Example,

@@ -15,3 +15,11 @@ export interface BreathingConfig {
   name: string;
   description: string;
 }
+
+export enum CrashState {
+  NORMAL = 'normal',
+  GUT_SHOCK = 'gut-shock',
+  TRANSMITTING = 'transmitting',
+  BRAIN_SHOCK = 'brain-shock',
+  RECOVERY = 'recovery',
+}
