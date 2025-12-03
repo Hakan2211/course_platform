@@ -150,6 +150,49 @@ import DilutionChecklist from '@/components/mdx_components/dilutionChecklist/Dil
 import Checklist from '@/components/mdx_components/checklist/Checklist';
 import { FortressCommandCenter } from '@/components/mdx_components/fortressCommandCenter/FortressCommandCenter';
 import { PersonalRiskPlanDownload } from '@/components/mdx_components/downloads/PersonalRiskPlanDownload';
+const PredictionErrorSimulator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/PredictionErrorSimulator'
+    ),
+  { ssr: false }
+);
+
+const SynapticDownregulation = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/SynapticDownregulation'
+    ),
+  { ssr: false }
+);
+
+const CasinoModeMeter = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/CasinoModeMeter/CasinoModeMeter'
+    ),
+  { ssr: false }
+);
+
+const CycleOfDoom = dynamic(
+  () =>
+    import('@/components/mdx_components/cognitive_athlete/CycleOfDoom').then(
+      (mod) => mod.CycleOfDoom
+    ),
+  { ssr: false }
+);
+
+const HormonalLens = dynamic(
+  () => import('@/components/mdx_components/cognitive_athlete/HormonalLens'),
+  { ssr: false }
+);
+
+const PositionSizingCurve = dynamic(
+  () =>
+    import('@/components/mdx_components/cognitive_athlete/PositionSizingCurve'),
+  { ssr: false }
+);
+
 const ShadowFloatRiskSimulator = dynamic(
   () =>
     import(
@@ -826,6 +869,12 @@ const COMPONENT_MAP = {
   Math,
   DecisionTree,
   ShortInterestDataPanel,
+  PredictionErrorSimulator,
+  SynapticDownregulation,
+  CasinoModeMeter,
+  CycleOfDoom,
+  HormonalLens,
+  PositionSizingCurve,
   ShadowFloatRiskSimulator,
   DilutionChecklist,
   Checklist,
