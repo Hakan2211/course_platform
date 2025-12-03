@@ -14,6 +14,52 @@ import {
   ImageGalleryItem,
 } from '@/components/mdx_components/imageGallery/imageGallery';
 
+const BrainModel = dynamic(
+  () =>
+    import('@/components/mdx_components/3d_lessons/brain/BrainModelContainer'),
+  { ssr: false }
+);
+
+const BrainExplorer = dynamic(
+  () =>
+    import('@/components/mdx_components/cognitive_athlete/BrainExplorer').then(
+      (mod) => mod.BrainExplorer
+    ),
+  { ssr: false }
+);
+
+const RaceAnimation = dynamic(
+  () =>
+    import('@/components/mdx_components/cognitive_athlete/RaceAnimation').then(
+      (mod) => mod.RaceAnimation
+    ),
+  { ssr: false }
+);
+
+const HierarchyBuilding = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/HierarchyBuilding'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const DecisionFlowchart = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/DecisionFlowchart'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const BrainIdentifier = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/BrainIdentifier'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
 import VideoTest from '@/components/mdx_components/videoPlayer/videoTest';
 import { VideoPlayerUI } from '@/components/mdx_components/videoPlayer/videoPlayerUI';
 import EnvironmentWrapper from '@/components/mdx_components/2d_environment/environmentWrapper';
@@ -630,6 +676,12 @@ const COMPONENT_MAP = {
   VideoTest,
   ImageGallery,
   ImageGalleryItem,
+  BrainModel,
+  BrainExplorer,
+  RaceAnimation,
+  HierarchyBuilding,
+  DecisionFlowchart,
+  BrainIdentifier,
   EnvironmentWrapper,
   FramerMotionTest,
   P5Example,
