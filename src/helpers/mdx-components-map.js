@@ -182,6 +182,22 @@ const CycleOfDoom = dynamic(
   { ssr: false }
 );
 
+const DecisionBattery = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/DecisionBattery/DecisionBattery'
+    ).then((mod) => mod.DecisionBattery),
+  { ssr: false }
+);
+
+const PrefrontalBattery = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/PrefrontalBattery/PrefrontalBatteryContainer'
+    ).then((mod) => mod.PrefrontalBatteryContainer),
+  { ssr: false }
+);
+
 const HormonalLens = dynamic(
   () => import('@/components/mdx_components/cognitive_athlete/HormonalLens'),
   { ssr: false }
@@ -873,6 +889,8 @@ const COMPONENT_MAP = {
   SynapticDownregulation,
   CasinoModeMeter,
   CycleOfDoom,
+  DecisionBattery,
+  PrefrontalBattery,
   HormonalLens,
   PositionSizingCurve,
   ShadowFloatRiskSimulator,
