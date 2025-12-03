@@ -198,6 +198,30 @@ const PrefrontalBattery = dynamic(
   { ssr: false }
 );
 
+const DispositionSimulator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/DispositionSimulator/DispositionSimulator'
+    ).then((mod) => mod.DispositionSimulator),
+  { ssr: false }
+);
+
+const AsymmetrySlider = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/AsymmetrySlider/AsymmetrySlider'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const AnchorBreaker = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/AnchorBreaker/AnchorBreaker'
+    ).then((mod) => mod.AnchorBreaker),
+  { ssr: false }
+);
+
 const HormonalLens = dynamic(
   () => import('@/components/mdx_components/cognitive_athlete/HormonalLens'),
   { ssr: false }
@@ -891,6 +915,9 @@ const COMPONENT_MAP = {
   CycleOfDoom,
   DecisionBattery,
   PrefrontalBattery,
+  DispositionSimulator,
+  AsymmetrySlider,
+  AnchorBreaker,
   HormonalLens,
   PositionSizingCurve,
   ShadowFloatRiskSimulator,
