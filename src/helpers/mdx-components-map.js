@@ -60,6 +60,30 @@ const BrainIdentifier = dynamic(
   { ssr: false }
 );
 
+const AnatomyOfBlowUp = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/AnatomyOfBlowUp'
+    ).then((mod) => mod.AnatomyOfBlowUp),
+  { ssr: false }
+);
+
+const TunnelVisionSimulation = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/TunnelVisionSimulation'
+    ).then((mod) => mod.TunnelVisionSimulation),
+  { ssr: false }
+);
+
+const BreathingPacer = dynamic(
+  () =>
+    import('@/components/mdx_components/cognitive_athlete/BreathingPacer').then(
+      (mod) => mod.default
+    ),
+  { ssr: false }
+);
+
 import VideoTest from '@/components/mdx_components/videoPlayer/videoTest';
 import { VideoPlayerUI } from '@/components/mdx_components/videoPlayer/videoPlayerUI';
 import EnvironmentWrapper from '@/components/mdx_components/2d_environment/environmentWrapper';
@@ -682,6 +706,9 @@ const COMPONENT_MAP = {
   HierarchyBuilding,
   DecisionFlowchart,
   BrainIdentifier,
+  AnatomyOfBlowUp,
+  TunnelVisionSimulation,
+  BreathingPacer,
   EnvironmentWrapper,
   FramerMotionTest,
   P5Example,
