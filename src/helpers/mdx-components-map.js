@@ -240,6 +240,37 @@ const ShadowFloatRiskSimulator = dynamic(
     ),
   { ssr: false }
 );
+const NeuralHighwayBuilder = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/NeuralHighwayBuilder/NeuralHighwayBuilder'
+    ).then((mod) => mod.NeuralHighwayBuilder),
+  { ssr: false }
+);
+const HebbianClicker = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/HebbianClicker/HebbianClicker'
+    ).then((mod) => mod.HebbianClicker),
+  { ssr: false }
+);
+
+const UrgeSurfTimer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/UrgeSurfTimer/UrgeSurfTimer'
+    ).then((mod) => mod.UrgeSurfTimer),
+  { ssr: false }
+);
+
+const RealityCurve = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/RealityCurve/RealityCurve'
+    ),
+  { ssr: false }
+);
+
 import {
   TrendingUp,
   LandPlot,
@@ -925,6 +956,10 @@ const COMPONENT_MAP = {
   Checklist,
   FortressCommandCenter,
   PersonalRiskPlanDownload,
+  NeuralHighwayBuilder,
+  HebbianClicker,
+  UrgeSurfTimer,
+  RealityCurve,
   TrendingUp,
   LandPlot,
   Repeat,
