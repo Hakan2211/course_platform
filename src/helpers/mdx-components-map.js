@@ -327,6 +327,54 @@ const HRVMonitor = dynamic(
   { ssr: false }
 );
 
+const WindowOfTolerance = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/Resilience/WindowOfTolerance'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const ResilienceProtocol = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/Resilience/ResilienceProtocol'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const AllostaticLoadCalculator = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/Resilience/AllostaticLoadCalculator'
+    ).then((mod) => mod.AllostaticLoadCalculator),
+  { ssr: false }
+);
+
+const SixSecondTrainer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/AnatomyOfTrade/SixSecondTrainer'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const BioTelemetryDashboard = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/AnatomyOfTrade/BioTelemetryDashboard'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const MasteryRadarAssessment = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/AnatomyOfTrade/MasteryRadarAssessment'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
 import {
   TrendingUp,
   LandPlot,
@@ -1021,6 +1069,12 @@ const COMPONENT_MAP = {
   RitualStackBuilder,
   FlowCocktailMixer,
   HRVMonitor,
+  WindowOfTolerance,
+  ResilienceProtocol,
+  AllostaticLoadCalculator,
+  SixSecondTrainer,
+  BioTelemetryDashboard,
+  MasteryRadarAssessment,
   ChronotypeOptimizer,
   DopamineMatcher,
   TrendingUp,
