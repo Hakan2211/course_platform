@@ -271,6 +271,62 @@ const RealityCurve = dynamic(
   { ssr: false }
 );
 
+const PsychometricProfiler = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/PsychometricProfiling/InteractiveTool'
+    ).then((mod) => mod.InteractiveTool),
+  { ssr: false }
+);
+
+const ChronotypeOptimizer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/PsychometricProfiling/ChronotypeOptimizer'
+    ).then((mod) => mod.ChronotypeOptimizer),
+  { ssr: false }
+);
+
+const DopamineMatcher = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/PsychometricProfiling/DopamineMatcher'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const NeuroAvatarBuilder = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/PsychometricProfiling/NeuroAvatarBuilder'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const RitualStackBuilder = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/FlowState/RitualStackBuilder'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const FlowCocktailMixer = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/FlowState/FlowCocktailMixer'
+    ).then((mod) => mod.default),
+  { ssr: false }
+);
+
+const HRVMonitor = dynamic(
+  () =>
+    import(
+      '@/components/mdx_components/cognitive_athlete/FlowState/HRVMonitor'
+    ).then((mod) => mod.HRVMonitor),
+  { ssr: false }
+);
+
 import {
   TrendingUp,
   LandPlot,
@@ -960,6 +1016,13 @@ const COMPONENT_MAP = {
   HebbianClicker,
   UrgeSurfTimer,
   RealityCurve,
+  PsychometricProfiler,
+  NeuroAvatarBuilder,
+  RitualStackBuilder,
+  FlowCocktailMixer,
+  HRVMonitor,
+  ChronotypeOptimizer,
+  DopamineMatcher,
   TrendingUp,
   LandPlot,
   Repeat,
