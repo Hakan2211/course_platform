@@ -1,11 +1,10 @@
 import { getCourseModules } from '@/helpers/file-helpers';
-import Link from 'next/link';
 import styles from './course.module.css';
 import { formatModuleSlug } from '@/lib/utils';
-import { LessonStatus } from '@/components/progress/LessonStatus';
 import Image from 'next/image';
 import HeroScene from '@/components/hero/HeroScene';
 import { NavBar } from '@/components/hero/NavBar';
+import { LessonLink } from './LessonLink';
 
 export const metadata = {
   title: 'Course Overview',
@@ -71,23 +70,11 @@ export default async function CourseOverview() {
                 <div className="md:hidden w-full my-4 border-t border-[var(--text-color-primary-300)]"></div>
                 <ul className="md:w-[50%] md:pl-[8px]">
                   {module.lessons.map((lesson) => (
-                    <Link
+                    <LessonLink
                       key={lesson.slug}
-                      className=""
-                      href={`/course/${module.moduleSlug}/${lesson.slug}`}
-                    >
-                      <li
-                        className={`flex justify-between items-center text-[var(--text-color-primary-800)] p-2 rounded-lg -ml-2 hover:bg-[var(--text-color-primary-300)] transition-colors duration-200 ${
-                          lesson.parent ? 'pl-8 text-sm' : ''
-                        }`}
-                      >
-                        <span>{lesson.title}</span>{' '}
-                        <LessonStatus
-                          moduleSlug={module.moduleSlug}
-                          lessonSlug={lesson.slug}
-                        />
-                      </li>
-                    </Link>
+                      moduleSlug={module.moduleSlug}
+                      lesson={lesson}
+                    />
                   ))}
                 </ul>
               </div>
