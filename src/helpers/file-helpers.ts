@@ -74,6 +74,41 @@ export async function getCourseModules(): Promise<Module[]> {
   return modules.sort((m1, m2) => m1.moduleSlug.localeCompare(m2.moduleSlug));
 }
 
+export async function getLibraryModules(): Promise<Module[]> {
+  const moduleNames = await readDirectory('/library');
+
+  const modules: Module[] = [];
+
+  for (let moduleName of moduleNames) {
+    const lessonNames = await readDirectory(`/library/${moduleName}`);
+
+    const lessons: Lesson[] = [];
+
+    for (let lessonName of lessonNames) {
+      const rawContent = await readFile(`/library/${moduleName}/${lessonName}`);
+
+      const { data: frontmatter } = matter(rawContent);
+
+      lessons.push({
+        slug: `${lessonName.replace('.mdx', '')}`,
+        title: frontmatter.title,
+        order: frontmatter.order,
+        parent: frontmatter.parent || null,
+        moduleBadge: frontmatter.moduleBadge,
+        moduleDescription: frontmatter.moduleDescription,
+        moduleImage: frontmatter.moduleImage,
+      });
+    }
+
+    modules.push({
+      moduleSlug: moduleName,
+      lessons: lessons.sort((l1, l2) => l1.order - l2.order),
+    });
+  }
+
+  return modules.sort((m1, m2) => m1.moduleSlug.localeCompare(m2.moduleSlug));
+}
+
 type LoadLessonContentResult = {
   frontmatter: Frontmatter;
   content: string;
@@ -88,6 +123,39 @@ export const loadLessonContent = React.cache(async function loadLessonContent(
   let rawContent;
   try {
     rawContent = await readFile(`/content/${moduleSlug}/${lessonSlug}.mdx`);
+  } catch (error) {
+    return null;
+  }
+
+  const { data: frontmatter, content } = matter(rawContent);
+
+  const typedFrontmatter: Frontmatter = {
+    title: frontmatter.title,
+    order: frontmatter.order,
+    parent: frontmatter.parent || null,
+    moduleBadge: frontmatter.moduleBadge,
+    moduleDescription: frontmatter.moduleDescription,
+    ...frontmatter,
+  };
+
+  const headings = await extractHeadings(content);
+
+  const mdxSource = await serialize(content, {
+    mdxOptions: {
+      remarkPlugins: [remarkSlug as unknown as Plugin],
+    },
+  });
+
+  return { frontmatter: typedFrontmatter, content, headings, mdxSource };
+});
+
+export const loadLibraryContent = React.cache(async function loadLibraryContent(
+  moduleSlug: string,
+  lessonSlug: string
+): Promise<LoadLessonContentResult> {
+  let rawContent;
+  try {
+    rawContent = await readFile(`/library/${moduleSlug}/${lessonSlug}.mdx`);
   } catch (error) {
     return null;
   }

@@ -8,6 +8,7 @@ type SidebarProps = {
   moduleSlug: string;
   lessonSlug: string;
   lessons: { slug: string; title: string; parent: string | null }[];
+  basePath?: string;
 };
 
 function LessonsHeader({
@@ -15,6 +16,7 @@ function LessonsHeader({
   moduleSlug,
   lessons,
   lessonSlug,
+  basePath = '/course',
 }: SidebarProps) {
   const { width } = useWindowSize();
   const effectiveWidth = width ?? 0;
@@ -30,6 +32,7 @@ function LessonsHeader({
           moduleBadge={moduleBadge}
           moduleSlug={moduleSlug}
           lessonSlug={lessonSlug}
+          basePath={basePath}
         />
       </div>
       <div className="flex items-center">

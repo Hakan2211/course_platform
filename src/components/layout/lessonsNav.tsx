@@ -18,12 +18,14 @@ export function LessonsNav() {
           <li className="cursor-pointer">
             <Tooltip>
               <TooltipTrigger asChild>
-                <span>
-                  <LibraryIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300 translate-y-[2px]" />
-                </span>
+                <Link href="/course/library">
+                  <span>
+                    <LibraryIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300 translate-y-[2px]" />
+                  </span>
+                </Link>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Glossary</p>
+                <p>Library</p>
               </TooltipContent>
             </Tooltip>
           </li>

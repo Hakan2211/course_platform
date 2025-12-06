@@ -1,20 +1,24 @@
 import Link from 'next/link';
+import { LessonsNav } from '../layout/lessonsNav';
+import styles from '../../app/course/course.module.css';
 
 export function NavBar() {
   return (
-    <nav className="absolute top-0 left-0 w-full z-10 p-6 flex justify-between items-center pointer-events-none">
-      <div className="pointer-events-auto">
-        <Link href="/" className="text-white font-bold text-xl tracking-wider">
-          Logo<span className="text-blue-400"></span>
-        </Link>
-      </div>
-      <div className="pointer-events-auto">
-        <Link
-          href="/course/notes"
-          className="text-white/80 hover:text-white transition-colors border border-white/20 px-4 py-2 rounded-full backdrop-blur-sm bg-black/10"
-        >
-          My Notes
-        </Link>
+    <nav className={`w-full z-10 flex items-center ${styles.gridContainer}`}>
+      <div
+        className={`${styles.gridContent} flex justify-between items-center w-full py-6`}
+      >
+        <div>
+          <Link
+            href="/"
+            className="text-[var(--text-color-primary-800)] font-bold text-xl tracking-wider"
+          >
+            Logo<span className="text-blue-400"></span>
+          </Link>
+        </div>
+        <div>
+          <LessonsNav />
+        </div>
       </div>
     </nav>
   );

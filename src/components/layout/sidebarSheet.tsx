@@ -24,6 +24,8 @@ type SidebarProps = {
   moduleSlug: string;
   lessonSlug: string;
   lessons: { slug: string; title: string; parent: string | null }[];
+  basePath?: string;
+  homePath?: string;
 };
 
 function SideBarSheet({
@@ -31,6 +33,8 @@ function SideBarSheet({
   moduleSlug,
   lessonSlug,
   lessons,
+  basePath = '/course',
+  homePath = '/course',
 }: SidebarProps) {
   return (
     <Sheet>
@@ -48,7 +52,7 @@ function SideBarSheet({
             <TooltipProvider delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href={'/course'}>
+                  <Link href={homePath}>
                     <span className="">
                       <HomeIcon className="w-6 h-6 text-[var(--text-color-primary-800)] hover:text-yellow-600 transition-colors duration-300" />
                     </span>
@@ -85,7 +89,7 @@ function SideBarSheet({
                     : ''
                 }`}
               >
-                <Link href={`/course/${moduleSlug}/${lesson.slug}`}>
+                <Link href={`${basePath}/${moduleSlug}/${lesson.slug}`}>
                   {lesson.title}
                 </Link>
               </li>

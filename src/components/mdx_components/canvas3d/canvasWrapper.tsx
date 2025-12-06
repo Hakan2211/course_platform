@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, Suspense } from 'react';
+import { useMemo, Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Environment, Loader, PerspectiveCamera } from '@react-three/drei';
@@ -37,6 +37,12 @@ export function CanvasWrapper({
   enableEnvironment?: boolean;
   debug?: boolean;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const cameraSettings = useMemo(
     () => ({
       position: [0, 0, 5],
@@ -74,7 +80,7 @@ export function CanvasWrapper({
 
         <Suspense fallback={null}>{children}</Suspense>
       </Canvas>
-      {showLoader && <Loader />}
+      {mounted && showLoader && <Loader />}
     </div>
   );
 }

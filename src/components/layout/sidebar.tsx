@@ -19,6 +19,8 @@ type SidebarProps = {
   moduleSlug: string;
   lessonSlug: string;
   lessons: { slug: string; title: string; parent: string | null }[];
+  basePath?: string;
+  homePath?: string;
 };
 
 function Sidebar({
@@ -26,6 +28,8 @@ function Sidebar({
   moduleSlug,
   lessonSlug,
   lessons,
+  basePath = '/course',
+  homePath = '/course',
 }: SidebarProps) {
   const { width } = useWindowSize();
   const effectiveWidth = width ?? 0;
@@ -36,6 +40,8 @@ function Sidebar({
         moduleSlug={moduleSlug}
         lessonSlug={lessonSlug}
         lessons={lessons}
+        basePath={basePath}
+        homePath={homePath}
       />
     </aside>
   ) : (
@@ -45,7 +51,7 @@ function Sidebar({
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href={'/course'}>
+                <Link href={homePath}>
                   <span className="">
                     <HomeIcon className="w-6 h-6 text-[var(--text-color-primary-800)] hover:text-yellow-600 transition-colors duration-300" />
                   </span>
@@ -78,7 +84,7 @@ function Sidebar({
               >
                 <Link
                   className="w-full flex justify-between items-center gap-8"
-                  href={`/course/${moduleSlug}/${lesson.slug}`}
+                  href={`${basePath}/${moduleSlug}/${lesson.slug}`}
                 >
                   <span
                     className="flex-1 min-w-0 whitespace-normal break-words"

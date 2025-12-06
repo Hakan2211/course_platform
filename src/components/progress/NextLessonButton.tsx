@@ -12,21 +12,27 @@ type NextLessonButtonProps = {
     moduleSlug: string;
     lessonSlug?: string;
   } | null;
+  basePath?: string;
+  skipProgress?: boolean;
 };
 
 export function NextLessonButton({
   moduleSlug,
   lessonSlug,
   nextItem,
+  basePath = '/course',
+  skipProgress = false,
 }: NextLessonButtonProps) {
   const router = useRouter();
   const { updateProgress } = useProgress();
 
   const handleClick = async () => {
-    await updateProgress(moduleSlug, lessonSlug, 'completed');
+    if (!skipProgress) {
+      await updateProgress(moduleSlug, lessonSlug, 'completed');
+    }
 
     if (nextItem) {
-      router.push(`/course/${nextItem.moduleSlug}/${nextItem.lessonSlug}`);
+      router.push(`${basePath}/${nextItem.moduleSlug}/${nextItem.lessonSlug}`);
     }
   };
 

@@ -15,12 +15,17 @@ interface Lesson {
 interface LessonLinkProps {
   moduleSlug: string;
   lesson: Lesson;
+  basePath?: string;
 }
 
-export function LessonLink({ moduleSlug, lesson }: LessonLinkProps) {
+export function LessonLink({
+  moduleSlug,
+  lesson,
+  basePath = '/course',
+}: LessonLinkProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const href = `/course/${moduleSlug}/${lesson.slug}`;
+  const href = `${basePath}/${moduleSlug}/${lesson.slug}`;
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

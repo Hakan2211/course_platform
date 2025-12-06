@@ -30,7 +30,7 @@ export function AccountMenu() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-[var(--text-color-primary-400)]" />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
+          {/* <DropdownMenuItem className="cursor-pointer">
             Profile
           </DropdownMenuItem>{' '}
           <DropdownMenuItem className="cursor-pointer">
@@ -38,7 +38,7 @@ export function AccountMenu() {
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
             Invoice
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem className="cursor-pointer">
             Support
           </DropdownMenuItem>

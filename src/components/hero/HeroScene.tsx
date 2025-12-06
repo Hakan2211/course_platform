@@ -103,8 +103,8 @@ const TitleText = ({ url }: { url: string }) => {
     // Moved Float position down by -1 on Y axis to lower the text
     <Float
       speed={2}
-      rotationIntensity={0.2}
-      floatIntensity={0.2}
+      rotationIntensity={0.5}
+      floatIntensity={0.4}
       position={[0, -2.5, 0]}
     >
       <Center>
