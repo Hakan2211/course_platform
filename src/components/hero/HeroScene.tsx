@@ -35,7 +35,7 @@ class WaveMaterial extends THREE.ShaderMaterial {
           vUv = uv;
           vec3 pos = position;
           // Create a wave effect based on X position and Time
-          pos.z += sin(pos.x * 2.0 + uTime) * 0.2; 
+          pos.z += sin(pos.x * 2.0 + uTime) * 0.3;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
       `,

@@ -14,6 +14,19 @@ import {
   ImageGalleryItem,
 } from '@/components/mdx_components/imageGallery/imageGallery';
 
+const SetupArsenalRenderer = dynamic(
+  () => import('@/components/setup-arsenal/SetupArsenalRenderer'),
+  { ssr: false }
+);
+
+const TimelineScrubber = dynamic(
+  () =>
+    import('@/components/setup-arsenal/TimelineScrubber').then(
+      (mod) => mod.TimelineScrubber
+    ),
+  { ssr: false }
+);
+
 const BrainModel = dynamic(
   () =>
     import('@/components/mdx_components/3d_lessons/brain/BrainModelContainer'),
@@ -1023,6 +1036,8 @@ const COMPONENT_MAP = {
   TailRiskVisualizer,
   RevengeSimulator,
   MazeGame,
+  SetupArsenalRenderer,
+  TimelineScrubber,
   Table,
   TableBody,
   TableCell,
