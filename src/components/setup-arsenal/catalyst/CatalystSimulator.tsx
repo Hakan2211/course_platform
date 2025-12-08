@@ -1,463 +1,551 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
-import Sketch from 'react-p5';
-import P5 from 'p5';
-import { Play, RotateCcw, TrendingUp, TrendingDown, Info } from 'lucide-react';
-import {
-  ScenarioType,
-  Candle,
-  CANVAS_WIDTH,
-  CANVAS_HEIGHT,
-  PARTICLES_COUNT,
-  FRAMES_PER_CANDLE,
-  LEVEL_LOW,
-  LEVEL_RESISTANCE,
-  LEVEL_HIGH,
-  LEVEL_STOP_HUNT,
-} from '../types';
+import React, { useEffect, useRef, useState } from 'react';
+import p5 from 'p5';
 
-// Particle Class for P5
-class Particle {
-  p5: P5;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  color: string;
-  targetY: number;
+// ----------------------------------------------------------------------
+// Types & Constants
+// ----------------------------------------------------------------------
 
-  constructor(p5: P5) {
-    this.p5 = p5;
-    this.x = p5.random(50, CANVAS_WIDTH - 50);
-    this.y = LEVEL_LOW + p5.random(-20, 20);
-    this.vx = 0;
-    this.vy = 0;
-    this.color = '#4ade80'; // Green-400
-    this.targetY = LEVEL_LOW;
-  }
+type ScenarioType = 'LONG' | 'SHORT';
+type ParticleRole = 'DRIVER' | 'CHASER';
 
-  update(noiseScale: number, attractionStrength: number) {
-    // Attraction to target price
-    const dy = this.targetY - this.y;
-    this.vy += dy * attractionStrength;
-
-    // Brownian motion / Market Noise
-    this.vx += this.p5.random(-noiseScale, noiseScale);
-    this.vy += this.p5.random(-noiseScale, noiseScale);
-
-    // Damping / Friction
-    this.vx *= 0.9;
-    this.vy *= 0.9;
-
-    // Apply velocity
-    this.x += this.vx;
-    this.y += this.vy;
-
-    // Boundaries
-    if (this.x < 50) {
-      this.x = 50;
-      this.vx *= -1;
-    }
-    if (this.x > CANVAS_WIDTH - 50) {
-      this.x = CANVAS_WIDTH - 50;
-      this.vx *= -1;
-    }
-
-    // Color logic based on movement
-    if (this.vy < -0.5) this.color = '#4ade80'; // Moving up (Green)
-    else if (this.vy > 0.5) this.color = '#f87171'; // Moving down (Red)
-    else this.color = '#94a3b8'; // Neutral
-  }
-
-  display() {
-    this.p5.noStroke();
-    this.p5.fill(this.color);
-    this.p5.circle(this.x, this.y, 4);
-  }
+interface SimulationState {
+  scenario: ScenarioType;
+  isRunning: boolean;
 }
 
+// ----------------------------------------------------------------------
+// Component
+// ----------------------------------------------------------------------
+
 const CatalystSimulator: React.FC = () => {
-  const [scenario, setScenario] = useState<ScenarioType>('MATERIAL');
+  const containerRef = useRef<HTMLDivElement>(null);
+  const p5InstanceRef = useRef<p5 | null>(null);
+
+  // React State for UI Controls
+  const [scenario, setScenario] = useState<ScenarioType>('LONG');
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentPhaseText, setCurrentPhaseText] = useState('Ready to Start');
 
-  // Refs for simulation state that P5 needs to access without re-rendering
-  const particlesRef = useRef<Particle[]>([]);
-  const candlesRef = useRef<Candle[]>([]);
-  const currentCandleRef = useRef<Candle | null>(null);
-  const simFrameRef = useRef(0);
-  const scenarioRef = useRef<ScenarioType>('MATERIAL');
+  // Refs to pass state into P5 closure
+  const stateRef = useRef<SimulationState>({
+    scenario: 'LONG',
+    isRunning: false,
+  });
 
-  // Sync state to ref for P5
+  // Sync React state to Mutable Ref for P5
   useEffect(() => {
-    scenarioRef.current = scenario;
-  }, [scenario]);
+    stateRef.current.scenario = scenario;
+    stateRef.current.isRunning = isPlaying;
+  }, [scenario, isPlaying]);
 
-  const resetSimulation = (p5: P5) => {
-    simFrameRef.current = 0;
-    candlesRef.current = [];
-    currentCandleRef.current = {
-      open: LEVEL_LOW,
-      close: LEVEL_LOW,
-      high: LEVEL_LOW,
-      low: LEVEL_LOW,
-      volume: 0,
-      timestamp: 0,
-    };
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-    particlesRef.current = [];
-    for (let i = 0; i < PARTICLES_COUNT; i++) {
-      particlesRef.current.push(new Particle(p5));
-    }
-    setCurrentPhaseText('Waiting for News...');
-  };
+    // ------------------------------------------------------------------
+    // P5 Sketch Definition
+    // ------------------------------------------------------------------
+    const sketch = (p: p5) => {
+      // Configuration
+      let CANVAS_WIDTH = containerRef.current?.clientWidth || 800;
+      let CANVAS_HEIGHT = 600;
 
-  const setup = (p5: P5, canvasParentRef: Element) => {
-    p5.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).parent(canvasParentRef);
-    resetSimulation(p5);
-  };
+      // LAYOUT: Resistance at 65% height.
+      // This leaves 35% at bottom for accumulation, 65% at top for "Blue Sky" breakout
+      const RESISTANCE_Y = CANVAS_HEIGHT * 0.65;
 
-  const draw = (p5: P5) => {
-    p5.background(15, 23, 42); // bg-slate-900
+      const MAX_FRAMES = 950;
+      const INITIAL_PARTICLE_COUNT = 150;
 
-    // 1. Draw Environment (Grid & Levels)
-    drawGrid(p5);
+      // Simulation Variables
+      let particles: Particle[] = [];
+      let chartPoints: { time: number; y: number }[] = [];
+      let volumeHistory: { val: number; color: string }[] = [];
+      let time = 0;
+      let isFinished = false;
 
-    if (!isPlaying) {
-      // Just hover particles if paused
-      particlesRef.current.forEach((p) => {
-        p.targetY = LEVEL_LOW;
-        p.update(0.1, 0.01);
-        p.display();
-      });
-      return;
-    }
+      // ----------------------------------------------------------------
+      // Particle Class
+      // ----------------------------------------------------------------
+      class Particle {
+        pos: p5.Vector;
+        vel: p5.Vector;
+        acc: p5.Vector;
+        color: p5.Color;
+        type: 'BUYER' | 'SELLER';
+        role: ParticleRole;
+        trapped: boolean;
+        isDead: boolean;
+        hasSpawnedReplacement: boolean;
 
-    // 2. Update Simulation Logic (The "Director")
-    const frame = simFrameRef.current;
-    const currentScenario = scenarioRef.current;
-    let targetY = LEVEL_LOW;
-    let noise = 0.5;
-    let attraction = 0.005;
+        constructor(role: ParticleRole = 'DRIVER') {
+          // Spawn at bottom
+          this.pos = p.createVector(
+            p.random(0, 100),
+            p.random(CANVAS_HEIGHT - 10, CANVAS_HEIGHT + 10)
+          );
+          this.vel = p.createVector(p.random(3, 8), p.random(-3, -6));
+          this.acc = p.createVector(0, 0);
+          this.color = p.color(34, 197, 94); // Green-500
+          this.type = 'BUYER';
+          this.role = role;
+          this.trapped = false;
+          this.isDead = false;
+          this.hasSpawnedReplacement = false;
+        }
 
-    // --- SCENARIO LOGIC ---
-    // Phase 1: The Impulse (Frames 0-120) - Both Scenarios Same
-    if (frame < 120) {
-      if (frame === 1)
-        setCurrentPhaseText('PHASE 1: NEWS DROP! (Initial Impulse)');
-      // Rapid move to resistance
-      targetY = p5.map(frame, 0, 100, LEVEL_LOW, LEVEL_RESISTANCE);
-      attraction = 0.02; // Strong pull
-      if (targetY < LEVEL_RESISTANCE) targetY = LEVEL_RESISTANCE;
-    }
-    // Phase 2: The Reaction (Frames 120-250) - Divergence
-    else if (frame < 250) {
-      if (currentScenario === 'MATERIAL') {
-        if (frame === 120)
-          setCurrentPhaseText('PHASE 2: CONSOLIDATION (Building Energy)');
-        // Flagging under resistance
-        targetY = LEVEL_RESISTANCE + p5.sin(frame * 0.1) * 10;
-        noise = 0.2; // Tightening up
-      } else {
-        if (frame === 120)
-          setCurrentPhaseText('PHASE 2: THE TRAP (False Breakout)');
-        // Pop above resistance briefly (The Wick Creator)
-        if (frame < 180) {
-          targetY = LEVEL_STOP_HUNT; // Push higher
-          attraction = 0.01;
-        } else {
-          setCurrentPhaseText('PHASE 2: REJECTION (Supply Overwhelms)');
-          targetY = LEVEL_RESISTANCE + 50; // Start falling
+        applyForce(force: p5.Vector) {
+          this.acc.add(force);
+        }
+
+        update(currentScenario: ScenarioType): Particle | null {
+          let newParticle: Particle | null = null;
+
+          // Physics
+          this.vel.add(this.acc);
+
+          // Basic Limits
+          this.vel.x = p.constrain(this.vel.x, -2, 12);
+
+          // Soft terminal velocity to prevent infinite acceleration off screen
+          // But relaxed enough to allow "breakout" feel
+          if (this.vel.y < -8) {
+            this.vel.y = p.lerp(this.vel.y, -8, 0.05);
+          }
+
+          this.pos.add(this.vel);
+          this.acc.mult(0); // Reset acceleration
+
+          // ------------------------------------------------------------
+          // SCENARIO 1: LONG (Breakout)
+          // ------------------------------------------------------------
+          if (currentScenario === 'LONG') {
+            const distToWall = this.pos.y - RESISTANCE_Y;
+
+            // --- PHASE 1: PRE-MARKET COMPRESSION (0 - 150) ---
+            if (time < 150) {
+              if (distToWall < 40 && distToWall > -10) {
+                // Hit Resistance -> Compress
+                this.trapped = true;
+                this.color = p.color(234, 179, 8); // Yellow
+
+                this.vel.y *= 0.5;
+                this.vel.x *= 0.9;
+
+                // Wall Containment
+                if (this.pos.y < RESISTANCE_Y)
+                  this.pos.y = RESISTANCE_Y + p.random(0, 5);
+                this.pos.x += p.random(0, 2);
+              }
+            } else {
+              // --- PHASE 2: THE BREAKOUT (150 - 400) ---
+              if (this.trapped) {
+                this.trapped = false;
+                this.color = p.color(52, 211, 153); // Emerald
+                this.vel.y -= p.random(1, 2); // Pop
+                this.vel.x += p.random(0.5, 1);
+              }
+
+              // Timeline Forces
+              if (time < 400) {
+                // Leg 1: Push Up
+                this.applyForce(p.createVector(0, -0.04));
+              } else if (time >= 400 && time < 650) {
+                // --- PHASE 3: CONSOLIDATION (400 - 650) ---
+                // Friction to slow ascent
+                this.vel.mult(0.96);
+                this.applyForce(p.createVector(0, 0.03));
+              } else {
+                // --- PHASE 4: SECOND LEG (650+) ---
+                // Moderate push, but with drag to keep it on screen
+                this.applyForce(p.createVector(0, -0.025));
+                this.vel.mult(0.99); // Slight air resistance at high altitude
+              }
+            }
+
+            // --- OFF SCREEN LOGIC ---
+            // If particles go too high, spawn chasers
+            if (this.pos.y < -50) {
+              if (this.role === 'DRIVER') {
+                if (!this.hasSpawnedReplacement) {
+                  this.hasSpawnedReplacement = true;
+                  newParticle = new Particle('CHASER');
+                  newParticle.respawnAsChaser();
+                }
+              } else {
+                this.respawnAsChaser();
+              }
+            }
+          }
+
+          // ------------------------------------------------------------
+          // SCENARIO 2: SHORT (Rejection)
+          // ------------------------------------------------------------
+          else {
+            // Hit Resistance -> Reject
+            if (
+              this.pos.y <= RESISTANCE_Y + 5 &&
+              this.vel.y < 0 &&
+              !this.isDead
+            ) {
+              this.vel.y *= -0.6; // Hard bounce
+              this.type = 'SELLER';
+              this.color = p.color(239, 68, 68); // Red
+              this.vel.x += p.random(0, 3);
+            }
+
+            if (this.type === 'SELLER') {
+              this.applyForce(p.createVector(0, 0.15)); // Gravity
+              this.vel.mult(0.96); // Drag
+            }
+
+            if (this.pos.y > p.height + 50) {
+              this.isDead = true;
+            }
+          }
+
+          if (this.pos.x > p.width + 100) this.isDead = true;
+
+          return newParticle;
+        }
+
+        respawnAsChaser() {
+          this.pos.y = p.height + 20;
+          this.pos.x = p.random(0, p.width * 0.6);
+          this.vel = p.createVector(p.random(2, 5), p.random(-4, -7));
+          this.trapped = false;
+          this.type = 'BUYER';
+          this.role = 'CHASER';
+          this.color = p.color(52, 211, 153);
+        }
+
+        display() {
+          if (this.isDead) return;
+          p.noStroke();
+          p.fill(this.color);
+          p.circle(this.pos.x, this.pos.y, this.type === 'SELLER' ? 4 : 3);
         }
       }
-    }
-    // Phase 3: The Resolution (Frames 250+)
-    else {
-      if (currentScenario === 'MATERIAL') {
-        if (frame === 250)
-          setCurrentPhaseText('PHASE 3: BREAKOUT! (Sustained Momentum)');
-        // Moon time
-        targetY = LEVEL_HIGH;
-        attraction = 0.015;
-      } else {
-        if (frame === 250)
-          setCurrentPhaseText('PHASE 3: THE DROP (Bagholder Creation)');
-        // Crash
-        targetY = LEVEL_LOW + 50;
-        attraction = 0.01;
-        noise = 1.0; // Chaos/Panic
-      }
-    }
 
-    // 3. Update Particles
-    let sumY = 0;
-    particlesRef.current.forEach((p) => {
-      p.targetY = targetY;
-      p.update(noise, attraction);
-      p.display();
-      sumY += p.y;
-    });
+      // ----------------------------------------------------------------
+      // Setup & Reset
+      // ----------------------------------------------------------------
+      p.setup = () => {
+        p.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+        p.frameRate(60);
+        resetSimulation();
+      };
 
-    // 4. Calculate Price (Average of particles)
-    const currentPrice = sumY / PARTICLES_COUNT;
+      p.windowResized = () => {
+        CANVAS_WIDTH = containerRef.current?.clientWidth || 800;
+        p.resizeCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+      };
 
-    // 5. Update Candle Logic
-    if (currentCandleRef.current) {
-      const cc = currentCandleRef.current;
-      cc.high = Math.min(cc.high, currentPrice); // Remember Y is inverted
-      cc.low = Math.max(cc.low, currentPrice);
-      cc.close = currentPrice;
+      const resetSimulation = () => {
+        particles = [];
+        chartPoints = [];
+        volumeHistory = [];
+        time = 0;
+        isFinished = false;
 
-      // Volume grows with particle velocity (simulation)
-      // Simplified: Volume grows per frame
-      cc.volume += p5.random(10, 50);
+        for (let i = 0; i < INITIAL_PARTICLE_COUNT; i++) {
+          particles.push(new Particle('DRIVER'));
+        }
+      };
 
-      // Check for new candle
-      if (frame % FRAMES_PER_CANDLE === 0 && frame > 0) {
-        candlesRef.current.push({ ...cc });
-        // Start new candle
-        currentCandleRef.current = {
-          open: cc.close,
-          close: cc.close,
-          high: cc.close,
-          low: cc.close,
-          volume: 0,
-          timestamp: frame,
-        };
-      }
-    }
+      // ----------------------------------------------------------------
+      // Main Loop
+      // ----------------------------------------------------------------
+      p.draw = () => {
+        p.background(15, 23, 42);
+        drawGrid();
+        drawResistanceLine();
 
-    // 6. Draw Chart Overlay
-    drawCandles(p5);
+        if (!stateRef.current.isRunning) {
+          if (time > 0) resetSimulation();
+          drawReadyScreen();
+          return;
+        }
 
-    // 7. Advance Frame
-    simFrameRef.current++;
+        if (time >= MAX_FRAMES) {
+          isFinished = true;
+          drawSimulationEnd();
+          return;
+        }
 
-    // Stop condition
-    if (frame > 400) setIsPlaying(false);
-  };
+        time++;
+        let totalVel = 0;
+        let activeParticles: Particle[] = [];
+        const newParticlesToAdd: Particle[] = [];
 
-  const drawGrid = (p5: P5) => {
-    // Resistance Line
-    p5.stroke(251, 191, 36, 100); // Amber 400 transparent
-    p5.strokeWeight(2);
-    p5.drawingContext.setLineDash([10, 10]);
-    p5.line(0, LEVEL_RESISTANCE, CANVAS_WIDTH, LEVEL_RESISTANCE);
-    p5.drawingContext.setLineDash([]);
-    p5.noStroke();
-    p5.fill(251, 191, 36);
-    p5.textSize(12);
-    p5.text('KEY RESISTANCE / BREAKOUT LEVEL', 10, LEVEL_RESISTANCE - 10);
-  };
+        // Update
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const part = particles[i];
+          const newP = part.update(stateRef.current.scenario);
+          if (newP) newParticlesToAdd.push(newP);
 
-  const drawCandles = (p5: P5) => {
-    const candleWidth = 20;
-    const spacing = 40;
-    const startX = 50;
+          if (!part.isDead) {
+            part.display();
+            totalVel += part.vel.mag();
+            activeParticles.push(part);
+          } else {
+            particles.splice(i, 1);
+          }
+        }
+        particles.push(...newParticlesToAdd);
 
-    // Helper to draw single candle
-    const drawSingleCandle = (c: Candle, index: number, isLive: boolean) => {
-      const x = startX + index * spacing;
-      const isGreen = c.close < c.open; // Y is inverted
+        // Chart Calculation
+        const priceDrivers = activeParticles.filter((p) => p.role === 'DRIVER');
+        if (priceDrivers.length > 0) {
+          priceDrivers.sort((a, b) => a.pos.y - b.pos.y);
 
-      const color = isGreen ? '#4ade80' : '#f87171';
+          // Top 20% average
+          const leaderCount = Math.max(
+            1,
+            Math.floor(priceDrivers.length * 0.2)
+          );
+          let leaderSumY = 0;
+          for (let i = 0; i < leaderCount; i++)
+            leaderSumY += priceDrivers[i].pos.y;
 
-      p5.stroke(color);
-      p5.strokeWeight(2);
-      // Wick
-      p5.line(x + candleWidth / 2, c.high, x + candleWidth / 2, c.low);
+          let avgY = leaderSumY / leaderCount;
 
-      // Body
-      p5.noStroke();
-      p5.fill(color);
-      // p5 rect takes x, y, w, h.
-      const bodyTop = Math.min(c.open, c.close);
-      const bodyHeight = Math.abs(c.close - c.open);
-      // Ensure minimal height for visibility
-      const visualHeight = Math.max(1, bodyHeight);
+          // Visual Clamp: Keep visible but don't distort physics
+          // Just ensure it doesn't draw off top edge
+          avgY = Math.max(30, avgY);
 
-      p5.rect(x, bodyTop, candleWidth, visualHeight);
+          // Smoothing
+          let smoothY = avgY;
+          if (chartPoints.length > 0) {
+            const lastY = chartPoints[chartPoints.length - 1].y;
+            smoothY = p.lerp(lastY, avgY, 0.05);
+          }
 
-      // Volume Bar (at bottom)
-      // Scale volume max height 100px
-      const volHeight = p5.map(c.volume, 0, 10000, 0, 80);
-      p5.fill(color); // Volume same color as candle
-      p5.rect(x, CANVAS_HEIGHT - volHeight, candleWidth, volHeight);
+          chartPoints.push({ time: time, y: smoothY });
+        }
+
+        drawChartLine();
+        drawVolume(totalVel);
+        drawStats(time, activeParticles.length);
+      };
+
+      // ----------------------------------------------------------------
+      // Helpers
+      // ----------------------------------------------------------------
+      const drawResistanceLine = () => {
+        const isLong = stateRef.current.scenario === 'LONG';
+        const isBroken = isLong && time > 150;
+
+        p.stroke(isBroken ? p.color(34, 197, 94) : p.color(239, 68, 68));
+        p.strokeWeight(2);
+
+        const ctx = p.drawingContext as CanvasRenderingContext2D;
+        ctx.setLineDash([6, 6]);
+        p.line(0, RESISTANCE_Y, p.width, RESISTANCE_Y);
+        ctx.setLineDash([]);
+
+        p.noStroke();
+        p.fill(isBroken ? p.color(34, 197, 94) : p.color(239, 68, 68));
+        p.textSize(10);
+        p.textAlign(p.RIGHT);
+        p.text('RESISTANCE / SUPPLY WALL', p.width - 10, RESISTANCE_Y - 10);
+      };
+
+      const drawChartLine = () => {
+        if (chartPoints.length < 2) return;
+        p.noFill();
+        p.stroke(255);
+        p.strokeWeight(2);
+        p.beginShape();
+        for (let pt of chartPoints) {
+          const x = p.map(pt.time, 0, MAX_FRAMES, 0, p.width);
+          p.vertex(x, pt.y);
+        }
+        p.endShape();
+      };
+
+      const drawVolume = (currentTotalVel: number) => {
+        let col = '#4ade80';
+        if (chartPoints.length > 5) {
+          const curr = chartPoints[chartPoints.length - 1].y;
+          const prev = chartPoints[chartPoints.length - 5].y;
+          if (curr > prev) col = '#f87171';
+        }
+
+        volumeHistory.push({ val: currentTotalVel, color: col });
+
+        const barW = p.width / MAX_FRAMES;
+        p.noStroke();
+
+        for (let i = 0; i < volumeHistory.length; i++) {
+          const v = volumeHistory[i];
+          const bx = p.map(i, 0, MAX_FRAMES, 0, p.width);
+          p.fill(v.color);
+          // OVERLAP FIX: Reduce Max Height of Volume Bars significantly
+          // Max height 80px out of 600px canvas
+          const h = p.map(v.val, 0, INITIAL_PARTICLE_COUNT * 4, 0, 80);
+          p.rect(bx, p.height - h, barW + 1, h);
+        }
+
+        p.fill(100);
+        p.textAlign(p.LEFT, p.BOTTOM);
+        p.text('VOLUME', 5, p.height - 5);
+      };
+
+      const drawGrid = () => {
+        p.stroke(30, 41, 59);
+        p.strokeWeight(1);
+        for (let x = 0; x < p.width; x += 50) p.line(x, 0, x, p.height);
+        for (let y = 0; y < p.height; y += 50) p.line(0, y, p.width, y);
+      };
+
+      const drawReadyScreen = () => {
+        p.fill(255);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textSize(16);
+        p.text('SYSTEM READY // AWAITING INJECTION', p.width / 2, p.height / 2);
+        const r = 200 + Math.sin(p.millis() * 0.005) * 10;
+        p.noFill();
+        p.stroke(stateRef.current.scenario === 'LONG' ? 'green' : 'red');
+        p.strokeWeight(1);
+        p.circle(p.width / 2, p.height / 2, r);
+      };
+
+      const drawSimulationEnd = () => {
+        p.fill(255);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textSize(16);
+        p.text('SIMULATION COMPLETE', p.width / 2, p.height / 2);
+      };
+
+      const drawStats = (t: number, count: number) => {
+        p.textAlign(p.LEFT, p.TOP);
+        p.textSize(10);
+        p.fill(100);
+        p.text(`FRAME: ${t}`, 10, 10);
+        p.text(`PARTICLES: ${count}`, 10, 22);
+      };
     };
 
-    // Draw History
-    candlesRef.current.forEach((c, i) => drawSingleCandle(c, i, false));
+    p5InstanceRef.current = new p5(sketch, containerRef.current);
 
-    // Draw Live Candle
-    if (currentCandleRef.current) {
-      drawSingleCandle(
-        currentCandleRef.current,
-        candlesRef.current.length,
-        true
-      );
-    }
-  };
+    return () => {
+      p5InstanceRef.current?.remove();
+    };
+  }, []);
 
-  const handlePlay = () => {
+  const handleStart = () => {
     setIsPlaying(true);
-    if (simFrameRef.current >= 400) {
-      // Auto reset if finished
-      // We need to access p5 instance here, but for simplicity in react-p5
-      // we handle reset inside the state change or pass a ref.
-      // A cleaner way is to just reset frame count, the draw loop handles the rest.
-      simFrameRef.current = 0;
-      candlesRef.current = [];
-      currentCandleRef.current = {
-        open: LEVEL_LOW,
-        close: LEVEL_LOW,
-        high: LEVEL_LOW,
-        low: LEVEL_LOW,
-        volume: 0,
-        timestamp: 0,
-      };
-    }
   };
 
   const handleReset = () => {
     setIsPlaying(false);
-    simFrameRef.current = 0;
-    candlesRef.current = [];
-    if (currentCandleRef.current) {
-      currentCandleRef.current = {
-        open: LEVEL_LOW,
-        close: LEVEL_LOW,
-        high: LEVEL_LOW,
-        low: LEVEL_LOW,
-        volume: 0,
-        timestamp: 0,
-      };
-    }
-    // Note: Full particle reset happens inside draw loop check or we can trigger re-render
-    // For this implementation, pausing resets visuals effectively in the draw loop logic for particles
-    setCurrentPhaseText('Ready to Start');
+  };
+
+  const toggleScenario = (newScenario: ScenarioType) => {
+    setScenario(newScenario);
+    setIsPlaying(false);
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-slate-800 rounded-xl overflow-hidden shadow-2xl border border-slate-700">
-      {/* Header / Controls */}
-      <div className="p-6 border-b border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-850">
-        <div>
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <TrendingUp className="text-blue-400" />
-            Catalyst X-Ray Mode
-          </h2>
-          <p className="text-slate-400 text-sm mt-1">
-            Visualizing the particle flow behind the candles.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-4 bg-slate-900 p-2 rounded-lg border border-slate-700">
-          <div className="flex bg-slate-800 rounded p-1">
-            <button
-              onClick={() => {
-                setScenario('MATERIAL');
-                handleReset();
-              }}
-              className={`px-4 py-2 rounded text-sm font-medium transition-all ${
-                scenario === 'MATERIAL'
-                  ? 'bg-green-600 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-white'
+    <div className="flex flex-col w-full">
+      <div
+        ref={containerRef}
+        className="w-full h-[600px] relative bg-slate-900 overflow-hidden rounded-t-lg border-b border-slate-800"
+      >
+        <div className="absolute top-4 left-4 z-10 pointer-events-none">
+          <div className="bg-slate-900/80 backdrop-blur border border-slate-700 p-3 rounded shadow-lg">
+            <h3 className="text-[10px] text-slate-400 uppercase tracking-widest mb-1">
+              Current Setup
+            </h3>
+            <div
+              className={`text-lg font-bold leading-none ${
+                scenario === 'LONG' ? 'text-green-400' : 'text-red-400'
               }`}
             >
-              Scenario A: News Play
-            </button>
-            <button
-              onClick={() => {
-                setScenario('FLUFF');
-                handleReset();
-              }}
-              className={`px-4 py-2 rounded text-sm font-medium transition-all ${
-                scenario === 'FLUFF'
-                  ? 'bg-red-600 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              Scenario B: Pop & Drop
-            </button>
+              {scenario === 'LONG' ? 'NEWS PLAY' : 'POP & DROP'}
+            </div>
+            <div className="text-xs text-slate-300 mt-1">
+              {scenario === 'LONG'
+                ? 'BREAKOUT (Material News)'
+                : 'REJECTION (Fluff News)'}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Canvas Container */}
-      <div className="relative bg-slate-900 flex justify-center items-center overflow-hidden h-[500px]">
-        <div className="absolute top-4 left-4 z-10 bg-slate-800/80 backdrop-blur border border-slate-600 px-4 py-2 rounded text-blue-200 font-mono text-sm">
-          {currentPhaseText}
-        </div>
-
-        {/* Play Overlay */}
-        {!isPlaying && simFrameRef.current === 0 && (
-          <div className="absolute z-20 inset-0 bg-black/40 flex items-center justify-center">
-            <button
-              onClick={handlePlay}
-              className="group bg-blue-600 hover:bg-blue-500 text-white rounded-full p-6 shadow-2xl transition-all transform hover:scale-105"
-            >
-              <Play size={48} className="fill-current ml-1" />
-            </button>
+      <div className="bg-slate-800 p-6 rounded-b-lg">
+        <div className="flex flex-col md:flex-row gap-6 justify-between items-center">
+          <div className="flex flex-col gap-3 w-full md:w-auto">
+            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+              1. Select Catalyst
+            </span>
+            <div className="flex bg-slate-900 p-1 rounded-lg border border-slate-700">
+              <button
+                onClick={() => toggleScenario('LONG')}
+                className={`flex-1 px-4 py-2 rounded-md text-sm font-bold transition-all duration-200 ${
+                  scenario === 'LONG'
+                    ? 'bg-green-600 text-white shadow-[0_0_15px_rgba(22,163,74,0.5)]'
+                    : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                Material News
+              </button>
+              <button
+                onClick={() => toggleScenario('SHORT')}
+                className={`flex-1 px-4 py-2 rounded-md text-sm font-bold transition-all duration-200 ${
+                  scenario === 'SHORT'
+                    ? 'bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)]'
+                    : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                Fluff News
+              </button>
+            </div>
           </div>
-        )}
 
-        {/* Replay Overlay */}
-        {!isPlaying && simFrameRef.current > 0 && (
-          <div className="absolute z-20 inset-0 bg-black/40 flex items-center justify-center">
-            <button
-              onClick={handleReset}
-              className="group bg-slate-700 hover:bg-slate-600 text-white rounded-full p-6 shadow-2xl transition-all"
-            >
-              <RotateCcw
-                size={48}
-                className="text-slate-200 group-hover:-rotate-90 transition-transform duration-500"
-              />
-            </button>
+          <div className="flex flex-col gap-3 w-full md:w-auto">
+            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+              2. Control
+            </span>
+            <div className="flex gap-3">
+              {!isPlaying ? (
+                <button
+                  onClick={handleStart}
+                  className="w-full md:w-48 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg shadow-blue-900/50 border border-blue-400 transition-transform active:scale-95"
+                >
+                  INJECT VOLUME
+                </button>
+              ) : (
+                <button
+                  onClick={handleReset}
+                  className="w-full md:w-48 px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold rounded-lg border border-slate-600 transition-transform active:scale-95"
+                >
+                  RESET
+                </button>
+              )}
+            </div>
           </div>
-        )}
+        </div>
 
-        <Sketch setup={setup} draw={draw} />
-      </div>
-
-      {/* Legend / Info */}
-      <div className="p-4 bg-slate-800 border-t border-slate-700 flex justify-center gap-8 text-sm text-slate-400">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]"></span>
-          <span>Buyers (Particles)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-red-400 shadow-[0_0_10px_rgba(248,113,113,0.5)]"></span>
-          <span>Sellers (Particles)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-6 border border-green-400 bg-green-400/20"></div>
-          <span>Candle Body</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-8 h-0 border-t-2 border-dashed border-amber-400"></span>
-          <span>Resistance Level</span>
-        </div>
-      </div>
-
-      {/* Instructional Context */}
-      <div className="bg-slate-900/50 p-6 border-t border-slate-800">
-        <div className="flex items-start gap-3">
-          <Info className="text-blue-400 flex-shrink-0 mt-1" size={20} />
-          <div>
-            <h4 className="text-slate-200 font-semibold mb-1">
-              Observation Challenge
-            </h4>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Watch closely during <strong>Phase 2</strong>. In the{' '}
-              <span className="text-green-400">News Play</span>, notice how
-              particles consolidate <em>under</em> the line before pushing
-              through. In the <span className="text-red-400">Pop & Drop</span>,
-              watch the particles create a "false breakout" above the line, get
-              rejected, and leave behind a long upper wick on the candle. That
-              wick is the footprint of trapped buyers.
+        <div className="mt-6 p-4 bg-slate-900/50 rounded border border-slate-700/50 text-sm text-slate-400">
+          {scenario === 'LONG' ? (
+            <p>
+              <strong className="text-green-400">Analysis:</strong> Material
+              news creates sustained demand. Notice how volume{' '}
+              <span className="text-white">remains high</span> as price breaks
+              resistance. The initial buyers hold, and new "chaser" particles
+              enter, fueling the move.
             </p>
-          </div>
+          ) : (
+            <p>
+              <strong className="text-red-400">Analysis:</strong> Fluff news
+              creates a trap. Notice how particles hit the wall and{' '}
+              <span className="text-white">lose momentum immediately</span>.
+              Volume bars shrink (turn red) as buyers vanish and gravity takes
+              over.
+            </p>
+          )}
         </div>
       </div>
     </div>

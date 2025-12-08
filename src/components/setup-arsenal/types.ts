@@ -81,6 +81,27 @@ export interface SimulationState {
   phase: string;
 }
 
+// Market Maker Game Types
+export enum GameState {
+  IDLE = 'IDLE',
+  PLAYING = 'PLAYING',
+  FINISHED = 'FINISHED',
+}
+
+export interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  color: string;
+}
+
+export interface PricePoint {
+  time: number;
+  price: number;
+}
+
 export const CANVAS_WIDTH = 800;
 
 export const CANVAS_HEIGHT = 500;

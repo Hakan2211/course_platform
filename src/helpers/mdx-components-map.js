@@ -943,6 +943,21 @@ const CatalystSimulator = dynamic(
   { ssr: false }
 );
 
+const CatalystXRaySimulator = dynamic(
+  () => import('@/components/setup-arsenal/catalyst/CatalystXRaySimulator'),
+  { ssr: false }
+);
+
+const MarketMakerGame = dynamic(
+  () => import('@/components/setup-arsenal/catalyst/MarketMakerGame'),
+  { ssr: false }
+);
+
+const OrbGapSimulator = dynamic(
+  () => import('@/components/setup-arsenal/orb-gap/OrbGapSimulator'),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1042,6 +1057,9 @@ const COMPONENT_MAP = {
   RevengeSimulator,
   MazeGame,
   CatalystSimulator,
+  CatalystXRaySimulator,
+  MarketMakerGame,
+  OrbGapSimulator,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
