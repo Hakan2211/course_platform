@@ -61,3 +61,40 @@ export interface TimeSegment {
   color: string;
   label: string;
 }
+
+// Simulation Types and Constants
+export type ScenarioType = 'MATERIAL' | 'FLUFF';
+
+export interface Candle {
+  open: number;
+  close: number;
+  high: number;
+  low: number;
+  volume: number;
+  timestamp: number;
+}
+
+export interface SimulationState {
+  isPlaying: boolean;
+  scenario: ScenarioType;
+  frame: number;
+  phase: string;
+}
+
+export const CANVAS_WIDTH = 800;
+
+export const CANVAS_HEIGHT = 500;
+
+export const PARTICLES_COUNT = 150;
+
+export const FRAMES_PER_CANDLE = 90; // Approx 1.5 seconds per candle for demo speed
+
+// Physics Constants
+
+export const LEVEL_LOW = 400;
+
+export const LEVEL_RESISTANCE = 200;
+
+export const LEVEL_HIGH = 50;
+
+export const LEVEL_STOP_HUNT = 150; // A bit above resistance (for the trap)

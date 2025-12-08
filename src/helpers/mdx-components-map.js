@@ -938,6 +938,11 @@ const MazeGame = dynamic(
   { ssr: false }
 );
 
+const CatalystSimulator = dynamic(
+  () => import('@/components/setup-arsenal/catalyst/CatalystSimulator'),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1036,6 +1041,7 @@ const COMPONENT_MAP = {
   TailRiskVisualizer,
   RevengeSimulator,
   MazeGame,
+  CatalystSimulator,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
