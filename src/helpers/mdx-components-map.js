@@ -985,6 +985,24 @@ const ParabolicSimulator = dynamic(
   { ssr: false }
 );
 
+const SniperTrainer = dynamic(
+  () => import('@/components/setup-arsenal/first-green-day/SniperTrainer'),
+  { ssr: false }
+);
+
+const MarketMagicBox = dynamic(
+  () => import('@/components/setup-arsenal/first-green-day/MarketMagicBox'),
+  { ssr: false }
+);
+
+const CycleChart = dynamic(
+  () =>
+    import('@/components/setup-arsenal/first-green-day/CycleChart').then(
+      (mod) => mod.CycleChart
+    ),
+  { ssr: false }
+);
+
 const AnatomyOfTheTurn = dynamic(
   () => import('@/components/setup-arsenal/parabolic-short/AnatomyOfTheTurn'),
   { ssr: false }
@@ -1098,6 +1116,9 @@ const COMPONENT_MAP = {
   AnatomyOfTheTurn,
   PanicVolumeVisualizer,
   ParabolicSimulator,
+  SniperTrainer,
+  MarketMagicBox,
+  CycleChart,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
