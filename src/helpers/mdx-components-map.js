@@ -943,6 +943,12 @@ const CatalystSimulator = dynamic(
   { ssr: false }
 );
 
+const CatalystSimulator3D = dynamic(
+  () =>
+    import('@/components/setup-arsenal/catalyst/CatalystSimulatorContainer'),
+  { ssr: false }
+);
+
 const CatalystXRaySimulator = dynamic(
   () => import('@/components/setup-arsenal/catalyst/CatalystXRaySimulator'),
   { ssr: false }
@@ -1057,6 +1063,7 @@ const COMPONENT_MAP = {
   RevengeSimulator,
   MazeGame,
   CatalystSimulator,
+  CatalystSimulator3D,
   CatalystXRaySimulator,
   MarketMakerGame,
   OrbGapSimulator,
