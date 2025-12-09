@@ -964,6 +964,32 @@ const OrbGapSimulator = dynamic(
   { ssr: false }
 );
 
+const DivergenceChart = dynamic(
+  () => import('@/components/setup-arsenal/afternoon-breakout/DivergenceChart'),
+  { ssr: false }
+);
+
+const AfternoonSimulationContainer = dynamic(
+  () => import('@/components/setup-arsenal/afternoon-breakout/simulation'),
+  { ssr: false }
+);
+
+const PanicVolumeVisualizer = dynamic(
+  () =>
+    import('@/components/setup-arsenal/parabolic-short/PanicVolumeVisualizer'),
+  { ssr: false }
+);
+
+const ParabolicSimulator = dynamic(
+  () => import('@/components/setup-arsenal/parabolic-short/ParabolicSimulator'),
+  { ssr: false }
+);
+
+const AnatomyOfTheTurn = dynamic(
+  () => import('@/components/setup-arsenal/parabolic-short/AnatomyOfTheTurn'),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1067,6 +1093,11 @@ const COMPONENT_MAP = {
   CatalystXRaySimulator,
   MarketMakerGame,
   OrbGapSimulator,
+  DivergenceChart,
+  AfternoonSimulationContainer,
+  AnatomyOfTheTurn,
+  PanicVolumeVisualizer,
+  ParabolicSimulator,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
