@@ -1024,6 +1024,52 @@ const WashoutSimulator = dynamic(
   { ssr: false }
 );
 
+const CycleOfDesperation = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/reverse-split-long-short/CycleOfDesperation'
+    ),
+  { ssr: false }
+);
+
+const PatienceTrainer = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/reverse-split-long-short/PatienceTrainer'
+    ),
+  { ssr: false }
+);
+
+const FloatCalculator = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/reverse-split-long-short/FloatCalculator'
+    ).then((mod) => mod.FloatCalculator),
+  { ssr: false }
+);
+
+const VwapMagnetSimulation = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/vwap-bounce-rejection/VwapMagnetSimulation'
+    ),
+  { ssr: false }
+);
+
+const MoatVisualizer = dynamic(
+  () =>
+    import('@/components/setup-arsenal/vwap-bounce-rejection/MoatVisualizer'),
+  { ssr: false }
+);
+
+const SoftStopSimulator = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/vwap-bounce-rejection/SoftStopSimulator'
+    ).then((mod) => mod.SoftStopSimulator),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1137,6 +1183,12 @@ const COMPONENT_MAP = {
   CycleChart,
   ScenarioVisualizer,
   WashoutSimulator,
+  CycleOfDesperation,
+  PatienceTrainer,
+  FloatCalculator,
+  VwapMagnetSimulation,
+  MoatVisualizer,
+  SoftStopSimulator,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
