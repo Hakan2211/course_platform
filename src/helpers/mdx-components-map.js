@@ -1008,6 +1008,22 @@ const AnatomyOfTheTurn = dynamic(
   { ssr: false }
 );
 
+const ScenarioVisualizer = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/overextended-gap-up-short/ScenarioVisualizer'
+    ),
+  { ssr: false }
+);
+
+const WashoutSimulator = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/overextended-gap-up-short/WashoutSimulator'
+    ).then((mod) => mod.WashoutSimulator),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1119,6 +1135,8 @@ const COMPONENT_MAP = {
   SniperTrainer,
   MarketMagicBox,
   CycleChart,
+  ScenarioVisualizer,
+  WashoutSimulator,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
