@@ -959,6 +959,16 @@ const MarketMakerGame = dynamic(
   { ssr: false }
 );
 
+const NewsPlayCheatSheet = dynamic(
+  () => import('@/components/setup-arsenal/catalyst/NewsPlayCheatSheet'),
+  { ssr: false }
+);
+
+const OrbGapCheatSheet = dynamic(
+  () => import('@/components/setup-arsenal/orb-gap/OrbGapCheatSheet'),
+  { ssr: false }
+);
+
 const OrbGapSimulator = dynamic(
   () => import('@/components/setup-arsenal/orb-gap/OrbGapSimulator'),
   { ssr: false }
@@ -971,6 +981,11 @@ const DivergenceChart = dynamic(
 
 const AfternoonSimulationContainer = dynamic(
   () => import('@/components/setup-arsenal/afternoon-breakout/simulation'),
+  { ssr: false }
+);
+
+const TradingLesson = dynamic(
+  () => import('@/components/setup-arsenal/afternoon-breakout/TradingLesson'),
   { ssr: false }
 );
 
@@ -1003,8 +1018,22 @@ const CycleChart = dynamic(
   { ssr: false }
 );
 
+const TradingCheatSheet = dynamic(
+  () =>
+    import('@/components/setup-arsenal/first-green-day/TradingCheatSheet').then(
+      (mod) => mod.TradingCheatSheet
+    ),
+  { ssr: false }
+);
+
 const AnatomyOfTheTurn = dynamic(
   () => import('@/components/setup-arsenal/parabolic-short/AnatomyOfTheTurn'),
+  { ssr: false }
+);
+
+const ParabolicPanicOverview = dynamic(
+  () =>
+    import('@/components/setup-arsenal/parabolic-short/ParabolicPanicOverview'),
   { ssr: false }
 );
 
@@ -1021,6 +1050,20 @@ const WashoutSimulator = dynamic(
     import(
       '@/components/setup-arsenal/overextended-gap-up-short/WashoutSimulator'
     ).then((mod) => mod.WashoutSimulator),
+  { ssr: false }
+);
+
+const OverextendedGapTradingCheatSheet = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/overextended-gap-up-short/TradingCheatSheet'
+    ),
+  { ssr: false }
+);
+
+const VisualChart = dynamic(
+  () =>
+    import('@/components/setup-arsenal/overextended-gap-up-short/VisualChart'),
   { ssr: false }
 );
 
@@ -1048,6 +1091,14 @@ const FloatCalculator = dynamic(
   { ssr: false }
 );
 
+const ReverseSplitLesson = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/reverse-split-long-short/ReverseSplitLesson'
+    ),
+  { ssr: false }
+);
+
 const VwapMagnetSimulation = dynamic(
   () =>
     import(
@@ -1070,6 +1121,14 @@ const SoftStopSimulator = dynamic(
   { ssr: false }
 );
 
+const VwapTradingCheatSheet = dynamic(
+  () =>
+    import(
+      '@/components/setup-arsenal/vwap-bounce-rejection/TradingCheatSheet'
+    ),
+  { ssr: false }
+);
+
 const LiquidityTrapSim = dynamic(
   () => import('@/components/setup-arsenal/liquidity-play/LiquidityTrapSim'),
   { ssr: false }
@@ -1086,6 +1145,12 @@ const LiquidityPlayChart = dynamic(
   { ssr: false }
 );
 
+const LiquidityLesson = dynamic(
+  () =>
+    import('@/components/setup-arsenal/liquidity-play-setup/LiquidityLesson'),
+  { ssr: false }
+);
+
 const EpisodicOutcomes = dynamic(
   () => import('@/components/setup-arsenal/episodic-pivot/EpisodicOutcomes'),
   { ssr: false }
@@ -1093,6 +1158,11 @@ const EpisodicOutcomes = dynamic(
 
 const EarningsGapSimulator = dynamic(
   () => import('@/components/setup-arsenal/earnings-play/EarningsGapSimulator'),
+  { ssr: false }
+);
+
+const LessonCheatSheet = dynamic(
+  () => import('@/components/setup-arsenal/earnings-play/LessonCheatSheet'),
   { ssr: false }
 );
 
@@ -1198,28 +1268,39 @@ const COMPONENT_MAP = {
   CatalystSimulator3D,
   CatalystXRaySimulator,
   MarketMakerGame,
+  NewsPlayCheatSheet,
+  OrbGapCheatSheet,
   OrbGapSimulator,
   DivergenceChart,
   AfternoonSimulationContainer,
+  TradingLesson,
   AnatomyOfTheTurn,
   PanicVolumeVisualizer,
   ParabolicSimulator,
+  ParabolicPanicOverview,
   SniperTrainer,
   MarketMagicBox,
   CycleChart,
+  TradingCheatSheet,
   ScenarioVisualizer,
   WashoutSimulator,
+  OverextendedGapTradingCheatSheet,
+  VisualChart,
   CycleOfDesperation,
   PatienceTrainer,
   FloatCalculator,
+  ReverseSplitLesson,
   VwapMagnetSimulation,
   MoatVisualizer,
   SoftStopSimulator,
+  VwapTradingCheatSheet,
   LiquidityTrapSim,
   LiquidityExecutionSim,
   LiquidityPlayChart,
+  LiquidityLesson,
   EpisodicOutcomes,
   EarningsGapSimulator,
+  LessonCheatSheet,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,

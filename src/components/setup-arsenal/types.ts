@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export enum RiskLevel {
   LOW = 'Low Risk',
   MEDIUM = 'Medium Risk',
@@ -119,3 +121,36 @@ export const LEVEL_RESISTANCE = 200;
 export const LEVEL_HIGH = 50;
 
 export const LEVEL_STOP_HUNT = 150; // A bit above resistance (for the trap)
+
+// Cheat Sheet Types
+export interface CheatSheetRiskLevel {
+  level: 'Low' | 'Medium' | 'Medium-High' | 'High';
+  value: 1 | 2 | 3 | 4 | 5; // 1-5 scale
+}
+
+export interface SetupDetail {
+  label: string;
+  value: string | ReactNode;
+  highlightColor?: 'green' | 'red' | 'blue' | 'yellow' | 'default';
+  fullWidth?: boolean;
+  isProgress?: boolean;
+  progressValue?: number; // 0-100
+  isRisk?: boolean;
+  riskValue?: number; // 1-5
+}
+
+export interface SetupConfig {
+  title: string;
+  type: 'long' | 'short';
+  badgeText: string;
+  details: SetupDetail[];
+  checklistTitle: string;
+  checklist: string[];
+}
+
+export interface LessonData {
+  title: string;
+  subtitle: string;
+  longSetup: SetupConfig;
+  shortSetup: SetupConfig;
+}
