@@ -1086,6 +1086,16 @@ const LiquidityPlayChart = dynamic(
   { ssr: false }
 );
 
+const EpisodicOutcomes = dynamic(
+  () => import('@/components/setup-arsenal/episodic-pivot/EpisodicOutcomes'),
+  { ssr: false }
+);
+
+const EarningsGapSimulator = dynamic(
+  () => import('@/components/setup-arsenal/earnings-play/EarningsGapSimulator'),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1208,6 +1218,8 @@ const COMPONENT_MAP = {
   LiquidityTrapSim,
   LiquidityExecutionSim,
   LiquidityPlayChart,
+  EpisodicOutcomes,
+  EarningsGapSimulator,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
