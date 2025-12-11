@@ -1070,6 +1070,22 @@ const SoftStopSimulator = dynamic(
   { ssr: false }
 );
 
+const LiquidityTrapSim = dynamic(
+  () => import('@/components/setup-arsenal/liquidity-play/LiquidityTrapSim'),
+  { ssr: false }
+);
+
+const LiquidityExecutionSim = dynamic(
+  () =>
+    import('@/components/setup-arsenal/liquidity-play/LiquidityExecutionSim'),
+  { ssr: false }
+);
+
+const LiquidityPlayChart = dynamic(
+  () => import('@/components/setup-arsenal/liquidity-play/LiquidityPlayChart'),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1189,6 +1205,9 @@ const COMPONENT_MAP = {
   VwapMagnetSimulation,
   MoatVisualizer,
   SoftStopSimulator,
+  LiquidityTrapSim,
+  LiquidityExecutionSim,
+  LiquidityPlayChart,
   SetupArsenalRenderer,
   TimelineScrubber,
   Table,
