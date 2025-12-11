@@ -12,8 +12,6 @@ const MoatVisualizer = () => {
 
   // Motion values
   const y = useMotionValue(VWAP_Y);
-  // Add spring physics for the "rubber band" feel
-  const ySmooth = useSpring(y, { stiffness: 400, damping: 25 });
 
   // State for UI feedback
   const [distance, setDistance] = useState(0);
@@ -22,19 +20,12 @@ const MoatVisualizer = () => {
 
   // Reactive transforms for the tether line (performance optimized)
   // Calculate the top position of the tether line (always the smaller of y or VWAP_Y)
-  const lineTop = useTransform(ySmooth, (currentY) =>
-    Math.min(currentY, VWAP_Y)
-  );
+  const lineTop = useTransform(y, (currentY) => Math.min(currentY, VWAP_Y));
   // Calculate height (absolute distance)
-  const lineHeight = useTransform(ySmooth, (currentY) =>
-    Math.abs(currentY - VWAP_Y)
-  );
+  const lineHeight = useTransform(y, (currentY) => Math.abs(currentY - VWAP_Y));
 
   // Calculate target line position (50% retracement)
-  const targetLineY = useTransform(
-    ySmooth,
-    (currentY) => (currentY + VWAP_Y) / 2
-  );
+  const targetLineY = useTransform(y, (currentY) => (currentY + VWAP_Y) / 2);
 
   // Subscribe to changes to update React state for non-animatable things (text, colors)
   useEffect(() => {
@@ -172,7 +163,7 @@ const MoatVisualizer = () => {
           }}
           dragElastic={0.2} // Makes it feel stretchy
           dragMomentum={false} // Stops immediately when released
-          style={{ y: ySmooth }}
+          style={{ y }}
           className="absolute left-1/2 z-30 touch-none"
         >
           {/* Centering wrapper since motion.div uses y for transform, we need to center the element itself */}

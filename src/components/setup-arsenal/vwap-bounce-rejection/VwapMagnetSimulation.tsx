@@ -19,7 +19,7 @@ class Particle {
     this.pos = p5.createVector(p5.random(p5.width), anchorY);
     this.vel = p5.createVector(0, 0);
     this.acc = p5.createVector(0, 0);
-    this.maxSpeed = 6; // Slightly faster for responsiveness
+    this.maxSpeed = 12; // Increased max speed for responsiveness
   }
 
   applyForce(force: p5Types.Vector) {
@@ -29,11 +29,11 @@ class Particle {
   attract(targetY: number) {
     // The "Magnet" Logic (Spring force / Mean Reversion)
     const dir = targetY - this.pos.y;
-    const force = dir * 0.03; // Strength of the magnet (Pullback strength)
+    const force = dir * 0.02; // Slightly weaker magnet to allow further excursion
     this.acc.y += force;
 
     // Add friction to simulate market liquidity/resistance
-    this.vel.mult(0.95);
+    this.vel.mult(0.96); // Less friction (0.95 -> 0.96)
   }
 
   update() {
@@ -93,7 +93,7 @@ const VwapMagnetSimulation: React.FC = () => {
 
     // Initialize particles
     particles.current = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 300; i++) {
       particles.current.push(new Particle(p5, vwapY));
     }
   };
@@ -157,7 +157,7 @@ const VwapMagnetSimulation: React.FC = () => {
         dir.normalize();
 
         // Stronger force if closer to mouse
-        const forceMagnitude = 25;
+        const forceMagnitude = 45; // Significantly stronger force (25 -> 45)
         dir.mult(forceMagnitude);
 
         // Add some randomness for chaos
