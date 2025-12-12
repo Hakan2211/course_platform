@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Tooltip,
   TooltipContent,
@@ -8,9 +10,24 @@ import {
 import NotesIcon from '../icons/notesIcon';
 import LibraryIcon from '../icons/libraryIcon';
 import { AccountMenu } from './accountMenu';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export function LessonsNav() {
+  const router = useRouter();
+  const [isLibraryPending, startLibraryTransition] = useTransition();
+  const [isNotesPending, startNotesTransition] = useTransition();
+
+  const handleNavigation = (
+    href: string,
+    startTransition: React.TransitionStartFunction
+  ) => {
+    startTransition(() => {
+      router.push(href);
+    });
+  };
+
   return (
     <TooltipProvider delayDuration={0}>
       <nav>
@@ -18,11 +35,21 @@ export function LessonsNav() {
           <li className="cursor-pointer">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href="/course/library">
+                <button
+                  onClick={() =>
+                    handleNavigation('/course/library', startLibraryTransition)
+                  }
+                  disabled={isLibraryPending}
+                  className="focus:outline-none"
+                >
                   <span>
-                    <LibraryIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300 translate-y-[2px]" />
+                    {isLibraryPending ? (
+                      <Loader2 className="w-6 h-6 animate-spin translate-y-[2px] text-[var(--module-badge)]" />
+                    ) : (
+                      <LibraryIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300 translate-y-[2px]" />
+                    )}
                   </span>
-                </Link>
+                </button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Library</p>
@@ -32,9 +59,19 @@ export function LessonsNav() {
           <li className="cursor-pointer">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href="/course/notes">
-                  <NotesIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300" />
-                </Link>
+                <button
+                  onClick={() =>
+                    handleNavigation('/course/notes', startNotesTransition)
+                  }
+                  disabled={isNotesPending}
+                  className="focus:outline-none"
+                >
+                  {isNotesPending ? (
+                    <Loader2 className="w-6 h-6 animate-spin text-[var(--module-badge)]" />
+                  ) : (
+                    <NotesIcon className="w-6 h-6 hover:text-yellow-600 transition-colors duration-300" />
+                  )}
+                </button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Notes</p>

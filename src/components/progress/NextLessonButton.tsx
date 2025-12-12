@@ -3,6 +3,8 @@
 import { useProgress } from '@/context/progress/ProgressContext';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
+import { useTransition, useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 type NextLessonButtonProps = {
   moduleSlug: string;
@@ -25,14 +27,25 @@ export function NextLessonButton({
 }: NextLessonButtonProps) {
   const router = useRouter();
   const { updateProgress } = useProgress();
+  const [isPending, startTransition] = useTransition();
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const handleClick = async () => {
-    if (!skipProgress) {
-      await updateProgress(moduleSlug, lessonSlug, 'completed');
-    }
+    setIsUpdating(true);
+    try {
+      if (!skipProgress) {
+        await updateProgress(moduleSlug, lessonSlug, 'completed');
+      }
 
-    if (nextItem) {
-      router.push(`${basePath}/${nextItem.moduleSlug}/${nextItem.lessonSlug}`);
+      if (nextItem) {
+        startTransition(() => {
+          router.push(
+            `${basePath}/${nextItem.moduleSlug}/${nextItem.lessonSlug}`
+          );
+        });
+      }
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -40,9 +53,17 @@ export function NextLessonButton({
     return null; // Don't render the button if there's no next item
   }
 
+  const isLoading = isUpdating || isPending;
   const buttonText = nextItem.type === 'lesson' ? 'Next Lesson' : 'Next Module';
+
   return (
-    <Button className="my-8" onClick={handleClick} variant="notStartedButton">
+    <Button
+      className="my-8 gap-2"
+      onClick={handleClick}
+      variant="notStartedButton"
+      disabled={isLoading}
+    >
+      {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
       {buttonText}
     </Button>
   );

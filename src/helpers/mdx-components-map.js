@@ -1166,6 +1166,11 @@ const LessonCheatSheet = dynamic(
   { ssr: false }
 );
 
+const Signature = dynamic(
+  () => import('@/components/mdx_components/signature/Signature'),
+  { ssr: false }
+);
+
 const COMPONENT_MAP = {
   h1: (props) => <BlogHeading level={1} {...props} />,
   h2: (props) => <BlogHeading level={2} {...props} />,
@@ -1340,6 +1345,7 @@ const COMPONENT_MAP = {
   Checklist,
   FortressCommandCenter,
   PersonalRiskPlanDownload,
+  Signature,
   NeuralHighwayBuilder,
   HebbianClicker,
   UrgeSurfTimer,
