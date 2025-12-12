@@ -6,9 +6,9 @@ import { SetupData, SetupType, TimeFrame, RiskLevel } from './types';
 // Z: Risk (0 to 2)
 
 const RISK_Z_MAP = {
-  [RiskLevel.LOW]: 0,
-  [RiskLevel.MEDIUM]: 2,
-  [RiskLevel.HIGH]: 4,
+  [RiskLevel.LOW]: 5,
+  [RiskLevel.MEDIUM]: 0,
+  [RiskLevel.HIGH]: -5,
 };
 
 const TIME_X_MAP = {
@@ -21,11 +21,11 @@ const TIME_X_MAP = {
 };
 
 const TYPE_Y_MAP = {
-  [SetupType.BREAKOUT]: 4,
-  [SetupType.MOMENTUM]: 2,
-  [SetupType.STRUCTURE]: 0,
-  [SetupType.REVERSAL]: -2,
-  [SetupType.EVENT]: -4,
+  [SetupType.BREAKOUT]: 8,
+  [SetupType.MOMENTUM]: 4,
+  [SetupType.REVERSAL]: 0,
+  [SetupType.STRUCTURE]: -4,
+  [SetupType.EVENT]: -8,
 };
 
 const COLORS = {
@@ -36,7 +36,7 @@ const COLORS = {
   [SetupType.EVENT]: '#a855f7', // Purple
 };
 
-export const setups: SetupData[] = [
+const rawSetups: SetupData[] = [
   {
     id: 1,
     name: 'News Momentum Plays',
@@ -59,12 +59,12 @@ export const setups: SetupData[] = [
       'Fading the initial spike on press releases. Price extends too far, too fast, and collapses.',
     type: SetupType.REVERSAL,
     timeFrame: TimeFrame.PRE_MARKET,
-    risk: RiskLevel.HIGH,
+    risk: RiskLevel.MEDIUM,
     color: COLORS[SetupType.REVERSAL],
     position: [
       TIME_X_MAP[TimeFrame.PRE_MARKET],
       TYPE_Y_MAP[SetupType.REVERSAL],
-      RISK_Z_MAP[RiskLevel.HIGH],
+      RISK_Z_MAP[RiskLevel.MEDIUM],
     ],
   },
   {
@@ -149,12 +149,12 @@ export const setups: SetupData[] = [
       "Buying the capitulation wash-out at the open. 'Catching a falling knife' correctly.",
     type: SetupType.REVERSAL,
     timeFrame: TimeFrame.OPEN,
-    risk: RiskLevel.HIGH,
+    risk: RiskLevel.MEDIUM,
     color: COLORS[SetupType.REVERSAL],
     position: [
       TIME_X_MAP[TimeFrame.OPEN],
       TYPE_Y_MAP[SetupType.REVERSAL],
-      RISK_Z_MAP[RiskLevel.HIGH],
+      RISK_Z_MAP[RiskLevel.MEDIUM],
     ],
   },
   {
@@ -193,12 +193,12 @@ export const setups: SetupData[] = [
     description: 'Post-split float compression leads to explosive volatility.',
     type: SetupType.STRUCTURE,
     timeFrame: TimeFrame.PRE_MARKET,
-    risk: RiskLevel.HIGH,
+    risk: RiskLevel.LOW,
     color: COLORS[SetupType.STRUCTURE],
     position: [
       TIME_X_MAP[TimeFrame.PRE_MARKET],
       TYPE_Y_MAP[SetupType.STRUCTURE],
-      RISK_Z_MAP[RiskLevel.HIGH],
+      RISK_Z_MAP[RiskLevel.LOW],
     ],
   },
   {
@@ -208,12 +208,12 @@ export const setups: SetupData[] = [
       'Capitalizing on the inevitable dilution and selling pressure of failing companies.',
     type: SetupType.STRUCTURE,
     timeFrame: TimeFrame.OPEN,
-    risk: RiskLevel.LOW,
+    risk: RiskLevel.MEDIUM,
     color: COLORS[SetupType.STRUCTURE],
     position: [
       TIME_X_MAP[TimeFrame.OPEN],
       TYPE_Y_MAP[SetupType.STRUCTURE],
-      RISK_Z_MAP[RiskLevel.LOW],
+      RISK_Z_MAP[RiskLevel.MEDIUM],
     ],
   },
   {
@@ -223,12 +223,12 @@ export const setups: SetupData[] = [
       'A multi-day runner gaps up one last time, exhausting all buyers.',
     type: SetupType.REVERSAL,
     timeFrame: TimeFrame.OPEN,
-    risk: RiskLevel.HIGH,
+    risk: RiskLevel.MEDIUM,
     color: COLORS[SetupType.REVERSAL],
     position: [
       TIME_X_MAP[TimeFrame.OPEN],
       TYPE_Y_MAP[SetupType.REVERSAL],
-      RISK_Z_MAP[RiskLevel.HIGH],
+      RISK_Z_MAP[RiskLevel.MEDIUM],
     ],
   },
   {
@@ -283,12 +283,12 @@ export const setups: SetupData[] = [
       'False breakout meant to generate liquidity for a large position exit.',
     type: SetupType.STRUCTURE,
     timeFrame: TimeFrame.MORNING,
-    risk: RiskLevel.HIGH,
+    risk: RiskLevel.MEDIUM,
     color: COLORS[SetupType.STRUCTURE],
     position: [
       TIME_X_MAP[TimeFrame.MORNING],
       TYPE_Y_MAP[SetupType.STRUCTURE],
-      RISK_Z_MAP[RiskLevel.HIGH],
+      RISK_Z_MAP[RiskLevel.MEDIUM],
     ],
   },
   {
@@ -322,3 +322,42 @@ export const setups: SetupData[] = [
     ],
   },
 ];
+
+// Helper to handle overlapping setups
+const processSetups = (items: SetupData[]): SetupData[] => {
+  // Group by position key (x,y,z)
+  const groups: { [key: string]: SetupData[] } = {};
+
+  items.forEach((item) => {
+    // Round to avoid floating point issues if any
+    const key = item.position.map((n) => Math.round(n * 100) / 100).join(',');
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  });
+
+  const finalSetups: SetupData[] = [];
+  const SPACING_X = 0.8; // Space between overlapping items
+
+  Object.values(groups).forEach((group) => {
+    if (group.length === 1) {
+      finalSetups.push(group[0]);
+    } else {
+      // Overlap detected - distribute along X axis
+      const count = group.length;
+      const baseX = group[0].position[0];
+      const startX = baseX - ((count - 1) * SPACING_X) / 2;
+
+      group.forEach((item, index) => {
+        const newX = startX + index * SPACING_X;
+        finalSetups.push({
+          ...item,
+          position: [newX, item.position[1], item.position[2]],
+        });
+      });
+    }
+  });
+
+  return finalSetups.sort((a, b) => a.id - b.id);
+};
+
+export const setups = processSetups(rawSetups);

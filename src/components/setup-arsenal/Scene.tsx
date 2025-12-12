@@ -22,7 +22,7 @@ export const Scene: React.FC<SceneProps> = ({
     <div className="w-full h-screen bg-black">
       <Canvas>
         <Suspense fallback={null}>
-          <PerspectiveCamera makeDefault position={[12, 8, 28]} />
+          <PerspectiveCamera makeDefault position={[8, 3, 33]} />
           <OrbitControls
             enablePan={true}
             enableZoom={true}

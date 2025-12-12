@@ -113,11 +113,11 @@ export const Overlay: React.FC<OverlayProps> = ({ selectedSetup, onClose }) => {
                   </div>
                 </div>
 
-                <div className="mt-auto pt-6 border-t border-slate-800">
+                {/* <div className="mt-auto pt-6 border-t border-slate-800">
                   <button className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded transition-colors uppercase tracking-wider text-sm">
                     View Full Lesson
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </motion.div>

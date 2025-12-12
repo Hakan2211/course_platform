@@ -12,7 +12,7 @@ export const MatrixGrid: React.FC = () => {
     <group>
       {/* Main Floor Grid */}
       <Grid
-        position={[0, -5, 0]}
+        position={[0, -10, 0]}
         args={[20, 20]}
         cellSize={1}
         cellThickness={0.5}
@@ -29,7 +29,7 @@ export const MatrixGrid: React.FC = () => {
         // Mapping index 0-5 to pos -5 to 5 (step 2)
         const pos = -5 + i * 2;
         return (
-          <group key={label} position={[pos, -5.2, 6]}>
+          <group key={label} position={[pos, -10.2, 6]}>
             <Text
               color="#94a3b8"
               fontSize={0.4}
@@ -47,15 +47,15 @@ export const MatrixGrid: React.FC = () => {
       <group position={[-7, 0, 0]}>
         {/* Vertical Line */}
         <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.1, 10, 0.1]} />
+          <boxGeometry args={[0.1, 20, 0.1]} />
           <meshStandardMaterial color="#475569" />
         </mesh>
 
         {yLabels.map((label, i) => {
-          // Map index 0-4 to pos 4 to -4 (step 2)
-          // BREAKOUT(0) -> 4
-          // EVENT(4) -> -4
-          const pos = 4 - i * 2;
+          // Map index 0-4 to pos 8 to -8 (step 4)
+          // BREAKOUT(0) -> 8
+          // EVENT(4) -> -8
+          const pos = 8 - i * 4;
           return (
             <Text
               key={label}
@@ -72,9 +72,9 @@ export const MatrixGrid: React.FC = () => {
       </group>
 
       {/* Z Axis Indicators (Risk) - Depth Markers */}
-      <group position={[7, -5, 0]}>
+      <group position={[7, -10, 0]}>
         <Text
-          position={[0, 0.1, -2]}
+          position={[0, 0.1, -5]}
           rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
           fontSize={0.5}
           color="#ef4444"
@@ -82,7 +82,7 @@ export const MatrixGrid: React.FC = () => {
           High Risk (Back)
         </Text>
         <Text
-          position={[0, 0.1, 2]}
+          position={[0, 0.1, 5]}
           rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
           fontSize={0.5}
           color="#22c55e"
