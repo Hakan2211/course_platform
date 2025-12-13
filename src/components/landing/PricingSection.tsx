@@ -110,9 +110,9 @@ const PricingSection: React.FC = () => {
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-4xl md:text-5xl font-bold text-white">
-                    $997
+                    $699
                   </span>
-                  <span className="text-slate-500 line-through">$2,997</span>
+                  <span className="text-slate-500 line-through">$1799</span>
                 </div>
                 <p className="text-slate-500 text-sm mt-2 font-mono">
                   One-time payment • Lifetime Access
@@ -189,9 +189,9 @@ const PricingSection: React.FC = () => {
 
                 <div className="flex items-baseline gap-2">
                   <span className="text-4xl md:text-5xl font-bold text-white">
-                    $1,497
+                    $1,499
                   </span>
-                  <span className="text-slate-500 line-through">$4,997</span>
+                  <span className="text-slate-500 line-through">$3999</span>
                 </div>
                 <p className="text-[#B0811C]/80 text-sm mt-2 font-mono">
                   One-time payment • Lifetime Access
@@ -214,11 +214,18 @@ const PricingSection: React.FC = () => {
                     </div>
                     <div>
                       <span className="text-white font-bold block text-sm">
-                        Bullbearz.com Lifetime Access
+                        <a
+                          href="https://bullbearz.com"
+                          target="_blank"
+                          className="text-[#B0811C] hover:text-[#FCD34D] transition-colors duration-300"
+                        >
+                          Bullbearz.com
+                        </a>{' '}
+                        Lifetime Access
                       </span>
                       <span className="text-xs text-slate-400">
-                        Private live trading chatroom, real-time alerts &
-                        community analysis.
+                        Private trading chatroom, real-time alerts & community
+                        analysis.
                       </span>
                     </div>
                   </div>
@@ -226,7 +233,7 @@ const PricingSection: React.FC = () => {
 
                 <FeatureItem text="Priority 1-on-1 Onboarding" highlight />
                 <FeatureItem text="Weekly Strategy War Room" highlight />
-                <FeatureItem text="Advanced Algorithmic Toolset" highlight />
+                <FeatureItem text="Journal & Progress Tracker" highlight />
               </div>
 
               {/* BUTTON 2 - THE SYNDICATE */}
@@ -259,14 +266,14 @@ const PricingSection: React.FC = () => {
         <div className="mt-16 text-center border-t border-white/5 pt-8 max-w-2xl mx-auto">
           <div className="flex flex-wrap justify-center gap-6 md:gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
             {/* Replace with your trust icons or keep text */}
-            <div className="flex items-center gap-2 text-slate-400 text-xs font-mono uppercase">
+            {/* <div className="flex items-center gap-2 text-slate-400 text-xs font-mono uppercase">
               <Shield className="w-4 h-4" /> 256-Bit SSL Encrypted
-            </div>
+            </div> */}
             <div className="flex items-center gap-2 text-slate-400 text-xs font-mono uppercase">
               <Zap className="w-4 h-4" /> Instant Access
             </div>
             <div className="flex items-center gap-2 text-slate-400 text-xs font-mono uppercase">
-              <Check className="w-4 h-4" /> 60-Day Guarantee
+              <Check className="w-4 h-4" /> 14-Day Money Back Guarantee
             </div>
           </div>
         </div>
