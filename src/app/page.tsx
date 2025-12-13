@@ -1,30 +1,32 @@
-import Link from 'next/link';
-import LogoutButton from '@/components/auth/LogoutButton';
-import { getSession } from '@/lib/auth';
+import React from 'react';
+import Navbar from '@/components/landing/Navbar';
+import ParticleBackground from '@/components/landing/ParticleBackground';
+import Hero from '@/components/landing/Hero';
+import OpportunitySection from '@/components/landing/OpportunitySection';
+import ModuleShowcase from '@/components/landing/ModuleShowcase';
+import TerminalSection from '@/components/landing/TerminalSection';
+import PricingSection from '@/components/landing/PricingSection';
+import FAQ from '@/components/landing/FAQ';
 
-export default async function HomePage() {
-  const user = await getSession();
+export default function LandingPage() {
   return (
-    <div>
-      <h1>Welcome to the Course Platform</h1>
-      <Link className="bg-blue-300 rounded-xl p-2" href={'/course'}>
-        Go to course
-      </Link>
-      {!user ? (
-        <>
-          <p>You are not logged in.</p>
-          <Link href="/login">Login</Link>
-          {' | '}
-          <Link href="/enroll">Enroll</Link>
-        </>
-      ) : (
-        <>
-          <p>Welcome back, {user.email}!</p>
-          <Link href="/course">Go to Course</Link>
-          {' | '}
-          <LogoutButton />
-        </>
-      )}
-    </div>
+    <main className="min-h-screen bg-[#0E131B] text-slate-200 selection:bg-[#B0811C] selection:text-white">
+      <Navbar />
+      <ParticleBackground />
+      <Hero />
+      <OpportunitySection />
+      <ModuleShowcase />
+      {/* <TerminalSection /> */}
+      <PricingSection />
+      <FAQ />
+
+      {/* Footer */}
+      <footer className="py-8 text-center text-slate-600 text-sm relative z-10 border-t border-white/5 bg-[#0E131B]">
+        <p>
+          © {new Date().getFullYear()} The Market Magic Box. All rights
+          reserved.
+        </p>
+      </footer>
+    </main>
   );
 }
